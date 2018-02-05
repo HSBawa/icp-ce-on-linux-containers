@@ -1,0 +1,171 @@
+# Licensed Materials - Property of IBM
+# IBM Cloud private
+# @ Copyright IBM Corp. 2017 All Rights Reserved
+# US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+
+---
+
+## Network Settings
+network_type: calico
+## Network in IPv4 CIDR format
+network_cidr: 10.1.0.0/16
+
+## Kubernetes Settings
+service_cluster_ip_range: 10.0.0.1/24
+# Remove this in production env
+kubelet_extra_args: ["--fail-swap-on=false"]
+# cluster_domain: cluster.local
+# cluster_name: mycluster
+# cluster_CA_domain: "{{ cluster_name }}.icp"
+
+## General Settings
+# wait_for_timeout: 600
+# docker_api_timeout: 100
+
+## Advanced Settings
+# default_admin_password: admin
+# ansible_user: ansible_user
+# ansible_become: true
+# ansible_become_password: super_secret
+
+## Kubernetes Settings
+# kube_apiserver_extra_args: []
+# kube_controller_manager_extra_args: []
+# kube_proxy_extra_args: []
+# kube_scheduler_extra_args: []
+
+## Enable Kubernetes Audit Log
+# auditlog_enabled: false
+
+## GlusterFS Settings
+# glusterfs: false
+
+## GlusterFS Storage Settings
+# storage:
+#  - kind: glusterfs
+#    nodes:
+#      - ip: <worker_node_m_IP_address>
+#        device: <link path>/<symlink of device aaa>,<link path>/<symlink of device bbb>
+#      - ip: <worker_node_n_IP_address>
+#        device: <link path>/<symlink of device ccc>
+#      - ip: <worker_node_o_IP_address>
+#        device: <link path>/<symlink of device ddd>
+#    storage_class:
+#      name:
+#      default: false
+
+## Network Settings
+## Calico Network Settings
+# calico_ipip_enabled: true
+# calico_tunnel_mtu: 1430
+# calico_ip_autodetection_method: first-found
+
+## IPSec mesh Settings
+## If user wants to configure IPSec mesh, the following parameters
+## should be configured through config.yaml
+# ipsec_mesh:
+#   enable: true
+#   interface: <interface name on which IPsec will be enabled>
+#   subnets: []
+#   exclude_ips: "<list of IP addresses separated by a comma>"
+
+## Enable insecure connection for port 8080 by default
+# kube_apiserver_insecure_port: 8888
+# kube_apiserver_secure_port: 8001
+
+## Access UI external IP address
+# cluster_access_ip: 0.0.0.0
+
+## Access Proxy node external IP address
+# proxy_access_ip: 0.0.0.0
+
+
+## Install in firewall enabled mode
+# firewall_enabled: false
+
+## Allow loopback dns server in cluster nodes
+# loopback_dns: false
+
+## High Availability Settings for master nodes
+# vip_iface: eth0
+# cluster_vip: 127.0.1.1
+
+## High Availability Settings for Proxy nodes
+# proxy_vip_iface: eth0
+# proxy_vip: 127.0.1.1
+
+## Federation cluster Settings
+# federation_enabled: false
+# federation_cluster: federation-cluster
+# federation_domain: cluster.federation
+# federation_apiserver_extra_args: []
+# federation_controllermanager_extra_args: []
+
+## vSphere cloud provider Settings
+## If user wants to configure vSphere as cloud provider, vsphere_conf
+## parameters should be configured through config.yaml
+# kubelet_nodename: hostname
+# cloud_provider: vsphere
+# vsphere_conf:
+#    user: <vCenter username for vSphere cloud provider>
+#    password: <password for vCenter user>
+#    server: <vCenter server IP or FQDN>
+#    port: [vCenter Server Port; default: 443]
+#    insecure_flag: [set to 1 if vCenter uses a self-signed certificate]
+#    datacenter: <datacenter name on which Node VMs are deployed>
+#    datastore: <default datastore to be used for provisioning volumes>
+#    working_dir: <vCenter VM folder path in which node VMs are located>
+
+## Disabled Management Services Settings
+## You can disable the following management services: ["service-catalog", "metering", "monitoring"]
+# disabled_management_services: []
+
+## Docker Settings
+# docker_env: []
+# docker_extra_args: []
+## The maximum size of the log before it is rolled
+docker_log_max_size: 10m
+## The maximum number of log files that can be present
+docker_log_max_file: 10
+
+## Ingress Controller Settings
+## You can add your ingress controller configuration, and the allowed configuration can refer to
+## https://github.com/kubernetes/ingress-nginx/blob/master/configuration.md#allowed-parameters-in-configuration-configmap
+# ingress_controller:
+#   body-size: '0'
+#   disable-access-log: 'true'
+
+## Clean metrics indices in Elasticsearch older than this number of days
+# metrics_max_age: 1
+
+## Clean application log indices in Elasticsearch older than this number of days
+# logs_maxage: 1
+
+## Uncomment the line below to install Kibana as a managed service.
+# kibana_install: true
+
+
+# STARTING_CLOUDANT
+
+# cloudant:
+#   namespace: kube-system
+#   pullPolicy: IfNotPresent
+#   pvPath: /opt/ibm/cfc/cloudant
+#   database:
+#     password: fdrreedfddfreeedffde
+#     federatorCommand: hostname
+#     federationIdentifier: "-0"
+#     readinessProbePeriodSeconds: 2
+#     readinessProbeInitialDelaySeconds: 90
+
+# END_CLOUDANT
+
+
+conntrack_max_per_core: 0
+
+################ VALUES FROM TERRAFORM VARS ################
+default_admin_password: admin_0000
+disabled_management_services: ["metering","monitoring"]
+cluster_name: devicpcluster 
+cluster_domain: icpcluster.local
+cluster_CA_domain: "{{ cluster_name }}.icp" 

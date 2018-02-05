@@ -1,0 +1,38 @@
+#cloud-config
+disable_root: false
+disable_root_opts:
+
+users:
+    - default
+    - name: icpuser
+      sudo: ALL=(ALL) NOPASSWD:ALL
+      groups: adm, docker, lxd, users
+      passwd: $6$rounds=4096$X8t5hBv1$ROoyzcsQy/Mm2ctee.nvPgqH1rxqqmTLdrY9MvwAfWUbH5Wr2ChSM3fjEVx5mkS2ccCzSOTrkN51giIVmUW8H0
+ntp:
+  servers:
+    - time1.google.com
+    - time2.google.com
+    - time3.google.com
+    - time4.google.com
+
+apt:
+  preserve_sources_list: true
+  conf: |
+    APT {
+      Get {
+        Assume-Yes "true";
+        Fix-Broken "true";
+      };
+      Install-Suggests "false";
+      Install-Recommends "false";
+      AutoRemove {
+        SuggestsImportant "false";
+        RecommendsImportant "false";
+      };
+    };
+
+package_update: true
+package_upgrade: true
+package_reboot_if_required: true
+
+final_message: "The ICP Node is up after $UPTIME seconds"

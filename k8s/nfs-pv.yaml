@@ -1,0 +1,140 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+   name: vol1
+spec:
+   capacity:
+      storage: 10Gi
+   accessModes:
+      - ReadWriteMany
+   persistentVolumeReclaimPolicy: Retain
+   nfs:
+      server: 192.168.20.200
+      path: /nfs/vol1
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+   name: vol2
+spec:
+   capacity:
+      storage: 5Gi
+   accessModes:
+      - ReadWriteMany
+   persistentVolumeReclaimPolicy: Retain
+   nfs:
+      server: 192.168.20.200
+      path: /nfs/vol2
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+   name: vol3
+spec:
+   capacity:
+      storage: 5Gi
+   accessModes:
+      - ReadWriteMany
+   persistentVolumeReclaimPolicy: Retain
+   nfs:
+      server: 192.168.20.200
+      path: /nfs/vol3
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+   name: vol4
+spec:
+   capacity:
+      storage: 5Gi
+   accessModes:
+      - ReadWriteMany
+   persistentVolumeReclaimPolicy: Retain
+   nfs:
+      server: 192.168.20.200
+      path: /nfs/vol4
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+   name: vol5
+spec:
+   capacity:
+      storage: 25Gi
+   accessModes:
+      - ReadWriteMany
+   persistentVolumeReclaimPolicy: Retain
+   nfs:
+      server: 192.168.20.200
+      path: /nfs/vol5
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+   name: vol6
+spec:
+   capacity:
+      storage: 10Gi
+   accessModes:
+      - ReadWriteMany
+   persistentVolumeReclaimPolicy: Retain
+   nfs:
+      server: 192.168.20.200
+      path: /nfs/vol6
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+   name: vol7
+spec:
+   capacity:
+      storage: 1Gi
+   accessModes:
+      - ReadWriteMany
+   persistentVolumeReclaimPolicy: Retain
+   nfs:
+      server: 192.168.20.200
+      path: /nfs/vol7
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+   name: vol8
+spec:
+   capacity:
+      storage: 2Gi
+   accessModes:
+      - ReadWriteMany
+   persistentVolumeReclaimPolicy: Retain
+   nfs:
+      server: 192.168.20.200
+      path: /nfs/vol8
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+   name: vol9
+spec:
+   capacity:
+      storage: 3Gi
+   accessModes:
+      - ReadWriteMany
+   persistentVolumeReclaimPolicy: Retain
+   nfs:
+      server: 192.168.20.200
+      path: /nfs/vol9
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+   name: vol10
+spec:
+   capacity:
+      storage: 15Gi
+   accessModes:
+      - ReadWriteMany
+   persistentVolumeReclaimPolicy: Retain
+   nfs:
+      server: 192.168.20.200
+      path: /nfs/vol10

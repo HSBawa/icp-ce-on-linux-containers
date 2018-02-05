@@ -1,0 +1,13 @@
+.vagrant
+.terraform
+temp*.*
+test*.*
+*.tfstate
+*.tfstate.backup
+**/states
+**/meta
+*.log
+**/ssh-keys/*.2018*
+README.md.draft
+
+
