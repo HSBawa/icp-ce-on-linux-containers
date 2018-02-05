@@ -122,7 +122,7 @@ echo ""
 
 echo ""
 echo "[Checking for IBM Cloud CLI]"
-bx_loc=$(command -v bxc)
+bx_loc=$(command -v bx)
 if [[ -z $bx_loc ]]; then
     echo -e   "\tWarning: Seems IBM Cloud is not initialled. Download location: https://console.bluemix.net/docs/cli/reference/bluemix_cli/download_cli.html#download_install "
 else
