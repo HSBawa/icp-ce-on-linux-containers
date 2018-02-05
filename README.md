@@ -1,4 +1,5 @@
 Welcome to the IBM Cloud Private CE on Linux Containers IaC !!!
+Yes, you can easily run 7 Node ICP Cluster on your Linux Desktop or VM itself!!!
 
 **Documentation**
 * [1.0 Create Base Linux Container image with Hashicorp Packer](https://github.com/HSBawa/icp-ce-on-linux-containers/wiki/1.0-Create-Base-Linux-Container-Image-For-IBM-Cloud-Private-with-Hashicorp-Packer)
