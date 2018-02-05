@@ -1,14 +1,28 @@
-Welcome to the IBM Cloud Private CE on Linux Containers IaC !!!
-Yes, you can easily run 7 Node ICP Cluster on your Linux Desktop or VM itself!!!
+Welcome to the IBM Cloud Private CE on Linux Containers IaC. With the help of this IaC, you easily setup a 7 node Linux Container based ICP cluster on your Linux Desktop or VM itself!!!
 
-**Documentation**
+Following linux container components for ICP will be created:
+* Base image
+* Nodes:
+  * Boot   
+  * Master
+  * Proxy  
+  * Management
+  * Worker 1
+  * Worker 2
+  * Worker 3
+* Profiles:
+  * Shared profile
+  * Custom profile for each node
+* Network configuration
+
+Documentation
 * [1.0 Create Base Linux Container image with Hashicorp Packer](https://github.com/HSBawa/icp-ce-on-linux-containers/wiki/1.0-Create-Base-Linux-Container-Image-For-IBM-Cloud-Private-with-Hashicorp-Packer)
 * [2.0 Create Linux Container cluster and start ICP install with Terraform](https://github.com/HSBawa/icp-ce-on-linux-containers/wiki/2.0-Create-LXD-Cluster-and-ICP-install-with-Terraform)
 * [3.0 Manual ICP CE install and uninstall process on Linux Container cluster](https://github.com/HSBawa/icp-ce-on-linux-containers/wiki/3.0-ICP-CE-install-and-uninstall-process-on-LXD-cluster)
 
-**[Screenshots](https://github.com/HSBawa/icp-ce-on-linux-containers/tree/master/docs/screenshots)**
+[Screenshots](https://github.com/HSBawa/icp-ce-on-linux-containers/tree/master/docs/screenshots)
 
-**Helpful Scripts:**
+Helpful Scripts:
 * [lxd_pre-reqs_check.sh](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/lxd_pre-reqs_check.sh) 
   * Checks if needed software is installed on host system
 * [install-w-terra.sh](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/install-w-terra.sh)
