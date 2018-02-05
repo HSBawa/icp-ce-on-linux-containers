@@ -2,7 +2,7 @@ Welcome to the IBM Cloud Private CE on Linux Containers IaC. With the help of th
 
 Following linux container components for ICP will be created:
 * Base image
-* Nodes:
+* [Nodes](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_2.1.0/getting_started/architecture.html):
   * Boot   
   * Master
   * Proxy  
