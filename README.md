@@ -1,7 +1,12 @@
 _If you are looking for official IBM ICP-CE install, you can find it [here](https://github.com/IBM/deploy-ibm-cloud-private)_
 
-Welcome to the IBM Cloud Private CE on Linux Containers IaC. With the help of this IaC, you easily setup a 7 node Linux Container based ICP cluster on your Linux Desktop or VM itself!!!
+Welcome to the IBM Cloud Private CE on Linux Containers IaC. With the help of this IaC, you easily setup a 7 node Linux Container based ICP cluster on your Linux Desktop or VM itself!!! 
 
+Pre-requisite:
+
+This IaC is targeted towards users with intermediate to advanced understanding of Linux Containers. Included script, [lxd_pre-reqs_check.sh](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/lxd_pre-reqs_check.sh), can be used as a guideline to validate that latest LXD and additional required software is installed and setup of on Linux host.
+
+For a complete and end to end setup, you can try [ICP CE on Linux Containers on Virtual Box](https://github.com/HSBawa/icp-ce-on-linux-containers-vb). This IaC will configure and setup Linux Containers (LXD) on a Ubuntu Virtual Box rather than directly on your host.
 
 Following linux container components for ICP will be created:
 * Base image
