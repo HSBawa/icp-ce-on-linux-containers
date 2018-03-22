@@ -12,21 +12,30 @@ network_cidr: 10.1.0.0/16
 
 ## Kubernetes Settings
 service_cluster_ip_range: 10.0.0.1/24
-# Remove this in production env
+
+## Makes the Kubelet start if swap is enabled on the node. Remove
+## this if your production env want to disble swap.
 kubelet_extra_args: ["--fail-swap-on=false"]
+
 # cluster_domain: cluster.local
 # cluster_name: mycluster
 # cluster_CA_domain: "{{ cluster_name }}.icp"
+# cluster_zone: "myzone"
+# cluster_region: "myregion"
+
+## Etcd Settings
+etcd_extra_args: ["--grpc-keepalive-timeout=0", "--grpc-keepalive-interval=0", "--snapshot-count=10000"]
 
 ## General Settings
 # wait_for_timeout: 600
 # docker_api_timeout: 100
 
 ## Advanced Settings
+default_admin_user: admin
 # default_admin_password: admin
-# ansible_user: ansible_user
+# ansible_user: <username>
 # ansible_become: true
-# ansible_become_password: super_secret
+# ansible_become_password: <password>
 
 ## Kubernetes Settings
 # kube_apiserver_extra_args: []
@@ -73,12 +82,13 @@ kubelet_extra_args: ["--fail-swap-on=false"]
 # kube_apiserver_insecure_port: 8888
 # kube_apiserver_secure_port: 8001
 
-## Access UI external IP address
-# cluster_access_ip: 0.0.0.0
+## External loadbalancer IP or domain
+## Or floating IP in OpenStack environment
+# cluster_lb_address: none
 
-## Access Proxy node external IP address
-# proxy_access_ip: 0.0.0.0
-
+## External loadbalancer IP or domain
+## Or floating IP in OpenStack environment
+# proxy_lb_address: none
 
 ## Install in firewall enabled mode
 # firewall_enabled: false
@@ -100,6 +110,7 @@ kubelet_extra_args: ["--fail-swap-on=false"]
 # federation_domain: cluster.federation
 # federation_apiserver_extra_args: []
 # federation_controllermanager_extra_args: []
+# federation_external_policy_engine_enabled: false
 
 ## vSphere cloud provider Settings
 ## If user wants to configure vSphere as cloud provider, vsphere_conf
@@ -117,22 +128,25 @@ kubelet_extra_args: ["--fail-swap-on=false"]
 #    working_dir: <vCenter VM folder path in which node VMs are located>
 
 ## Disabled Management Services Settings
-## You can disable the following management services: ["service-catalog", "metering", "monitoring"]
-# disabled_management_services: []
+## You can disable the following management services: ["service-catalog", "metering", "monitoring", "va"]
+# disabled_management_services: ["va"]
 
 ## Docker Settings
 # docker_env: []
 # docker_extra_args: []
 ## The maximum size of the log before it is rolled
-docker_log_max_size: 10m
+docker_log_max_size: 50m
 ## The maximum number of log files that can be present
 docker_log_max_file: 10
+## Install/upgrade docker version
+# docker_version: 17.09
+## ICP install docker automatically
+# install_docker: true
 
 ## Ingress Controller Settings
 ## You can add your ingress controller configuration, and the allowed configuration can refer to
-## https://github.com/kubernetes/ingress-nginx/blob/master/configuration.md#allowed-parameters-in-configuration-configmap
+## https://github.com/kubernetes/ingress-nginx/blob/nginx-0.9.0/docs/user-guide/configmap.md#configuration-options
 # ingress_controller:
-#   body-size: '0'
 #   disable-access-log: 'true'
 
 ## Clean metrics indices in Elasticsearch older than this number of days
@@ -160,12 +174,17 @@ docker_log_max_file: 10
 
 # END_CLOUDANT
 
-
+## for 2.1.0.1 only. Not backward or forward compatible
 conntrack_max_per_core: 0
+### for 2.1.0.2+
+kube_proxy_extra_args: ["--conntrack_max_per_core=0"]
 
-################ VALUES FROM TERRAFORM VARS ################
+################ START VALUES FROM TERRAFORM VARS ################
 default_admin_password: admin_0000
-disabled_management_services: ["metering","monitoring"]
+disabled_management_services: []
 cluster_name: devicpcluster 
 cluster_domain: icpcluster.local
 cluster_CA_domain: "{{ cluster_name }}.icp" 
+kibana_install: true 
+cluster_zone: devzone
+cluster_region: devregion

@@ -1,8 +1,10 @@
 _If you are looking for official IBM ICP-CE install, you can find it [here](https://github.com/IBM/deploy-ibm-cloud-private)_
 
-Welcome to the IBM Cloud Private CE on Linux Containers IaC. With the help of this IaC, you easily setup a 7 node Linux Container based ICP cluster on your Linux Desktop or VM itself!!! 
+Welcome to the IBM Cloud Private CE on Linux Containers IaC. With the help of this IaC, you easily setup a 7 node Linux Container based ICP cluster on your Linux Desktop or VM itself!!!
 
-Following linux container components for ICP will be created:
+Supported ICP-CE versions are 2.1.0.1, 2.1.0.2 
+
+This IaC will create following LXD components:
 * Base image
 * [Nodes](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_2.1.0/getting_started/architecture.html):
   * Boot   
@@ -38,8 +40,9 @@ Helpful Scripts:
   * Initiates terraform scripts for cluster creation and icp install process
 * [terra-clean.sh](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/terra-clean.sh)
   * Deletes current terraform state data in that folder
-* [icp-login.sh](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/icp-login.sh) 
-  * Simplifies and automates ICP login process. Requires IBM Cloud CLI and ICP plugin installed.
+* [icp-login-2.1.0.2-ce.sh](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/icp-login-2.1.0.2-ce.sh) 
+  * This is an example file. Actual file is auto-generated on successful install to simplify and automate ICP login process. 
+  * Pre-Requisite: IBM Cloud CLI and ICP plugin installed.
 * [running_processes.sh](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/running_process.sh)
   * Checks if all pods (by count) are up and running on master node
 * [destroy-cluster-manual.sh](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/destroy-cluster-manual.sh)

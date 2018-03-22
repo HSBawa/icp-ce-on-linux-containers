@@ -2,33 +2,82 @@
 ###############################################################################
 # @Author Harimohan S. Bawa hsbawa@us.ibm.com hsbawa@gmail.com
 ###############################################################################
-echo ">>>>>>>>>>>>>>>Linux Container (LXC) cluster for '$8' enviromnet is now ready."
-echo -n ">>>>>>>>>>>>>>>Waiting for nodes to settle down ... "
+env=$8
+echo ">>>>>>>>>>>>>>>Linux Container (LXD) cluster for '$env' environment is now ready."
+echo -n ">>>>>>>>>>>>>>>Waiting for cluster nodes to settle down ... "
 sleep 20
 echo "done."
-echo ">>>>>>>>>>>>>>>[Initializing LXC node $1 ... ]"
+
 ts=$(date +'%Y%m%d-%H%M%S')
+private_registry=${16}
+icp_installer=${17}
+version=${14}
+edition=${15}
+version_edition=${14}-$edition
+icp_install_dbg=${24}
+cluster_name=${11}
+cluster_domain=${12}
+cluster_CA_domain=${13}
+cluster_zone=${env}zone
+cluster_region=${env}region
+default_admin_password=$9
+disabled_management_services=${10}
+install_kibana=${31}
+if [[ $private_registry == "true" ]]; then
+    version=${22}
+    version_edition=${22}
+    icp_installer=${23}
+fi
+boot_icp_dir="/opt/icp-$version_edition"
+boot_icp_cluster_dir="$boot_icp_dir/cluster"
+boot_icp_bin_dir="$boot_icp_dir/bin"
+boot_icp_log_dir="$boot_icp_dir/log"
+echo "Boot ICP dir = $boot_icp_dir"
+echo "Boot ICP cluster dir = $boot_icp_cluster_dir"
+echo "Boot ICP bin dir = $boot_icp_cluster_dir"
+echo "Boot ICP log dir = $boot_icp_log_dir"
 
+echo ">>>>>>>>>>>>>>>[Initializing LXD node $1 ... ]"
 echo ">>>>>>>>>>>>>>>[Updating config.yaml ... ]"
-cp ./cluster/config.yaml.tmpl ./cluster/config.yaml
-
-if [[ ! -z $9 ]]; then
-    echo "default_admin_password: $9" >> ./cluster/config.yaml
-fi
-if [[ ! -z ${10} ]]; then
-    echo "disabled_management_services: ${10}" >> ./cluster/config.yaml
+if [[ $private_registry == "true" ]]; then
+    cp ./cluster/config.yaml.tmpl.private ./cluster/config.yaml
+else
+    cp ./cluster/config.yaml.tmpl ./cluster/config.yaml
 fi
 
-if [[ ! -z ${11} ]]; then
-    echo "cluster_name: ${11} " >> ./cluster/config.yaml
+if [[ ! -z $default_admin_password ]]; then
+    echo "default_admin_password: $default_admin_password" >> ./cluster/config.yaml
+fi
+if [[ ! -z $disabled_management_services ]]; then
+    echo "disabled_management_services: $disabled_management_services" >> ./cluster/config.yaml
 fi
 
-if [[ ! -z ${12} ]]; then
-    echo "cluster_domain: ${12}" >> ./cluster/config.yaml
+if [[ ! -z $cluster_name ]]; then
+    echo "cluster_name: $cluster_name " >> ./cluster/config.yaml
 fi
 
-if [[ ! -z ${13} ]]; then
-    echo "cluster_CA_domain: \"${13}\" " >> ./cluster/config.yaml
+if [[ ! -z $cluster_domain ]]; then
+    echo "cluster_domain: $cluster_domain" >> ./cluster/config.yaml
+fi
+
+if [[ ! -z $cluster_CA_domain ]]; then
+    echo "cluster_CA_domain: \"$cluster_CA_domain\" " >> ./cluster/config.yaml
+fi
+
+if [[ ! -z $install_kibana ]]; then
+    echo "kibana_install: $install_kibana " >> ./cluster/config.yaml
+fi
+
+echo "cluster_zone: $cluster_zone" >> ./cluster/config.yaml
+echo "cluster_region: $cluster_region" >> ./cluster/config.yaml
+
+if [[ $private_registry == "true" ]]; then
+    echo "version: ${22}" >> ./cluster/config.yaml
+    echo "image_repo: ${21}" >> ./cluster/config.yaml
+    echo "private_registry_enabled: true" >> ./cluster/config.yaml
+    echo "private_registry_server: ${20}" >> ./cluster/config.yaml
+    echo "docker_username: ${18}" >> ./cluster/config.yaml
+    echo "docker_password: ${19}" >> ./cluster/config.yaml
 fi
 
 echo ">>>>>>>>>>>>>>>[Backing up RSA keys on local host ... ]"
@@ -94,35 +143,33 @@ lxc exec $2 -- sh -c "sysctl -p" &> /dev/null
 ###############################################################################
 ## Template to Load Docker Images from archive (if available)
 ###############################################################################
-# docker_img_folder=/share/icp2101ce/
-# icp_common_img="$docker_img_folder/icp-2101-ce-common.tar.gz"
-# icp_boot_img="$docker_img_folder/icp-2101-ce-boot.tar.gz"
-# icp_master_img="$docker_img_folder/icp-2101-ce-master.tar.gz"
-# icp_mgmt_img="$docker_img_folder/icp-2101-ce-mgmt.tar.gz"
-# icp_proxy_img="$docker_img_folder/icp-2101-ce-proxy.tar.gz"
-# icp_worker_img="$docker_img_folder/icp-2101-ce-common.tar.gz"
-# echo ">>>>>>>>>>>>>>>[Pre-loading docker images ... ]"
-# echo ">>>>>>>>>>>>>>>Loading docker images on $1 ..."
-# lxc exec $1 -- sh -c "docker load -i $icp_boot_img" &> /dev/null
-# echo ">>>>>>>>>>>>>>>Loading docker images on $2 ..."
-# lxc exec $2 -- sh -c "docker load -i $icp_master_img" &> /dev/null
-# lxc exec $2 -- sh -c "docker load -i $icp_common_img" &> /dev/null
-# echo ">>>>>>>>>>>>>>>Loading docker images on $3 ..."
-# lxc exec $3 -- sh -c "docker load -i $icp_mgmt_img" &> /dev/null
-# lxc exec $3 -- sh -c "docker load -i $icp_common_img" &> /dev/null
-# echo ">>>>>>>>>>>>>>>Loading docker images on $4 ..."
-# lxc exec $4 -- sh -c "docker load -i $icp_proxy_img" &> /dev/null
-# lxc exec $4 -- sh -c "docker load -i $icp_common_img" &> /dev/null
-# echo ">>>>>>>>>>>>>>>Loading docker images on $5 ..."
-# lxc exec $5 -- sh -c "docker load -i $icp_worker_img" &> /dev/null
-# echo ">>>>>>>>>>>>>>>Loading docker images on $6 ..."
-# lxc exec $6 -- sh -c "docker load -i $icp_worker_img" &> /dev/null
-# echo ">>>>>>>>>>>>>>>Loading docker images on $7 ..."
-# lxc exec $7 -- sh -c "docker load -i $icp_worker_img" &> /dev/null
+icp_docker_tar=${25}
+icp_boot_img=${26}
+icp_master_img=${27}
+icp_mgmt_img=${28}
+icp_proxy_img=${29}
+icp_worker_img=${30}
+if [[ $icp_docker_tar == "true" ]]; then
+    echo ">>>>>>>>>>>>>>>[Pre-loading docker images from TAR files ... ]"
+    echo ">>>>>>>>>>>>>>>Loading docker images on $1 ..."
+    lxc exec $1 -- sh -c "docker load -i $icp_boot_img" &> /dev/null
+    echo ">>>>>>>>>>>>>>>Loading docker images on $2 ..."
+    lxc exec $2 -- sh -c "docker load -i $icp_master_img" &> /dev/null
+    echo ">>>>>>>>>>>>>>>Loading docker images on $3 ..."
+    lxc exec $3 -- sh -c "docker load -i $icp_mgmt_img" &> /dev/null
+    echo ">>>>>>>>>>>>>>>Loading docker images on $4 ..."
+    lxc exec $4 -- sh -c "docker load -i $icp_proxy_img" &> /dev/null
+    echo ">>>>>>>>>>>>>>>Loading docker images on $5 ..."
+    lxc exec $5 -- sh -c "docker load -i $icp_worker_img" &> /dev/null
+    echo ">>>>>>>>>>>>>>>Loading docker images on $6 ..."
+    lxc exec $6 -- sh -c "docker load -i $icp_worker_img" &> /dev/null
+    echo ">>>>>>>>>>>>>>>Loading docker images on $7 ..."
+    lxc exec $7 -- sh -c "docker load -i $icp_worker_img" &> /dev/null
+fi
 ###############################################################################
 ## Generate hosts file
 ###############################################################################
-echo ">>>>>>>>>>>>>>>[Generating hosts file for ICP CE ... ]"
+echo ">>>>>>>>>>>>>>>[Generating hosts file for ICP v$version_edition ... ]"
 echo "### WARNING: This file is autogenerated during installation." > ./cluster/hosts
 echo "### All manual changes will be overwritten in next install." >> ./cluster/hosts
 echo "[master]" >> ./cluster/hosts
@@ -132,6 +179,9 @@ echo "[proxy]" >>./cluster/hosts
 echo $proxy_ip >> ./cluster/hosts
 echo "" >> ./cluster/hosts
 echo "[management]" >>./cluster/hosts
+echo $mgmt_ip >> ./cluster/hosts
+echo "" >> ./cluster/hosts
+echo "[va]" >>./cluster/hosts
 echo $mgmt_ip >> ./cluster/hosts
 echo "" >> ./cluster/hosts
 echo "[worker]" >>./cluster/hosts
@@ -150,30 +200,34 @@ lxc exec $5 -- sh -c  "echo $worker_1_ip $5 >> /etc/hosts"
 lxc exec $6 -- sh -c  "echo $worker_2_ip $6 >> /etc/hosts"
 lxc exec $7 -- sh -c  "echo $worker_3_ip $7 >> /etc/hosts"
 
-echo ">>>>>>>>>>>>>>>[Docker pull ibmcom/icp-inception:2.1.0.1 ... ]"
-lxc exec $1 -- sh -c "docker pull ibmcom/icp-inception:2.1.0.1"
-lxc exec $1 -- sh -c "docker run -e LICENSE=accept -v /opt/icp-2101-ce:/data ibmcom/icp-inception:2.1.0.1 cp -r cluster /data"
+echo ">>>>>>>>>>>>>>>[Docker pull $icp_installer:${version} ... ]"
+if [[ $private_registry == "true" ]]; then
+    lxc exec $1 -- sh -c "docker login -u ${18} -p ${19} ${20}"
+fi
+lxc exec $1 -- sh -c "docker pull $icp_installer:${version}"
+lxc exec $1 -- sh -c "docker run -e LICENSE=accept -v $boot_icp_dir:/data $icp_installer:${version} cp -r cluster /data"
 sleep 10
-lxc exec $1 -- sh -c "ls -al /opt/icp-2101-ce/cluster"
+lxc exec $1 -- sh -c "ls -al $boot_icp_cluster_dir"
 
 echo ">>>>>>>>>>>>>>>[Copying ICP config data to $1 ... ]"
 ###############################################################################
 ## Copy ICP config data to boot node
 ###############################################################################
-# lxc exec $1 -- mkdir -p /opt/icp-2101-ce/cluster
+# lxc exec $1 -- mkdir -p $boot_icp_cluster_dir
 lxc exec $1 -- mkdir -p /root/cluster/
-lxc exec $1 -- mkdir -p /opt/icp-2101-ce/bin
+lxc exec $1 -- mkdir -p $boot_icp_bin_dir
+lxc exec $1 -- mkdir -p $boot_icp_log_dir
 lxc file push --create-dirs=true --gid=0 --uid=0 --mode="0644" ./cluster/config.yaml $1/root/cluster/config.yaml
 lxc file push --create-dirs=true --gid=0 --uid=0 --mode="0644" ./cluster/hosts $1/root/cluster/hosts
 lxc file push --create-dirs=true --gid=0 --uid=0 --mode="0400" ./ssh-keys/id_rsa $1/root/.ssh/id_rsa
 lxc file push --create-dirs=true --gid=0 --uid=0 --mode="0400" ./ssh-keys/id_rsa.pub $1/root/.ssh/id_rsa.pub
-lxc file push --create-dirs=true --gid=0 --uid=0 --mode="0744" ./cluster/install.sh $1/opt/icp-2101-ce/bin/install.sh
-lxc file push --create-dirs=true --gid=0 --uid=0 --mode="0744" ./cluster/install-dbg.sh $1/opt/icp-2101-ce/bin/install-dbg.sh
-lxc file push --create-dirs=true --gid=0 --uid=0 --mode="0744" ./cluster/uninstall.sh $1/opt/icp-2101-ce/bin/uninstall.sh
-lxc exec $1 -- sh -c  "cp /root/.ssh/id_rsa /opt/icp-2101-ce/cluster/ssh_key"
-lxc exec $1 -- sh -c "cp /root/cluster/hosts /opt/icp-2101-ce/cluster/hosts"
-lxc exec $1 -- sh -c "cp /root/cluster/config.yaml /opt/icp-2101-ce/cluster/config.yaml"
-lxc exec $1 -- sh -c "ls -al /opt/icp-2101-ce/cluster"
+lxc file push --create-dirs=true --gid=0 --uid=0 --mode="0744" ./cluster/install.sh $1$boot_icp_bin_dir/install.sh
+lxc file push --create-dirs=true --gid=0 --uid=0 --mode="0744" ./cluster/install-dbg.sh $1$boot_icp_bin_dir/install-dbg.sh
+lxc file push --create-dirs=true --gid=0 --uid=0 --mode="0744" ./cluster/uninstall.sh $1$boot_icp_bin_dir/uninstall.sh
+lxc exec $1 -- sh -c  "cp /root/.ssh/id_rsa $boot_icp_cluster_dir/ssh_key"
+lxc exec $1 -- sh -c "cp /root/cluster/hosts $boot_icp_cluster_dir/hosts"
+lxc exec $1 -- sh -c "cp /root/cluster/config.yaml $boot_icp_cluster_dir/config.yaml"
+lxc exec $1 -- sh -c "ls -al $boot_icp_cluster_dir"
 
 ###############################################################################
 ## Copy authorized keys to non-boot nodes
@@ -189,14 +243,19 @@ lxc file push --create-dirs=true --gid=0 --uid=0 --mode="0400" ./ssh-keys/id_rsa
 ###############################################################################
 echo ">>>>>>>>>>>>>>>[Instaling kubectl on $2]"
 lxc exec $2 -- sh -c  "curl -o /usr/local/bin/kubectl -fssLO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl; chmod +x /usr/local/bin/kubectl &> /dev/null &> /dev/null"
-echo ">>>>>>>>>>>>>>>[Done initializing LXC node $1]"
+echo ">>>>>>>>>>>>>>>[Done initializing LXD node $1]"
 ###############################################################################
 ## Start ICP Installation
 ###############################################################################
 echo ">>>>>>>>>>>>>>>[Starting ICP installation now]"
 echo ">>>>>>ICP install will complete in 30 mins to 1+ hours depending on your system resource configuration and internet speed.<<<<<"
+echo ">>>>>>Install console logs can also be found in '$8-$1/$boot_icp_log_dir' folder.<<<<<"
 echo ">>>>>>You can watch your nodes getting updated, from a different VM shell, using command 'watch lxc list $8-'.<<<<<"
-lxc exec $1 -- sh -c "/opt/icp-2101-ce/bin/install.sh"
+if [[ $icp_install_dbg == "true" ]]; then
+    lxc exec $1 -- sh -c "$boot_icp_bin_dir/install-dbg.sh $boot_icp_cluster_dir $icp_installer $version $boot_icp_log_dir"
+else
+    lxc exec $1 -- sh -c "$boot_icp_bin_dir/install.sh $boot_icp_cluster_dir $icp_installer $version $boot_icp_log_dir"
+fi
 success=$?
 if [ $success -eq 0 ]; then
     pod_check_interval=20
@@ -217,27 +276,33 @@ if [ $success -eq 0 ]; then
       running=$(lxc exec $2 -- kubectl -s 127.0.0.1:8888 get pods --field-selector=status.phase=Running --no-headers=true --all-namespaces | wc -l)
     done
     echo ">>>>>>>>>>>>>>>All $running/$total pods are up and running."
-    echo ">>>>>>>>>>>>>>>[If you have not installed kubectl and IBM Cloud CLI (bx), now is good time to install on your host machine.]"
+    echo ">>>>>>>>>>>>>>>[If you have not installed kubectl and IBM Cloud CLI (bx) on your host machine, now is good time to do so.]"
+    icp_login_sh_file=icp-login-$version-$edition.sh
     echo "Next, once you download ICP CLI following are some helpful commands for your environment setup and use."
-    echo "Following commands will be saved in 'icp-login.sh' file for login easeness and cluster config."
-    echo "##Contents of this file will be replaced on next successful install" | tee icp-login.sh
-    echo "## Default values will be replaced with values from terraform variables (if changed)" | tee -a icp-login.sh
-    echo "# Run following command once and only if ICP plugin is not installed for IBM Cloud CLI"  | tee -a icp-login.sh
-    echo "bx plugin install icp-linux-amd64" | tee -a icp-login.sh
-    echo "# Validate ICP CLI plugin install" | tee -a icp-login.sh
-    echo "bx plugin show icp" | tee -a icp-login.sh
-    echo "# Login to ICP CE" | tee -a icp-login.sh
-    echo "bx pr login -a https://$master_ip:8443 -u admin -p $9 -c id-icp-account --skip-ssl-validation" | tee -a icp-login.sh
-    echo "# Cluster config " | tee -a icp-login.sh
-    echo "bx pr cluster-config ${11}" | tee -a icp-login.sh
-    # echo "bx pr cluster-config mycluster" | tee -a icp-login.sh
-    echo "# Validate kubectl is working" | tee -a icp-login.sh
-    echo "kubectl get nodes" | tee -a icp-login.sh
-    echo "# Information about clusters" | tee -a icp-login.sh
-    echo "bx pr clusters" | tee -a icp-login.sh
-    echo "# Get cluster specific info" | tee -a icp-login.sh
-    echo "bx pr cluster-get ${11}" | tee -a icp-login.sh
-    # echo "bx pr cluster-get mycluster" | tee -a icp-login.sh
+    echo "Following commands will be saved in '$icp_login_sh_file' file for login easeness and cluster config."
+    echo "##Contents of this file will be replaced on next successful install" | tee $icp_login_sh_file
+    echo "## Default values will be replaced with values from terraform variables (if changed)" | tee -a $icp_login_sh_file
+    echo "# Run following command once and only if ICP plugin is not installed for IBM Cloud CLI"  | tee -a $icp_login_sh_file
+    echo "bx plugin install icp-linux-amd64" | tee -a $icp_login_sh_file
+    echo "# Validate ICP CLI plugin install" | tee -a $icp_login_sh_file
+    echo "bx plugin show icp" | tee -a $icp_login_sh_file
+    echo "# Login to ICP CE" | tee -a $icp_login_sh_file
+    if [[ $version == "2.1.0.1" ]]; then
+        # older version
+        echo "bx pr login -a https://$master_ip:8443 -u admin -p $default_admin_password -c id-icp-account --skip-ssl-validation" | tee -a $icp_login_sh_file
+    else
+        ## 2.1.0.2+
+        echo "bx pr login -a https://$master_ip:8443 -u admin -p $default_admin_password -c id-$cluster_name-account --skip-ssl-validation" | tee -a $icp_login_sh_file
+    fi
+    ### for some reason non-sudo command is not working
+    echo "# Cluster config " | tee -a $icp_login_sh_file
+    echo "sudo bx pr cluster-config $cluster_name" | tee -a $icp_login_sh_file
+    echo "# Validate kubectl is working" | tee -a $icp_login_sh_file
+    echo "kubectl get nodes" | tee -a $icp_login_sh_file
+    echo "# Information about clusters" | tee -a $icp_login_sh_file
+    echo "bx pr clusters" | tee -a $icp_login_sh_file
+    echo "# Get cluster specific info" | tee -a $icp_login_sh_file
+    echo "bx pr cluster-get $cluster_name" | tee -a $icp_login_sh_file
     echo ">>>>>>>>>>>>>>>[INSTALL COMPLETE - ICP ON LINUX CONTAINER IS READY TO USE]"
 else
     echo ""

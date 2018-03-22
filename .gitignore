@@ -1,5 +1,6 @@
 .vagrant
 .terraform
+private.tfvars
 temp*.*
 test*.*
 *.tfstate
@@ -7,7 +8,10 @@ test*.*
 **/states
 **/meta
 *.log
-**/ssh-keys/*.2018*
+**/ssh-keys/*.bak
+**/cluster/*.private
+**/cluster/*.bak
+**/cluster/ssh_key
+**/cluster/config.yaml
+**/plan/*
 README.md.draft
-
-
