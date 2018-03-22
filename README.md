@@ -2,7 +2,10 @@ _If you are looking for official IBM ICP-CE install, you can find it [here](http
 
 Welcome to the IBM Cloud Private CE on Linux Containers IaC. With the help of this IaC, you easily setup a 7 node Linux Container based ICP cluster on your Linux Desktop or VM itself!!!
 
-Supported ICP-CE versions are 2.1.0.1, 2.1.0.2. Update terraform.tfvars->icp_tag variable to switch.  
+Supported ICP-CE versions:
+
+* 2.1.0.2 - Installs by default
+* 2.1.0.1 - Update "icp_tag" variable in [terraform.tfvars](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/terraform.tfvars) 
 
 This IaC will create following LXD components:
 * Base image
@@ -48,3 +51,6 @@ Helpful Scripts:
 * [destroy-cluster-manual.sh](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/destroy-cluster-manual.sh)
   * If for any reason, terraform is not able to destroy Linux container cluster, use this script to do so manually and clean up the configuration. 
   * If env_prefix, network or node name are changed, update script accordingly.
+* [Pull and Tar ICP-CE docker images manually](https://github.com/HSBawa/icp-ce-on-linux-containers/tree/master/icp-docker-img-scripts)
+  * These scripts can help retrieve all key ICP-CE Docker images and create tar archives. Images can also be added to private Docker registry for internal access.
+  * To use tar archives or private registry, update [terraform.tfvars](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/terraform.tfvars) accordingly or disable them (default) to pull directly from ibmcom during install process. 
