@@ -9,7 +9,6 @@ test*.*
 **/meta
 *.log
 **/ssh-keys/*.bak
-**/cluster/*.private
 **/cluster/*.bak
 **/cluster/ssh_key
 **/cluster/config.yaml
