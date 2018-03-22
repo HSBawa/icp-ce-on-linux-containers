@@ -43,7 +43,7 @@ icp_install_dbg="false"
 
 ## Following options are to load docker tar images
 # option to load docker tar images: true or false only
-icp_docker_tar="true"
+icp_docker_tar="false"
 # Provide absolute path on respective nodes.
 # Following example uses shared folder (host)
 icp_docker_tar_boot_path="/share/icp2102ce/icp-ce-2102-boot.tar"
