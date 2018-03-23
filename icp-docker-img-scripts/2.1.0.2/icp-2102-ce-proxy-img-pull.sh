@@ -1,3 +1,6 @@
+###############################################################################
+# ICP-CE 2.1.0.2 Proxy Node Images
+###############################################################################
 docker pull  ibmcom/metering-reader:2.1.0.2
 docker pull  ibmcom/kubernetes:v1.9.1
 docker pull  ibmcom/nginx-ingress-controller:0.9.0

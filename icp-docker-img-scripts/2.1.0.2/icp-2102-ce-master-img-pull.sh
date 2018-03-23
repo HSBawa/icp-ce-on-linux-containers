@@ -1,3 +1,6 @@
+###############################################################################
+# ICP-CE 2.1.0.2 Master Node Images
+###############################################################################
 docker pull  ibmcom/icp-helm-rudder:2.1.0.2
 docker pull  ibmcom/iam-policy-decision:2.1.0.2
 docker pull  ibmcom/icp-image-manager:2.2.1

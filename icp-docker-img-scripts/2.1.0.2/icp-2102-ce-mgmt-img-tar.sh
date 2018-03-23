@@ -1,1 +1,4 @@
+###############################################################################
+# ICP-CE 2.1.0.2 Management Node Images for Tar Archive
+###############################################################################
 docker save -o icp-ce-2102-mgmt.tar ibmcom/metering-reader:2.1.0.2 ibmcom/kubernetes:v1.9.1 ibmcom/icp-router:2.2.0 ibmcom/metering-data-manager:2.1.0.2 ibmcom/metering-ui:2.1.0.2 ibmcom/metering-server:2.1.0.2 ibmcom/calico-node:v2.6.6 ibmcom/kube-state-metrics:v1.2.0 ibmcom/alertmanager:v0.13.0 ibmcom/icp-initcontainer:1.0.0 ibmcom/calico-cni:v1.11.2 ibmcom/grafana:4.6.3 ibmcom/node-exporter:v0.15.2 ibmcom/prometheus:v2.0.0 ibmcom/indices-cleaner:0.2 ibmcom/curl:3.6 ibmcom/kibana:5.5.1 ibmcom/filebeat:5.5.1 ibmcom/logstash:5.5.1 ibmcom/elasticsearch:5.5.1 ibmcom/k8s-dns-sidecar:1.14.4 ibmcom/k8s-dns-kube-dns:1.14.4 ibmcom/k8s-dns-dnsmasq-nanny:1.14.4 ibmcom/configmap-reload:v0.1 ibmcom/collectd-exporter:0.3.1 ibmcom/pause:3.0
