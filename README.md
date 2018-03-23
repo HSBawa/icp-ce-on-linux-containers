@@ -3,9 +3,8 @@ _If you are looking for official IBM ICP-CE install, you can find it [here](http
 Welcome to the IBM Cloud Private CE on Linux Containers IaC. With the help of this IaC, you easily setup a 7 node Linux Container based ICP cluster on your Linux Desktop or VM itself!!!
 
 Supported ICP-CE versions:
-
-* 2.1.0.2 - Installs by default
-* 2.1.0.1 - Update "icp_tag" variable in [terraform.tfvars](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/terraform.tfvars) 
+* 2.1.0.2 (Kubernetes v1.9.1) - Installs by default
+* 2.1.0.1 (Kubernetes v1.8.3) - Update "icp_tag" variable in [terraform.tfvars](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/terraform.tfvars) 
 
 This IaC will create following LXD components:
 * Base image
