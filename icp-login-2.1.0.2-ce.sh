@@ -7,7 +7,8 @@ bx plugin show icp
 # Login to ICP CE
 bx pr login -a https://10.50.50.201:8443 -u admin -p admin_0000 -c id-devicpcluster-account --skip-ssl-validation
 # Cluster config 
-sudo bx pr cluster-config devicpcluster
+bx pr cluster-config devicpcluster
+#sudo bx pr cluster-config devicpcluster
 # Validate kubectl is working
 kubectl get nodes
 # Information about clusters

@@ -296,7 +296,7 @@ if [ $success -eq 0 ]; then
     fi
     ### for some reason non-sudo command is not working
     echo "# Cluster config " | tee -a $icp_login_sh_file
-    echo "sudo bx pr cluster-config $cluster_name" | tee -a $icp_login_sh_file
+    echo "bx pr cluster-config $cluster_name" | tee -a $icp_login_sh_file
     echo "# Validate kubectl is working" | tee -a $icp_login_sh_file
     echo "kubectl get nodes" | tee -a $icp_login_sh_file
     echo "# Information about clusters" | tee -a $icp_login_sh_file
