@@ -34,18 +34,21 @@ Documentation
 * [3.0 Manual ICP CE install and uninstall process on Linux Container cluster](https://github.com/HSBawa/icp-ce-on-linux-containers/wiki/3.0-ICP-CE-install-and-uninstall-process-on-LXD-cluster)
 * [4.0 Setting up Helm for IBM Cloud Private](https://github.com/HSBawa/icp-ce-on-linux-containers/wiki/4.0-Setting-up-Helm-for-IBM-Cloud-Private)
 
-[Screenshots](https://github.com/HSBawa/icp-ce-on-linux-containers/tree/master/docs/screenshots)
+[View Screenshots](https://github.com/HSBawa/icp-ce-on-linux-containers/tree/master/docs/screenshots)
 
 Helpful Scripts:
 * [lxd_pre-reqs_check.sh](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/lxd_pre-reqs_check.sh) 
   * Checks if needed software is installed on host system
 * [install-w-terra.sh](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/install-w-terra.sh)
   * Initiates terraform scripts for cluster creation and icp install process
+  * ![ICP 2.1.0.2 Successful Install - 1](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/docs/screenshots/2.1.0.2/icp-2102-successful-install.png)
+  * ![ICP 2.1.0.2 Successful Install - 2](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/docs/screenshots/2.1.0.2/icp-2102-successful-install-2.png)
 * [terra-clean.sh](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/terra-clean.sh)
   * Deletes current terraform state data in that folder
 * [icp-login-2.1.0.2-ce.sh](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/icp-login-2.1.0.2-ce.sh) 
   * This is an example file. Actual file is auto-generated on successful install to simplify and automate ICP login process. 
   * Pre-Requisite: IBM Cloud CLI and ICP plugin installed.
+  * ![ICP 2.1.0.2 Login Script](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/docs/screenshots/2.1.0.2/icp-login-script-example.png)
 * [running_processes.sh](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/running_process.sh)
   * Checks if all pods (by count) are up and running on master node
 * [destroy-cluster-manual.sh](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/destroy-cluster-manual.sh)
@@ -54,3 +57,4 @@ Helpful Scripts:
 * [Pull and Tar ICP-CE docker images manually](https://github.com/HSBawa/icp-ce-on-linux-containers/tree/master/icp-docker-img-scripts)
   * These scripts can help retrieve all key ICP-CE Docker images and create tar archives. Images can also be added to private Docker registry for internal access.
   * To use tar archives or private registry, update [terraform.tfvars](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/terraform.tfvars) accordingly or disable them (default) to pull directly from ibmcom during install process. 
+
