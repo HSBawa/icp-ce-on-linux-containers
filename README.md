@@ -47,7 +47,7 @@ Helpful Scripts:
   * Deletes current terraform state data in that folder
 * [icp-login-2.1.0.2-ce.sh](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/icp-login-2.1.0.2-ce.sh) 
   * This is an example file. Actual file is auto-generated on successful install to simplify and automate ICP login process. 
-  * Pre-Requisite: kubectl (v1.8.3+ for ICP 2.1.0.1, 1.9.1+ for ICP 2.1.0.2), IBM Cloud CLI and ICP plugin installed.
+  * Pre-Requisite: [kubectl](https://v1-9.docs.kubernetes.io/docs/tasks/tools/install-kubectl/) (v1.8.3+ for ICP 2.1.0.1, 1.9.1+ for ICP 2.1.0.2), [IBM Cloud CLI](https://console.bluemix.net/docs/cli/reference/bluemix_cli/download_cli.html#download_install) and [ICP plugin](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_2.1.0.2/manage_cluster/install_cli.html) installed.
   * ![ICP 2.1.0.2 Login Script](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/docs/screenshots/2.1.0.2/icp-login-script-example.png)
 * [running_processes.sh](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/running_process.sh)
   * Checks if all pods (by count) are up and running on master node
