@@ -5,9 +5,9 @@ resource "lxd_profile" "icp_ce" {
   config {
      boot.autostart ="true"
      linux.kernel_modules = "bridge,br_netfilter,x_tables,ip_tables,ip_vs,ip_set,ipip,xt_mark,xt_multiport,ip_tunnel,tunnel4,netlink_diag,nf_conntrack,nfnetlink,overlay"
-     #raw.lxc= "lxc.apparmor.profile = unconfined\nlxc.cgroup.devices.allow = a\nlxc.mount.auto=proc:rw sys:rw cgroup:rw\nlxc.cap.drop ="
+     raw.lxc= "lxc.apparmor.profile = unconfined\nlxc.cgroup.devices.allow = a\nlxc.mount.auto=proc:rw sys:rw cgroup:rw\nlxc.cap.drop ="
      ## New spec was causing issue. Switching to older specs
-     raw.lxc= "lxc.aa_profile = unconfined\nlxc.cgroup.devices.allow = a\nlxc.mount.auto=proc:rw sys:rw cgroup:rw\nlxc.cap.drop ="
+     #raw.lxc= "lxc.aa_profile = unconfined\nlxc.cgroup.devices.allow = a\nlxc.mount.auto=proc:rw sys:rw cgroup:rw\nlxc.cap.drop ="
      security.nesting = "true"
      security.privileged = "true"
    }
