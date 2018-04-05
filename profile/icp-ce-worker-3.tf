@@ -3,7 +3,7 @@ resource "lxd_profile" "icp_ce_worker_3" {
   description = "ICP CE Profile for Worker 3rd node"
   config {
      #limits.cpu = "${var.worker_3_cpu}"
-     user.user-data = "${file("./user-data/cloud-config-icp.yaml")}"
+     #user.user-data = "${file("./user-data/cloud-config-icp.yaml")}"
    }
 
    device {

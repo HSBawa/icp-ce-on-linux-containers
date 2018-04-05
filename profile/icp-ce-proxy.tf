@@ -3,7 +3,7 @@ resource "lxd_profile" "icp_ce_proxy" {
   description = "Demo ICP CE Profile for Proxy node"
   config {
      #limits.cpu = "${var.proxy_cpu}"
-     user.user-data = "${file("./user-data/cloud-config-icp.yaml")}"
+     #user.user-data = "${file("./user-data/cloud-config-icp.yaml")}"
    }
 
    device {

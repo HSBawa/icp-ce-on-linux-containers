@@ -4,7 +4,7 @@
 ###############################################################################
 env=$8
 echo ">>>>>>>>>>>>>>>Linux Container (LXD) cluster for '$env' environment is now ready."
-echo -n ">>>>>>>>>>>>>>>Waiting for cluster nodes to settle down ... "
+echo -n ">>>>>>>>>>>>>>>Waiting for cluster vm nodes to settle down ... "
 sleep 20
 echo "done."
 
@@ -262,20 +262,25 @@ if [ $success -eq 0 ]; then
     echo ""
     echo ">>>>>>>>>>>>>>>[ICP installation was success]"
     echo ">>>>>>>>>>>>>>>Checking if all pods are up and running ... "
+    ## For some reason Completed processes are showing up.
     running=$(lxc exec $2 -- kubectl -s 127.0.0.1:8888 get pods --field-selector=status.phase=Running --no-headers=true --all-namespaces | wc -l)
+    completed=$(lxc exec $2 -- kubectl -s 127.0.0.1:8888 get pods --no-headers=true --all-namespaces | grep Completed | wc -l)
+    ready=$(($running+$completed))
     total=$(lxc exec $2 -- kubectl -s 127.0.0.1:8888 get pods --no-headers=true --all-namespaces | wc -l)
-    if [ "$running" != "$total" ]; then
-        echo ">>>>>>>>>>>>>>>Looks like only $running/$total pods are running."
+    if [ "$ready" != "$total" ]; then
+        echo ">>>>>>>>>>>>>>>Looks like only $ready/$total pods are Running or Completed."
         echo ">>>>>>>>>>>>>>>Waiting for ICP to settle down. Checking pod status every $pod_check_interval seconds."
         sleep $pod_check_interval
     fi
-    while [ "$running" != "$total" ]; do
-      # echo -ne ">>>>>>>>>>>>>>>$running/$total pods are running ..."\\r
-      echo ">>>>>>>>>>>>>>> $running/$total pods are running ..."
+    while [ "$ready" != "$total" ]; do
+      # echo -ne ">>>>>>>>>>>>>>>$ready/$total pods are running ..."\\r
+      echo ">>>>>>>>>>>>>>> $ready/$total pods are running ..."
       sleep $pod_check_interval
       running=$(lxc exec $2 -- kubectl -s 127.0.0.1:8888 get pods --field-selector=status.phase=Running --no-headers=true --all-namespaces | wc -l)
+      completed=$(lxc exec $2 -- kubectl -s 127.0.0.1:8888 get pods --no-headers=true --all-namespaces | grep Completed | wc -l)
+      ready=$(($running+$completed))
     done
-    echo ">>>>>>>>>>>>>>>All $running/$total pods are up and running."
+    echo ">>>>>>>>>>>>>>>All $ready/$total pods are up and running or completed."
     echo ">>>>>>>>>>>>>>>[If you have not installed kubectl and IBM Cloud CLI (bx) on your host machine, now is good time to do so.]"
     icp_login_sh_file=icp-login-$version-$edition.sh
     echo "Next, once you download ICP CLI following are some helpful commands for your environment setup and use."

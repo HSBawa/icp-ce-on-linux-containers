@@ -3,7 +3,7 @@ resource "lxd_profile" "icp_ce_boot" {
   description = "Demo ICP CE Profile for boot node"
   config {
      #limits.cpu = "${var.boot_cpu}"
-     user.user-data = "${file("./user-data/cloud-config-icp.yaml")}"
+     #user.user-data = "${file("./user-data/cloud-config-icp.yaml")}"
    }
 
    device {

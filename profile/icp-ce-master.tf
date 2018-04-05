@@ -3,7 +3,7 @@ resource "lxd_profile" "icp_ce_master" {
   description = "Demo ICP CE Profile for master 1st node"
   config {
     #limits.cpu = "${var.master_cpu}"
-    user.user-data = "${file("./user-data/cloud-config-icp.yaml")}"
+    #user.user-data = "${file("./user-data/cloud-config-icp.yaml")}"
    }
 
    device {
