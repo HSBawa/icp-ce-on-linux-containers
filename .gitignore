@@ -1,6 +1,7 @@
 .vagrant
 .terraform
 private.tfvars
+docker-secret-cam-ce-priv.sh
 temp*.*
 test*.*
 *.tfstate
