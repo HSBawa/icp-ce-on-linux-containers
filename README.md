@@ -34,10 +34,8 @@ Documentation
 * [3.0 Manual Install and uninstall process for IBM Cloud Private-CE on Linux Container cluster](https://github.com/HSBawa/icp-ce-on-linux-containers/wiki/3.0-ICP-CE-install-and-uninstall-process-on-LXD-cluster)
 * [4.0 Setup Helm for IBM Cloud Private](https://github.com/HSBawa/icp-ce-on-linux-containers/wiki/4.0-Setting-up-Helm-for-IBM-Cloud-Private)
 * [5.0 Setup NFS volume as PersistentVolume (PV) on IBM Cloud Private](https://github.com/HSBawa/icp-ce-on-linux-containers/wiki/5.0-Setup--NFS-volume-as-PersistentVolume-(PV)-on-IBM-Cloud-Private)
-* [6.0 Installing Cloud Automation Manager Community Edition Online](https://www.ibm.com/support/knowledgecenter/SS2L37_2.1.0.2/cam_install_CE.html)
-  * Create Docker Store Secret
-    >kubectl create secret docker-registry <secretname> --docker-username=<userid> --docker-password=<API key> --docker-email=<email> -n services
-
+* [6.0 Installing Cloud Automation Manager (CAM)  Community Edition Online](https://www.ibm.com/support/knowledgecenter/SS2L37_2.1.0.2/cam_install_CE.html)
+ 
 [View Screenshots](https://github.com/HSBawa/icp-ce-on-linux-containers/tree/master/docs/screenshots)
 
 Helpful Scripts:
