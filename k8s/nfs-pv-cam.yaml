@@ -1,9 +1,9 @@
 ###############################################################################
 ## Sample NFS PersistentVolume (PV) YAML file for IBM Cloud Automation Manager
-## NFS Vol1 - Vol7 : Sample specs
+## NFS Vol1 - Vol6 : Sample specs
 ##   Update name, storage, type, accessModes, policy, server and path
 ##   as per your needs.
-## NFS Vol8 - Vol10 : PV specs for IBM Cloud Automation Manager
+## NFS Vol7 - Vol10 : PV specs for IBM Cloud Automation Manager
 ##   Update only server and path as per your needs.
 ##   Storage specified is minimum recommended.
 ##   https://www.ibm.com/support/knowledgecenter/SS2L37_2.1.0.2/cam_create_pv.html
@@ -110,12 +110,12 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-   name: vol7
+   name: cam-bpd-appdata-pv
    labels:
-       type: app7
+       type: cam-bpd-appdata
 spec:
    capacity:
-      storage: 1Gi
+      storage: 20Gi
    accessModes:
       - ReadWriteMany
    persistentVolumeReclaimPolicy: Retain

@@ -10,7 +10,7 @@ test*.*
 **/states
 **/meta
 *.log
-ssh-keys/
+myutils/
 cluster/**/*.bak
 cluster/**/ssh_key
 cluster/**/config.yaml
