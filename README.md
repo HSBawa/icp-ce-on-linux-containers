@@ -8,11 +8,12 @@ Supported ICP-CE versions:
 
 This IaC will create following LXD components:
 * Base image
-* [Nodes](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_2.1.0/getting_started/architecture.html):
+* [Nodes](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_2.1.0.2/getting_started/architecture.html):
   * Boot   
   * Master
   * Proxy  
-  * Management
+  * Management/Vulnerability Advisor(VA)
+    * _Will be adding a new VA node soon._
   * Worker 1
   * Worker 2
   * Worker 3
