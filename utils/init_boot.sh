@@ -98,21 +98,24 @@ echo ">>>>>>>>>>>>>>>[Generating hosts file on local host ... ]"
 ## Get node IPs
 ## Replace node ip lookup with your desired script, if following does not work.
 ###############################################################################
-boot_ip=$(lxc exec  $1 -- ip route get 1 | awk '{print $NF;exit}')
-master_ip=$(lxc exec $2 -- ip route get 1 | awk '{print $NF;exit}')
-mgmt_ip=$(lxc exec $3 -- ip route get 1 | awk '{print $NF;exit}')
-proxy_ip=$(lxc exec $4 -- ip route get 1 | awk '{print $NF;exit}')
-worker_1_ip=$(lxc exec $5 -- ip route get 1 | awk '{print $NF;exit}')
-worker_2_ip=$(lxc exec $6 -- ip route get 1 | awk '{print $NF;exit}')
-worker_3_ip=$(lxc exec $7 -- ip route get 1 | awk '{print $NF;exit}')
+## Following IP Lookup commands works for artful and xenial only
+## For bionic use $(NF-2)ex: boot_ip=$(lxc exec  $1 -- ip route get 1 | awk '{print $(NF-2);exit}')
+#boot_ip=$(lxc exec  $1 -- ip route get 1 | awk '{print $NF;exit}')
+#master_ip=$(lxc exec $2 -- ip route get 1 | awk '{print $NF;exit}')
+#mgmt_ip=$(lxc exec $3 -- ip route get 1 | awk '{print $NF;exit}')
+#proxy_ip=$(lxc exec $4 -- ip route get 1 | awk '{print $NF;exit}')
+#worker_1_ip=$(lxc exec $5 -- ip route get 1 | awk '{print $NF;exit}')
+#worker_2_ip=$(lxc exec $6 -- ip route get 1 | awk '{print $NF;exit}')
+#worker_3_ip=$(lxc exec $7 -- ip route get 1 | awk '{print $NF;exit}')
 
-# boot_ip="$(lxc exec  $1 -- ip addr show eth0 | grep 'inet\b' | awk '{print $2}' | cut -d/ -f1)"
-# master_ip="$(lxc exec $2 -- ip addr show eth0 | grep 'inet\b' | awk '{print $2}' | cut -d/ -f1)"
-# mgmt_ip="$(lxc exec $3 -- ip addr show eth0 | grep 'inet\b' | awk '{print $2}' | cut -d/ -f1)"
-# proxy_ip="$(lxc exec $4 -- ip addr show eth0 | grep 'inet\b' | awk '{print $2}' | cut -d/ -f1)"
-# worker_1_ip="$(lxc exec $5 -- ip addr show eth0 | grep 'inet\b' | awk '{print $2}' | cut -d/ -f1)"
-# worker_2_ip="$(lxc exec $6 -- ip addr show eth0 | grep 'inet\b' | awk '{print $2}' | cut -d/ -f1)"
-# worker_3_ip="$(lxc exec $7 -- ip addr show eth0 | grep 'inet\b' | awk '{print $2}' | cut -d/ -f1)"
+## Following IP lookup commands works for bionic, artful and xenial.
+boot_ip="$(lxc exec  $1 -- ip addr show eth0 | grep 'inet\b' | awk '{print $2}' | cut -d/ -f1)"
+master_ip="$(lxc exec $2 -- ip addr show eth0 | grep 'inet\b' | awk '{print $2}' | cut -d/ -f1)"
+mgmt_ip="$(lxc exec $3 -- ip addr show eth0 | grep 'inet\b' | awk '{print $2}' | cut -d/ -f1)"
+proxy_ip="$(lxc exec $4 -- ip addr show eth0 | grep 'inet\b' | awk '{print $2}' | cut -d/ -f1)"
+worker_1_ip="$(lxc exec $5 -- ip addr show eth0 | grep 'inet\b' | awk '{print $2}' | cut -d/ -f1)"
+worker_2_ip="$(lxc exec $6 -- ip addr show eth0 | grep 'inet\b' | awk '{print $2}' | cut -d/ -f1)"
+worker_3_ip="$(lxc exec $7 -- ip addr show eth0 | grep 'inet\b' | awk '{print $2}' | cut -d/ -f1)"
 
 echo "$boot_ip $1"
 echo "$master_ip $2"
