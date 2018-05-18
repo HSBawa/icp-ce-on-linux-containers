@@ -2,6 +2,19 @@ _If you are looking for official IBM ICP-CE install, you can find it [here](http
 
 Welcome to the IBM Cloud Private CE on Linux Containers Infrastructure As Code (IaC). With the help of this IaC, you easily setup a 7 node Linux Container based ICP cluster on your Linux Desktop or VM itself!!!
 
+**Ubuntu Bionic compatibility note**:
+* Current IaC was tested on Ubuntu Xenial (16.04) and Artful (17.10) (host and lxd images only) and will not work on Bionic (18.04) AS-IS.
+* Not fully tested, but I was able to get ICP running with Bionic LXD 3.0 nodes on Bionic host. See instructions below:
+   * **Create Bionic LXD image** with following packer script [bionic-packer-lxd-image](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/bionic-packer-lxd-image)
+     * packer validate bionic-packer-lxd-image
+     * packer build bionic-packer-lxd-image
+   * **Update variable [terraform.tfvars](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/terraform.tfvars) 
+  -> _lxd_image_name_**.
+     * lxd_image_name="bionic-container-for-icp"
+   * **Uncomment following line (~73) in [init_boot.sh](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/utils/init_boot.sh)** before running terraform apply. This option will diable Calico to be run on IP over IP mode. But, as all nodes are in the same subnet, will not break ICP. This is a temporary code patch and I will add dynamic update soon. If this step is skipped, ICP install will fail when checking MTU for network interfaces.
+     * echo "calico_ipip_enabled: false"  >> ./cluster/config.yaml 
+   * Enjoy ICP on Ubuntu Bionic with LXD 3.0
+   
 Supported ICP-CE versions:
 * 2.1.0.2 (Kubernetes v1.9.1) - Installs by default
 * 2.1.0.1 (Kubernetes v1.8.3) - Update "icp_tag" variable in [terraform.tfvars](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/terraform.tfvars) 
