@@ -2,6 +2,7 @@ env_prefix="dev"
 ## Linux Container image for ICP. xenial and artful amd64
 lxd_image_name="xenial-container-for-icp"
 #lxd_image_name="artful-amd64-container-for-icp"
+#lxd_image_name="bionic-container-for-icp"
 remote_name="local"
 ## device type: network interface
 net_device_type="nic"
