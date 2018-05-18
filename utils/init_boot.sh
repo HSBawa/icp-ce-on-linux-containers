@@ -70,6 +70,7 @@ fi
 
 echo "cluster_zone: $cluster_zone" >> ./cluster/config.yaml
 echo "cluster_region: $cluster_region" >> ./cluster/config.yaml
+#echo "calico_ipip_enabled: false"  >> ./cluster/config.yaml
 
 if [[ $private_registry == "true" ]]; then
     echo "version: ${22}" >> ./cluster/config.yaml
