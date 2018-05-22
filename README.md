@@ -13,6 +13,7 @@ Welcome to the IBM Cloud Private CE on Linux Containers Infrastructure As Code (
      * lxd_image_name="bionic-container-for-icp"
    * **Uncomment following line (~73) in [init_boot.sh](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/utils/init_boot.sh)** before running terraform apply. This option will diable Calico to be run on IP over IP mode. But, as all nodes are in the same subnet, will not break ICP. This is a temporary code patch and I will add dynamic update soon. If this step is skipped, ICP install will fail when checking MTU for network interfaces.
      * echo "calico_ipip_enabled: false"  >> ./cluster/config.yaml 
+   * This workaround is for Bionic LXD Containers on Bionic Host.
    * Enjoy ICP on Ubuntu Bionic with LXD 3.0
    
 Supported ICP-CE versions:
@@ -25,8 +26,8 @@ This IaC will create following LXD components:
   * Boot   
   * Master
   * Proxy  
-  * Management/Vulnerability Advisor(VA)
-    * _Will be adding a new VA node soon._
+  * Management
+  * Vulnerability Advisor
   * Worker 1
   * Worker 2
   * Worker 3
@@ -61,6 +62,10 @@ Helpful Scripts:
   * ![ICP 2.1.0.2 Successful Install - 2](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/docs/screenshots/2.1.0.2/icp-2102-successful-install-2.png)
 * [terra-clean.sh](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/terra-clean.sh)
   * Deletes current terraform state data in that folder
+* [icp-install-clis.sh](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/icp-install-clis.sh) 
+  * Helpful script to download supporting CLI's.
+    * Kubectl, ICP Helm, IBM Cloud (bx), ICP Plugin (icp-linux-amd64)
+  * If you are not using default master ip, update script accordingly before usage.
 * [icp-login-2.1.0.2-ce.sh](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/icp-login-2.1.0.2-ce.sh) 
   * This is an example file. Actual file is auto-generated on successful install to simplify and automate ICP login process. 
   * Pre-Requisite: [kubectl](https://v1-9.docs.kubernetes.io/docs/tasks/tools/install-kubectl/) (v1.8.3+ for ICP 2.1.0.1, 1.9.1+ for ICP 2.1.0.2), [IBM Cloud CLI](https://console.bluemix.net/docs/cli/reference/bluemix_cli/download_cli.html#download_install) and [ICP plugin](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_2.1.0.2/manage_cluster/install_cli.html) installed.
