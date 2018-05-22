@@ -3,12 +3,13 @@ if [[ ! -z $1 ]]; then
     env=$1
     echo "This program is going to destory all IBM Cloud Private [$env] cluster in next 10 secs. Press Ctrl-C to cancel now."
     sleep 10
-    lxc stop $(lxc list ${env}- -c n --format=csv)
-    lxc delete $(lxc list ${env}- -c n --format=csv)
+    lxc stop -f $(lxc list ${env}- -c n --format=csv)
+    lxc delete -f $(lxc list ${env}- -c n --format=csv)
     lxc profile delete ${env}-common
     lxc profile delete ${env}-boot
     lxc profile delete ${env}-master
     lxc profile delete ${env}-mgmt
+    lxc profile delete ${env}-va
     lxc profile delete ${env}-proxy
     lxc profile delete ${env}-worker-1
     lxc profile delete ${env}-worker-2

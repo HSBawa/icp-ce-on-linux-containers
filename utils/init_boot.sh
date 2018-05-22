@@ -104,6 +104,7 @@ echo ">>>>>>>>>>>>>>>[Generating hosts file on local host ... ]"
 #boot_ip=$(lxc exec  $1 -- ip route get 1 | awk '{print $NF;exit}')
 #master_ip=$(lxc exec $2 -- ip route get 1 | awk '{print $NF;exit}')
 #mgmt_ip=$(lxc exec $3 -- ip route get 1 | awk '{print $NF;exit}')
+#va_ip=$(lxc exec ${32} -- ip route get 1 | awk '{print $NF;exit}')
 #proxy_ip=$(lxc exec $4 -- ip route get 1 | awk '{print $NF;exit}')
 #worker_1_ip=$(lxc exec $5 -- ip route get 1 | awk '{print $NF;exit}')
 #worker_2_ip=$(lxc exec $6 -- ip route get 1 | awk '{print $NF;exit}')
@@ -113,6 +114,7 @@ echo ">>>>>>>>>>>>>>>[Generating hosts file on local host ... ]"
 boot_ip="$(lxc exec  $1 -- ip addr show eth0 | grep 'inet\b' | awk '{print $2}' | cut -d/ -f1)"
 master_ip="$(lxc exec $2 -- ip addr show eth0 | grep 'inet\b' | awk '{print $2}' | cut -d/ -f1)"
 mgmt_ip="$(lxc exec $3 -- ip addr show eth0 | grep 'inet\b' | awk '{print $2}' | cut -d/ -f1)"
+va_ip="$(lxc exec ${32} -- ip addr show eth0 | grep 'inet\b' | awk '{print $2}' | cut -d/ -f1)"
 proxy_ip="$(lxc exec $4 -- ip addr show eth0 | grep 'inet\b' | awk '{print $2}' | cut -d/ -f1)"
 worker_1_ip="$(lxc exec $5 -- ip addr show eth0 | grep 'inet\b' | awk '{print $2}' | cut -d/ -f1)"
 worker_2_ip="$(lxc exec $6 -- ip addr show eth0 | grep 'inet\b' | awk '{print $2}' | cut -d/ -f1)"
@@ -120,7 +122,8 @@ worker_3_ip="$(lxc exec $7 -- ip addr show eth0 | grep 'inet\b' | awk '{print $2
 
 echo "$boot_ip $1"
 echo "$master_ip $2"
-echo "$mgmt_ip $3"s
+echo "$mgmt_ip $3"
+echo "$va_ip ${32}"
 echo "$proxy_ip $4"
 echo "$worker_1_ip $5"
 echo "$worker_2_ip $6"
@@ -151,6 +154,7 @@ icp_docker_tar=${25}
 icp_boot_img=${26}
 icp_master_img=${27}
 icp_mgmt_img=${28}
+#icp_va_img=${28}
 icp_proxy_img=${29}
 icp_worker_img=${30}
 if [[ $icp_docker_tar == "true" ]]; then
@@ -161,6 +165,8 @@ if [[ $icp_docker_tar == "true" ]]; then
     lxc exec $2 -- sh -c "docker load -i $icp_master_img" &> /dev/null
     echo ">>>>>>>>>>>>>>>Loading docker images on $3 ..."
     lxc exec $3 -- sh -c "docker load -i $icp_mgmt_img" &> /dev/null
+    # echo ">>>>>>>>>>>>>>>Loading docker images on ${32} ..."
+    # lxc exec $3 -- sh -c "docker load -i $icp_va_img" &> /dev/null
     echo ">>>>>>>>>>>>>>>Loading docker images on $4 ..."
     lxc exec $4 -- sh -c "docker load -i $icp_proxy_img" &> /dev/null
     echo ">>>>>>>>>>>>>>>Loading docker images on $5 ..."
@@ -186,7 +192,7 @@ echo "[management]" >>./cluster/hosts
 echo $mgmt_ip >> ./cluster/hosts
 echo "" >> ./cluster/hosts
 echo "[va]" >>./cluster/hosts
-echo $mgmt_ip >> ./cluster/hosts
+echo $va_ip >> ./cluster/hosts
 echo "" >> ./cluster/hosts
 echo "[worker]" >>./cluster/hosts
 echo $worker_1_ip >> ./cluster/hosts
@@ -199,6 +205,7 @@ echo ">>>>>>>>>>>>>>>[Updating node hosts file ... ]"
 lxc exec $1 -- sh -c  "echo $boot_ip $1 >> /etc/hosts"
 lxc exec $2 -- sh -c  "echo $master_ip $2 >> /etc/hosts"
 lxc exec $3 -- sh -c  "echo $mgmt_ip  $3 >> /etc/hosts"
+lxc exec ${32} -- sh -c  "echo $va_ip  ${32} >> /etc/hosts"
 lxc exec $4 -- sh -c  "echo $proxy_ip $4 >> /etc/hosts"
 lxc exec $5 -- sh -c  "echo $worker_1_ip $5 >> /etc/hosts"
 lxc exec $6 -- sh -c  "echo $worker_2_ip $6 >> /etc/hosts"
@@ -238,6 +245,7 @@ lxc exec $1 -- sh -c "ls -al $boot_icp_cluster_dir"
 ###############################################################################
 lxc file push --create-dirs=true --gid=0 --uid=0 --mode="0400" ./ssh-keys/id_rsa.pub $2/root/.ssh/authorized_keys
 lxc file push --create-dirs=true --gid=0 --uid=0 --mode="0400" ./ssh-keys/id_rsa.pub $3/root/.ssh/authorized_keys
+lxc file push --create-dirs=true --gid=0 --uid=0 --mode="0400" ./ssh-keys/id_rsa.pub ${32}/root/.ssh/authorized_keys
 lxc file push --create-dirs=true --gid=0 --uid=0 --mode="0400" ./ssh-keys/id_rsa.pub $4/root/.ssh/authorized_keys
 lxc file push --create-dirs=true --gid=0 --uid=0 --mode="0400" ./ssh-keys/id_rsa.pub $5/root/.ssh/authorized_keys
 lxc file push --create-dirs=true --gid=0 --uid=0 --mode="0400" ./ssh-keys/id_rsa.pub $6/root/.ssh/authorized_keys

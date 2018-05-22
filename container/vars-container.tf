@@ -8,6 +8,7 @@ variable "icp_ce_profile_name"{}
 variable "icp_ce_boot_profile_name"{}
 variable "icp_ce_master_profile_name"{}
 variable "icp_ce_mgmt_profile_name"{}
+variable "icp_ce_va_profile_name"{}
 variable "icp_ce_proxy_profile_name"{}
 variable "icp_ce_worker_1_profile_name"{}
 variable "icp_ce_worker_2_profile_name"{}
@@ -19,6 +20,7 @@ variable "is_privileged"{default=true}
 variable "icp_ce_boot_container_name"{default ="boot"}
 variable "icp_ce_master_container_name"{default ="master"}
 variable "icp_ce_mgmt_container_name"{default ="mgmt"}
+variable "icp_ce_va_container_name"{default ="va"}
 variable "icp_ce_proxy_container_name"{default ="proxy"}
 variable "icp_ce_worker_1_container_name"{default ="worker-1"}
 variable "icp_ce_worker_2_container_name"{default ="worker-2"}

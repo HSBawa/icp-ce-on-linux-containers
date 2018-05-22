@@ -10,6 +10,7 @@ variable "boot_host_num"{}
 variable "master_host_num"{}
 variable "proxy_host_num"{}
 variable "mgmt_host_num"{}
+variable "va_host_num"{}
 variable "worker_1_host_num"{}
 variable "worker_2_host_num"{}
 variable "worker_3_host_num"{}
@@ -37,5 +38,6 @@ variable "icp_docker_tar" {}
 variable "icp_docker_tar_boot_path" {}
 variable "icp_docker_tar_master_path" {}
 variable "icp_docker_tar_mgmt_path" {}
+variable "icp_docker_tar_va_path" {}
 variable "icp_docker_tar_proxy_path" {}
 variable "icp_docker_tar_worker_path" {}
