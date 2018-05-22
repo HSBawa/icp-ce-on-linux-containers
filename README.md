@@ -1,6 +1,6 @@
 _If you are looking for official IBM ICP-CE install, you can find it [here](https://github.com/IBM/deploy-ibm-cloud-private)_
 
-Welcome to the IBM Cloud Private CE on Linux Containers Infrastructure As Code (IaC). With the help of this IaC, you easily setup a 7 node Linux Container based ICP cluster on your Linux Desktop or VM itself!!!
+Welcome to the IBM Cloud Private CE on Linux Containers Infrastructure As Code (IaC). With the help of this IaC, you easily setup a 8 node Linux Container based ICP cluster on your Linux Desktop or VM itself!!!
 
 **Ubuntu Bionic compatibility note**:
 * Current IaC was tested on Ubuntu Xenial (16.04) and Artful (17.10) (host and lxd images only) and will not work on Bionic (18.04) AS-IS.
