@@ -1,0 +1,30 @@
+name: glusterfs-server-2
+config:
+  boot.autostart: "true"
+  linux.kernel_modules: bridge,br_netfilter,x_tables,ip_tables,ip_vs,ip_set,ipip,xt_mark,xt_multiport,ip_tunnel,tunnel4,netlink_diag,nf_conntrack,nfnetlink,overlay
+  raw.lxc: |-
+    lxc.apparmor.profile = unconfined
+    lxc.cgroup.devices.allow = a
+    lxc.mount.auto=proc:rw sys:rw cgroup:rw
+    #lxc.mount.entry=/media/lxcshare share none rw,bind 0.0
+    lxc.cap.drop =
+  security.nesting: "true"
+  security.privileged: "true"
+description: LXC profile for glusterfs nodes
+devices:
+  aadisable:
+    path: /sys/module/nf_conntrack/parameters/hashsize
+    source: /dev/null
+    type: disk
+  aadisable1:
+    path: /sys/module/apparmor/parameters/enabled
+    source: /dev/null
+    type: disk
+  gfsdir:
+    path: /volume
+    source: /media/glusterfs/server2
+    type: disk
+  lxcshare:
+    path: /share
+    source: /media/lxcshare
+    type: disk
