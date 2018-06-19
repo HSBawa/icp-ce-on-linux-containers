@@ -1,7 +1,7 @@
 #!/bin/bash
 tabs 2
 spaces=" "
-node_image_name=glusterfs-server-base-v2
+node_image_name="xenial-container-for-glusterfs-server"
 profiles="-p default -p glusterfs-server-"
 node_count=2
 node_start_index=1
