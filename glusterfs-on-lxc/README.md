@@ -12,14 +12,14 @@ Pre-Requisites:
     * /media/lxcshare
 
 Create LXD Image for GlusterFS Server: 
-  * cd to '<path to icp-ce-on-linux-containers>/gluster-for-lxc' folder
+  * cd to 'icp-ce-on-linux-containers/gluster-for-lxc' folder
   * packer validate xenial-packer-lxd-image-for-gfs
   * packer build xenial-packer-lxd-image-for-gfs
     * This is one time step and repeat only if "xenial-container-for-glusterfs-server" image is removed/deleted from local repository.
       * lxc image list xenial-container-for-glusterfs-server   
   
 Build: 
-  * cd to '<path to icp-ce-on-linux-containers>/gluster-for-lxc' folder
+  * cd to 'icp-ce-on-linux-containers/gluster-for-lxc' folder
   * chmod +x glusterfs-server-lxc.sh
   * ./glusterfs-server-lxc.sh
 
