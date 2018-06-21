@@ -2,19 +2,12 @@ _If you are looking for official IBM ICP-CE install, you can find it [here](http
 
 Welcome to the IBM Cloud Private CE on Linux Containers Infrastructure As Code (IaC). With the help of this IaC, you easily setup a 8 node Linux Container based ICP cluster on your Linux Desktop or VM itself!!!
 
-**Ubuntu Bionic compatibility note**:
-* Current IaC was tested on Ubuntu Xenial (16.04) and Artful (17.10) (host and lxd images only) and will not work on Bionic (18.04) AS-IS.
-* Not fully tested, but I was able to get ICP running with Bionic LXD 3.0 nodes on Bionic host. See instructions below:
-   * **Create Bionic LXD image** with following packer script [bionic-packer-lxd-image](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/bionic-packer-lxd-image)
-     * packer validate bionic-packer-lxd-image
-     * packer build bionic-packer-lxd-image
-   * **Update variable [terraform.tfvars](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/terraform.tfvars) 
-  -> _lxd_image_name_**.
-     * lxd_image_name="bionic-container-for-icp"
-   * **Uncomment following line (~73) in [init_boot.sh](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/utils/init_boot.sh)** before running terraform apply. This option will diable Calico to be run on IP over IP mode. But, as all nodes are in the same subnet, will not break ICP. This is a temporary code patch and I will add dynamic update soon. If this step is skipped, ICP install will fail when checking MTU for network interfaces.
-     * echo "calico_ipip_enabled: false"  >> ./cluster/config.yaml 
-   * This workaround is for Bionic LXD Containers on Bionic Host.
-   * Enjoy ICP on Ubuntu Bionic with LXD 3.0
+LXD via snap:
+  * You may see following error: ... unix /var/lib/lxd/unix.socket: connect: no such file or directory
+  * Workaround for LXD 3.1: sudo ln -s /var/snap/lxd/common/lxd /var/lib/lxd
+    
+Ubuntu Bionic compatibility note:
+  * Current IaC was tested on Ubuntu Xenial (16.04) and Artful (17.10) (host and lxd images only) and will not work on Bionic (18.04) AS-IS.
    
 Supported ICP-CE versions:
 * 2.1.0.2 (Kubernetes v1.9.1) - Installs by default
