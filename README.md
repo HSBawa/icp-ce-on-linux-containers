@@ -30,9 +30,6 @@ For a complete and end to end setup, you can try [ICP CE on Linux Containers on 
 
     
 Documentation
-
-Ubuntu Bionic compatibility note:
-
 * [Tips on getting started with LXD on your Linux Host](https://github.com/HSBawa/icp-ce-on-linux-containers/wiki/Getting-started-with-LXD-on-your-Linux-Host-(Ubuntu))
   * Current IaC was tested on Ubuntu Xenial (16.04) and Artful (17.10) (host and lxd images only) and will not work on Bionic (18.04) AS-IS.
   * If you have installed LXD via snap, you may see following error:_unix /var/lib/lxd/unix.socket: connect: no such file or directory_.[Workaround](https://github.com/sl1pm4t/terraform-provider-lxd/issues/133)
