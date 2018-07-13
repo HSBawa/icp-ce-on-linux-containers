@@ -4,7 +4,7 @@ Supported ICP-CE versions:
 * 2.1.0.2 (Kubernetes v1.9.1) - Installs by default
 * 2.1.0.1 (Kubernetes v1.8.3) - Update "icp_tag" variable in [terraform.tfvars](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/terraform.tfvars) 
 
-Note: _I have encountered issues setting up 2.1.0.3 (Kubernetes v1.10.0). I am not sure if it is because of my environment or something else. Feel free to try it out and let me know your feedback._
+Note: _Because of my busy schedule I will be skipping 2.1.0.3 (Kubernetes v1.10.0). Feel free to try it out (by updating icp_tag="2.1.0.3" in terraform.tfvars) and let me know your feedback. Looking forward for next release of ICP._
 
 This IaC will create following LXD components:
 * Base image
