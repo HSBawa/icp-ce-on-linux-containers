@@ -1,4 +1,6 @@
 #!/bin/bash
+#### Run this script as sudo/root
+mkdir -p /media/lxcshare
 eval "./install-lxd.sh"
 eval "./install-terra-n-packer.sh"
 eval "./install-terra-lxd.sh"
