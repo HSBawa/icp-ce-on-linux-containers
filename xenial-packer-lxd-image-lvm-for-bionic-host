@@ -1,0 +1,48 @@
+{
+  "_comment": "Use this image only for Bionic Hosts",
+  "builders": [
+    {
+        "image": "ubuntu:xenial/amd64",
+        "name": "xenial-amd64-container-for-icp",
+        "output_image": "xenial-container-for-icp",
+        "publish_properties": {
+          "description": "Ubuntu 16.04 LTS Xenial (amd64) for IBM Cloud Private CE on Bionic Host for LVM/Overlay2 driver"
+        },
+        "type": "lxd"
+    }
+  ],
+  "post-processors": [],
+  "provisioners": [
+    {
+      "inline": [
+        "echo '**************** Use this image only for Bionic Hosts  ****************'",
+        "echo ''",
+        "echo [Diabling UFW]",
+        "bash -c 'ufw disable &> /dev/null'",
+        "echo Waiting for container to settle down ...",
+        "bash -c 'sleep 30'",
+        "echo [Updating packages]",
+        "bash -c 'apt-get update &> /dev/null'",
+        "bash -c 'apt install -y ntp curl wget resolvconf linux-image-$(uname -r) linux-modules-extra-$(uname -r) linux-image-extra-virtual linux-image-extra-virtual-hwe-16.04-edge bridge-utils thin-provisioning-tools apt-transport-https ca-certificates software-properties-common python-setuptools python-pip build-essential python-dev aufs-tools glusterfs-client nfs-common unzip ipset ipvsadm &> /dev/null'",
+        "bash -c 'apt -y autoremove &> /dev/null'",
+        "bash -c 'apt -y install socat &> /dev/null'",
+        "echo [Updating nameserver]",
+        "bash -c 'echo nameserver 8.8.8.8 >> /etc/resolvconf/resolv.conf.d/head'",
+        "bash -c 'echo nameserver 8.8.4.4 >> /etc/resolvconf/resolv.conf.d/head'",
+        "bash -c 'resolvconf -u'",
+        "bash -c 'mkdir /share'",
+        "echo [Installing docker-ce 18.03]",
+        "bash -c 'curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - &> /dev/null '",
+        "bash -c 'add-apt-repository \"deb https://download.docker.com/linux/$(. /etc/os-release; echo \"$ID\") $(lsb_release -cs) stable\" &> /dev/null '",
+        "bash -c 'apt-get update &> /dev/null'",
+        "apt-get install -y docker-ce=$(apt-cache madison docker-ce | grep 18.03 | head -1 | awk '{print $3}')",
+        "bash -c 'usermod -aG docker root &> /dev/null'",
+        "bash -c 'usermod -aG docker ubuntu &> /dev/null'",
+        "bash -c 'rm /etc/systemd/system/multi-user.target.wants/docker.service; systemctl daemon-reload; systemctl restart docker; systemctl enable docker &> /dev/null'",
+        "sed -i 's|ExecStart=/usr/bin/dockerd -H fd://|ExecStart=/usr/bin/dockerd -H fd:// --max-concurrent-downloads 10|g' /etc/systemd/system/multi-user.target.wants/docker.service",
+        "echo '{ \"log-driver\": \"json-file\", \"storage-driver\": \"overlay2\", \"log-opts\": { \"max-size\": \"10m\" } }' >  /etc/docker/daemon.json",
+        "echo [Package update complete]"
+      ],
+      "type": "shell"
+    }  ]
+}
