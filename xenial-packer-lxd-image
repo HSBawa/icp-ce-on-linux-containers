@@ -1,4 +1,5 @@
 {
+ "_comment": "Use this image only for Ubuntu Xenial and Artful Hosts",
   "builders": [
     {
         "image": "ubuntu:xenial/amd64",
