@@ -1,6 +1,6 @@
 Coming Soon: ICP-CE 3.1.0 on Linux Containers
 -------------
-This repository will be updated for ICP-CE v3.x only. For older releases, I have duplicated this repo to [ ICP-CE on Linux Containers 2.1.x](https://github.com/HSBawa/icp-ce-on-linux-containers-2.1.x)
+Going forward, this repository will be updated for ICP-CE v3.x only. For older releases, please use [ ICP-CE on Linux Containers 2.1.x](https://github.com/HSBawa/icp-ce-on-linux-containers-2.1.x)
 
 ------------------------------------------------
 
