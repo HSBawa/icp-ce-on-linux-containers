@@ -1,5 +1,8 @@
-Coming soon ICP 3.1.0 on Linux Containers
+Coming Soon: ICP-CE 3.1.0 on Linux Containers
 -------------
+This repository will be updated for ICP-CE v3.x only. For older releases, I have duplicated this repo to [ ICP-CE on Linux Containers 2.1.x](https://github.com/HSBawa/icp-ce-on-linux-containers-2.1.x)
+
+------------------------------------------------
 
 Welcome to the IBM Cloud Private CE on Linux Containers Infrastructure As Code (IaC). With the help of this IaC, you easily setup a 8 node Linux Container based ICP cluster on your Linux Desktop or VM itself!!!
 
