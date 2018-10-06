@@ -1,7 +1,5 @@
 .vagrant
 .terraform
-private.tfvars
-docker-secret-cam-ce-priv.sh
 temp*.*
 test*.*
 *.tfstate
@@ -10,10 +8,6 @@ test*.*
 **/states
 **/meta
 *.log
-helm
-kubectl
-icp-linux-amd64
-myutils/
 cluster/**/*.bak
 cluster/**/ssh_key
 cluster/**/config.yaml
