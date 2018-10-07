@@ -1,4 +1,5 @@
 {
+  "_comment": "Use this image only for Bionic Hosts"
   "builders": [
     {
         "image": "ubuntu:bionic/amd64",
