@@ -56,6 +56,8 @@ function select_install_option(){
 }
 
 function start_install(){
+    mkdir -p /media/lxcshare &> /dev/null
+    chmod +x ./scripts/*.sh
     cp main.tf.tmpl main.tf &> /dev/null
     if [[ "$minimal" == "false"  ]]; then
         ## For full install
