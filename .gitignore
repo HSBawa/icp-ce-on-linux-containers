@@ -11,5 +11,4 @@ test*.*
 cluster/**/*.bak
 cluster/**/ssh_key
 cluster/**/config.yaml
-plan/*.txt
 README.md.draft
