@@ -24,10 +24,10 @@ function copy_icp_helm(){
     echo "Pulling 'helm' from master node : $icp_master_lxd_node"
     lxc file pull $icp_master_lxd_node$target_dir/helm $temp_dir
     chmod +x $temp_dir/helm
-    echo "Copying ICP helm to $target_dir as helm-icp"
-    sudo cp $temp_dir/helm $target_dir/helm-icp
-    echo "Install location: $(which helm-icp)"
-    loc=$(which helm-icp)
+    echo "Copying ICP helm to $target_dir as helm"
+    sudo cp $temp_dir/helm $target_dir/helm
+    echo "Install location: $(which helm)"
+    loc=$(which helm)
     echo ""
 }
 
