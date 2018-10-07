@@ -20,6 +20,8 @@ boot_icp_log_dir="$boot_icp_dir/log"
 boot_vm="$env-master-0"
 master_ip="10.50.50.101"
 cliname=cloudctl
+download_clis_file="download_cloudctl_hem_kubectl.sh"
+download_clis_file_tmpl="./util-scripts/download_cloudctl_helm_kubectl.sh.tmpl"
 
 if [[ -z "$env" ]]; then
     version="dev"
@@ -73,16 +75,9 @@ function copy_config_files(){
     lxc exec $boot_vm -- sh -c "ls -al $boot_icp_cluster_dir"
 }
 
-function download_cloudctl(){
-    echo "#!/bin/bash" | tee download_cloudctl.sh
-    echo "" | tee -a download_cloudctl.sh
-    echo "##############################################################################################" | tee -a download_cloudctl.sh
-    echo "########################## AUTO GENERATED WITH INSTALL PROGRAM ###############################" | tee -a download_cloudctl.sh
-    echo "##############################################################################################" | tee -a download_cloudctl.sh
-    echo "" | tee -a download_cloudctl.sh
-    echo "sudo curl -kLo /usr/local/bin/cloudctl https://$master_ip:8443/api/cli/cloudctl-linux-amd64" | tee -a download_cloudctl.sh
-    echo "sudo chmod +x /usr/local/bin/cloudctl" | tee -a download_cloudctl.sh
-    echo "sudo /usr/local/bin/cloudctl version" | tee -a download_cloudctl.sh
+
+function create_cli_download_script(){
+    sed  's/@@MASTER_NODE@@/'"$boot_vm"'/g' <$download_clis_file_tmpl >$download_clis_file
 }
 
 function get_boot_vm_name(){
@@ -105,26 +100,47 @@ function run_install(){
         pod_check_interval=20
         echo ""
         echo ">>>>>>>>>>>>>>>[ICP installation was success]"
-        icp_login_sh_file=icp-login-$version-$edition.sh
-        echo "Following commands will be saved in '$icp_login_sh_file' file for login easeness and cluster config."
-        echo "##Contents of this file will be replaced on next successful install" | tee $icp_login_sh_file
-        echo "## Default values will be replaced with values from terraform variables (if changed)" | tee -a $icp_login_sh_file
-        echo "## Cluster name is : $cluster_name"  | tee -a $icp_login_sh_file
         if [[ $version =~ ^("3.1.0") ]]; then
-            echo "Creating shell script to download 'cloudctl' from installed ICP 3.1 server"
-            download_cloudctl $master_ip
-            echo "# Login to ICP CE" | tee -a $icp_login_sh_file
-            echo "sudo $cliname login -a https://$master_ip:8443 -u $admin_user -p $admin_pass -c id-$cluster_name-account -n $default_namespace  --skip-ssl-validation" | tee -a $icp_login_sh_file
-            echo "sudo $cliname cm nodes" | tee -a $icp_login_sh_file
-            echo "sudo $cliname api" | tee -a $icp_login_sh_file
-            echo "sudo $cliname target" | tee -a $icp_login_sh_file
-            echo "sudo $cliname config --list" | tee -a $icp_login_sh_file
-            echo "sudo $cliname catalog repos" | tee -a $icp_login_sh_file
-            echo "sudo $cliname iam roles" | tee -a $icp_login_sh_file
-            echo "sudo $cliname iam services" | tee -a $icp_login_sh_file
-            echo "sudo $cliname iam service-ids" | tee -a $icp_login_sh_file
-            echo "sudo $cliname pm passwword-rules $cluster_name $default_namespace" | tee -a $icp_login_sh_file
-            echo "sudo $cliname catalog charts" | tee -a $icp_login_sh_file
+            echo ">>>>>>>>>>>>>>>>>>Creating shell script ($download_clis_file) to download: cloudctl, helm and kubectl<<<<<<<<<<<<<<<<<<"
+            create_cli_download_script
+            echo "Done"
+            echo ""
+            icp_login_sh_file=icp-login-$version-$edition.sh
+            echo ">>>>>>>>>>>>>>>>>Creating shell shell Script for ICP Login ease<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
+            echo "#!/bin/bash" | tee $icp_login_sh_file
+            echo "" | tee -a $icp_login_sh_file
+            echo "## Following commands will be saved in '$icp_login_sh_file' file for login easeness and cluster config."
+            echo "####################################################################################################" | tee -a $icp_login_sh_file
+            echo "## Contents of this file will be replaced on next successful install"  | tee -a $icp_login_sh_file
+            echo "## Default values will be replaced with values from terraform variables (if changed)"  | tee -a $icp_login_sh_file
+            echo "## Cluster name is : $cluster_name"  | tee -a $icp_login_sh_file
+            echo "####################################################################################################" | tee -a $icp_login_sh_file
+            echo "echo \"Login to ICP CE\"" | tee -a $icp_login_sh_file
+            echo "echo  \"\"" | tee -a $icp_login_sh_file
+            echo "cloudctl_loc=\$(command -v $cliname)"  | tee -a $icp_login_sh_file
+            echo "if [[ -z \$cloudctl_loc ]]; then " | tee -a $icp_login_sh_file
+            echo "   echo \"********************************************************************************************\"" | tee -a $icp_login_sh_file
+            echo "   echo \"Required '$cliname' CLI does not exit. Download using $download_clis_file shell script or following commands\"" | tee -a $icp_login_sh_file
+            echo "   echo \"sudo curl -kLo /usr/local/bin/$cliname https://$master_ip:8443/api/cli/$cliname-linux-amd64\"" | tee -a $icp_login_sh_file
+            echo "   echo \"sudo chmod +x /usr/local/bin/$cliname\"" | tee -a $icp_login_sh_file
+            echo "   echo \"********************************************************************************************\"" | tee -a $icp_login_sh_file
+            echo "   echo \"\"" | tee -a $icp_login_sh_file
+            echo "   exit " | tee -a $icp_login_sh_file
+            echo "fi" | tee -a $icp_login_sh_file
+            echo "echo  \"\"" | tee -a $icp_login_sh_file
+            echo "echo \"[If you have issues executing $cliname command, clean up ~/.cloudctl and ~/.helm]\"" | tee -a $icp_login_sh_file
+            echo "echo  \"\"" | tee -a $icp_login_sh_file
+            echo "$cliname login -a https://$master_ip:8443 -u $admin_user -p $admin_pass -c id-$cluster_name-account -n $default_namespace  --skip-ssl-validation" | tee -a $icp_login_sh_file
+            echo "$cliname cm nodes" | tee -a $icp_login_sh_file
+            echo "$cliname api" | tee -a $icp_login_sh_file
+            echo "$cliname target" | tee -a $icp_login_sh_file
+            echo "$cliname config --list" | tee -a $icp_login_sh_file
+            echo "$cliname catalog repos" | tee -a $icp_login_sh_file
+            echo "$cliname iam roles" | tee -a $icp_login_sh_file
+            echo "$cliname iam services" | tee -a $icp_login_sh_file
+            echo "$cliname iam service-ids" | tee -a $icp_login_sh_file
+            echo "$cliname pm passwword-rules $cluster_name $default_namespace" | tee -a $icp_login_sh_file
+            echo "$cliname catalog charts" | tee -a $icp_login_sh_file
         fi
         ### for some reason non-sudo command is not working
         echo ""
