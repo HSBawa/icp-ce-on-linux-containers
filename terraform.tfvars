@@ -76,7 +76,7 @@ master_node = {
     storage_device_name = "root"
     storage_device_size = "30GB"
     storage_device_path = "/"
-    storage_device_pool = "icp"
+    storage_device_pool = "default"
     storage_device_type = "disk"
 }
 
@@ -93,7 +93,7 @@ worker_node = {
     storage_device_name = "root"
     storage_device_size = "25GB"
     storage_device_path = "/"
-    storage_device_pool = "icp"
+    storage_device_pool = "default"
     storage_device_type = "disk"
 }
 
@@ -129,7 +129,7 @@ proxy_node =  {
     storage_device_name = "root"
     storage_device_size = "25GB"
     storage_device_path = "/"
-    storage_device_pool = "icp"
+    storage_device_pool = "default"
     storage_device_type = "disk"
 }
 
@@ -146,6 +146,6 @@ management_node = {
     storage_device_name = "root"
     storage_device_size = "25GB"
     storage_device_path = "/"
-    storage_device_pool = "icp"
+    storage_device_pool = "default"
     storage_device_type = "disk"
 }
