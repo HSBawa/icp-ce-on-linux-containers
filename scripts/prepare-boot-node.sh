@@ -20,7 +20,7 @@ boot_icp_log_dir="$boot_icp_dir/log"
 boot_vm="$env-master-0"
 master_ip="10.50.50.101"
 cliname=cloudctl
-download_clis_file="download_cloudctl_hem_kubectl.sh"
+download_clis_file="download_cloudctl_helm_kubectl.sh"
 download_clis_file_tmpl="./util-scripts/download_cloudctl_helm_kubectl.sh.tmpl"
 
 if [[ -z "$env" ]]; then
