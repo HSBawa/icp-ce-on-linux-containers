@@ -5,6 +5,7 @@ resource "lxd_profile" "icp_ce_mgmt" {
     count = "${var.management_node[var.node_count]}"
     name  = "${var.environment[var.name_short]}-${var.management_node[var.name]}-${count.index}"
     description = "LXD Profile for ${var.environment[var.name_short]}-${var.management_node[var.name]}-${count.index}"
+    remote    = "${var.lxd[var.remote]}"
 
     config {
        #limits.cpu = "${var.management_node[var.cpu]}"
@@ -50,6 +51,7 @@ resource "lxd_profile" "icp_ce_proxy" {
     count = "${var.proxy_node[var.node_count]}"
     name  = "${var.environment[var.name_short]}-${var.proxy_node[var.name]}-${count.index}"
     description = "LXD Profile for ${var.environment[var.name_short]}-${var.proxy_node[var.name]}-${count.index}"
+    remote = "${var.lxd[var.remote]}"
 
     config {
        #limits.cpu = "${var.proxy_node[var.cpu]}"

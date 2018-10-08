@@ -5,6 +5,7 @@ resource "lxd_profile" "icp_ce_master" {
     count = "${var.master_node[var.node_count]}"
     name  = "${var.environment[var.name_short]}-${var.master_node[var.name]}-${count.index}"
     description = "LXD Profile for ${var.environment[var.name_short]}-${var.master_node[var.name]}-${count.index}"
+    remote = "${var.lxd[var.remote]}"
 
     config {
        #limits.cpu = "${var.master_node[var.cpu]}"
@@ -55,6 +56,7 @@ resource "lxd_profile" "icp_ce_worker" {
     count = "${var.worker_node[var.node_count]}"
     name  = "${var.environment[var.name_short]}-${var.worker_node[var.name]}-${count.index}"
     description = "LXD Profile for ${var.environment[var.name_short]}-${var.worker_node[var.name]}-${count.index}"
+    remote = "${var.lxd[var.remote]}"
 
     config {
        #limits.cpu = "${var.worker_node[var.cpu]}"
@@ -106,6 +108,7 @@ output "icp_ce_worker_profile_name_output" {
 resource "lxd_profile" "icp_ce" {
   name      = "${var.environment[var.name_short]}-${var.common_profile[var.name]}"
   description = "ICP CE Base Profile : ${var.environment[var.name_short]}-${var.common_profile[var.name]}"
+  remote = "${var.lxd[var.remote]}"
 
   config {
      boot.autostart ="true"

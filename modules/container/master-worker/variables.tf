@@ -27,12 +27,14 @@ variable "default_namespace"{default="default_namespace"}
 variable "cluster_lb_address"{default="cluster_lb_address"}
 variable "proxy_lb_address"{default="proxy_lb_address"}
 variable "disabled_management_services"{default="disabled_management_services"}
+variable "image"{default="image"}
+
 
 ## Configuration (MAP)
 variable "environment"{type = "map"}
 variable "cluster"{type = "map"}
 variable "icp"{type = "map"}
-variable "lxd_image"{type = "map"}
+variable "lxd"{type = "map"}
 variable "master_node" {type = "map"}
 variable "worker_node" {type = "map"}
 variable "icp_docker_image_archives" {type = "map"}

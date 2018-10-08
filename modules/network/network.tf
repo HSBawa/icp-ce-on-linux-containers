@@ -5,6 +5,8 @@ resource "lxd_network" "icp_ce_network" {
   count = "${length(split(",",var.lxd_network[var.ipv4_cidr]))}"
   #count = "${length(list(var.lxd_network[var.ipv4_cidr]))}"
   name  = "${var.environment[var.name_short]}${element(list(var.lxd_network[var.name]),count.index)}${count.index}"
+  remote    = "${var.lxd[var.remote]}"
+
   config {
     ## ipv4 cidr
     ipv4.address = "${element(split(",",var.lxd_network[var.ipv4_cidr]), count.index)}"

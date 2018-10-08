@@ -18,9 +18,11 @@ variable "node_count"{default="node_count"}
 variable "cpu"{default="cpu"}
 variable "name_short"{default="name_short"}
 variable "ipv4_cidr_count"{}
+variable "remote"{default="remote"}
 
 variable "environment"{type = "map"}
 variable "icp"{type = "map"}
 variable "lxd_network"{type = "map"}
 variable "management_node" {type = "map"}
 variable "proxy_node" {type = "map"}
+variable "lxd"{type = "map"}

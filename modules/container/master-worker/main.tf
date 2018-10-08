@@ -3,11 +3,10 @@
 ###############################################################################
 resource "lxd_container" "icp_ce_master" {
     count = "${var.master_node[var.node_count]}"
-    name  = "${var.environment[var.name_short]}-${var.master_node[var.name]}-${count.index}"
-    name      = "${lookup(var.environment, var.name_short)}-${lookup(var.master_node, var.name)}-${count.index}"
-    remote    = "${lookup(var.lxd_image, var.remote)}"
-    image     = "${lookup(var.lxd_image, var.name)}"
-    ephemeral = "${lookup(var.lxd_image, var.ephemeral)}"
+    name      = "${var.environment[var.name_short]}-${var.master_node[var.name]}-${count.index}"
+    remote    = "${var.lxd[var.remote]}"
+    image     = "${var.lxd[var.image]}"
+    ephemeral = "${var.lxd[var.ephemeral]}"
     profiles  = ["${var.icp_ce_profile_name}", "${var.icp_ce_master_profile_name[count.index]}"]
     #depends_on = ["lxd_container.icp_ce_proxy", "lxd_container.icp_ce_mgmt", "lxd_container.icp_ce_worker"]
     depends_on = ["lxd_container.icp_ce_worker"]
@@ -33,8 +32,8 @@ resource "lxd_container" "icp_ce_master" {
 resource "lxd_container" "icp_ce_worker" {
     count = "${var.worker_node[var.node_count]}"
     name  = "${var.environment[var.name_short]}-${var.worker_node[var.name]}-${count.index}"
-    remote    = "${lookup(var.lxd_image, var.remote)}"
-    image     = "${lookup(var.lxd_image, var.name)}"
-    ephemeral = "${lookup(var.lxd_image, var.ephemeral)}"
+    remote    = "${var.lxd[var.remote]}"
+    image     = "${var.lxd[var.image]}"
+    ephemeral = "${var.lxd[var.ephemeral]}"
     profiles  = ["${var.icp_ce_profile_name}", "${var.icp_ce_worker_profile_name[count.index]}"]
 }

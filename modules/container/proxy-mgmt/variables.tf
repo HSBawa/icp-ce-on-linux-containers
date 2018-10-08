@@ -12,6 +12,8 @@ variable "remote"{default="remote"}
 variable "name"{default="name"}
 variable "node_count"{default="node_count"}
 variable "name_short"{default="name_short"}
+variable "remote"{default="remote"}
+variable "image"{default="image"}
 
 ## Configuration (MAP)
 variable "environment"{type = "map"}
@@ -19,4 +21,4 @@ variable "management_node" {type = "map"}
 variable "proxy_node" {type = "map"}
 variable "cluster"{type = "map"}
 variable "icp"{type = "map"}
-variable "lxd_image"{type = "map"}
+variable "lxd"{type = "map"}

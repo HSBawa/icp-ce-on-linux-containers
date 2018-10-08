@@ -15,15 +15,33 @@ provider "lxd"{
    generate_client_certificates = true
    accept_remote_certificate    = true
 
+   #############################################
    ### Get info using command:  lxc remote list
-   ### Local (usually default)
-   ### Local declarion is not required
-   ### LXD provider will fallback to local if no remotes defined
+   #############################################
+
+   #############################################
+   ## Local (usually default)
+   ## Works only with LXD installed via APT
+   ## WILL NOT WORK WITH LXD via SNAP
+   #############################################
    lxd_remote {
-     name     = "local"
-     scheme   = "unix"
-     address  = ""
-     password = ""
+      name     = "local"
+      scheme   = "unix"
+      address  = ""
+      password = ""
+    }
+
+   #############################################
+   ## This option will work with LXD installed
+   ## using apt or snap
+   ## (default)
+   #############################################
+   lxd_remote {
+     name     = "local-https"
+     scheme   = "https"
+     address  = "127.0.0.1"
+     port     = "9443"
+     password = "password"
    }
 
   # ### Images
@@ -55,6 +73,7 @@ module "network" {
   source = "./modules/network"
   environment="${var.environment}"
   lxd_network="${var.lxd_network}"
+  lxd="${var.lxd}"
 }
 
 module "profile-master-worker" {
@@ -66,6 +85,7 @@ module "profile-master-worker" {
   environment="${var.environment}"
   lxd_network="${var.lxd_network}"
   icp="${var.icp}"
+  lxd="${var.lxd}"
   master_node="${var.master_node}"
   worker_node="${var.worker_node}"
   common_profile="${var.common_profile}"
@@ -80,10 +100,10 @@ module "container-master_worker" {
   ### Variables
   environment="${var.environment}"
   cluster="${var.cluster}"
-  lxd_image="${var.lxd_image}"
+  lxd="${var.lxd}"
   icp="${var.icp}"
   master_node="${var.master_node}"
   worker_node="${var.worker_node}"
   icp_docker_image_archives="${var.icp_docker_image_archives}"
-  common_profile="${var.common_profile}"  
+  common_profile="${var.common_profile}"
 }
