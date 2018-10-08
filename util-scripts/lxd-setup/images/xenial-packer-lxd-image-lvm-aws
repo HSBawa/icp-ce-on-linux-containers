@@ -1,11 +1,12 @@
 {
+   "_comment": "Use this image only for Bionic Hosts",
   "builders": [
     {
         "image": "ubuntu:xenial/amd64",
         "name": "xenial-amd64-container-for-icp",
         "output_image": "xenial-container-for-icp",
         "publish_properties": {
-          "description": "Ubuntu 16.04 LTS Xenial (amd64) for IBM Cloud Private CE"
+          "description": "Ubuntu 16.04 LTS Xenial (amd64) for IBM Cloud Private CE on AWS"
         },
         "type": "lxd"
     }

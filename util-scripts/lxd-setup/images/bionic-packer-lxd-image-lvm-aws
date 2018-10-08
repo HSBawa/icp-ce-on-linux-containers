@@ -1,12 +1,11 @@
 {
-  "_comment": "Use this image only for Bionic Hosts on AWS",
   "builders": [
     {
         "image": "ubuntu:bionic/amd64",
-        "name": "bionic-amd64-container-for-icp",
-        "output_image": "bionic-container-for-icp",
+        "name": "bionic-container-for-icp-aws",
+        "output_image": "bionic-container-for-icp-aws",
         "publish_properties": {
-          "description": "Ubuntu 18.04 LTS Bionic (amd64) for IBM Cloud Private CE"
+          "description": "Ubuntu 18.04 LTS Bionic (amd64) Image for IBM Cloud Private CE on AWS"
         },
         "type": "lxd"
     }

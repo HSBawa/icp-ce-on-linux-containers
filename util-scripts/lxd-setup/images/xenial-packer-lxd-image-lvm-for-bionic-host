@@ -3,7 +3,7 @@
   "builders": [
     {
         "image": "ubuntu:xenial/amd64",
-        "name": "xenial-amd64-container-for-icp-lvm-bionic-host",
+        "name": "xenial-container-for-icp-lvm-bionic-host",
         "output_image": "xenial-container-for-icp-lvm-bionic-host",
         "publish_properties": {
           "description": "Ubuntu 16.04 LTS Xenial (amd64) for IBM Cloud Private CE on Bionic Host for LVM/Overlay2 driver"

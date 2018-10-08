@@ -1,5 +1,5 @@
 #!/bin/bash
- 
+
 input=$1
 env=$2
 
@@ -15,7 +15,7 @@ function start_stop_docker(){
        for vm  in ${vms[*]}
        do
           echo "Changing server $vm Docker state to: $input"
-          lxc exec $vm  -- sh -c "systemctl restart docker"
+          lxc exec $vm  -- sh -c "systemctl $input docker"
        done
     else
        invalid_command
