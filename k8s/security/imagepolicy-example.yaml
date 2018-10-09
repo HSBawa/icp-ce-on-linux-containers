@@ -1,0 +1,42 @@
+##################################################################
+## Use one of this policy or mix of this policies to manage
+## or apply security enforcement at cluster or namespace level.
+## To view existing security policies:
+##   kubectl get clusterimagepolicies
+##   kubectl get imagepolicies
+## To appply new policies (ex: this file)
+##    kubectl apply -f imagepolicy-example.yaml
+##################################################################
+---
+apiVersion: securityenforcement.admission.cloud.ibm.com/v1beta1
+kind: ImagePolicy
+metadata:
+  name: example-default-namespace-imagepolicy
+  namespace: default
+spec:
+   repositories:
+   - name: docker.io/*   ### All images from docker.io in default namespace
+     policy:
+       va:
+         enabled: false
+   - name: devicpcluster:8500/*   ### All images from devicpcluster:8500 in default namespace
+     policy:
+       va:
+         enabled: false
+
+---
+apiVersion: securityenforcement.admission.cloud.ibm.com/v1beta1
+kind: ClusterImagePolicy
+metadata:
+  name: example-cluster-imagepolicy
+spec:
+   repositories:
+   - name: docker.io/jenkins/jenkins:*  ## Jenkins image from docker.io with any tag
+     policy:
+       va:
+         enabled: false
+   - name: docker.io/ibmcom/*    ### All ibmcom images from docker.io with any tag @ cluster level
+     policy:
+       va:
+         enabled: false
+---

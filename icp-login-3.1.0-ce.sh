@@ -10,7 +10,7 @@ echo  ""
 cloudctl_loc=$(command -v cloudctl)
 if [[ -z $cloudctl_loc ]]; then 
    echo "********************************************************************************************"
-   echo "Required 'cloudctl' CLI does not exit. Download using download_cloudctl_hem_kubectl.sh shell script or following command"
+   echo "Required 'cloudctl' CLI does not exit. Download using download_cloudctl_helm_kubectl.sh shell script or following commands"
    echo "sudo curl -kLo /usr/local/bin/cloudctl https://10.50.50.101:8443/api/cli/cloudctl-linux-amd64"
    echo "sudo chmod +x /usr/local/bin/cloudctl"
    echo "********************************************************************************************"

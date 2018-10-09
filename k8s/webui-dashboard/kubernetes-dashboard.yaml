@@ -18,6 +18,10 @@
 # Example usage: kubectl create -f <this_file>
 ---
 #--------------------Admin Privileges --------------------=#
+############################################################
+### WARNING : THIS OPTION WILL SKIP AUTHENTICATION
+### FOR INDIVIDUAL DEVELOPER MODE ONLY
+############################################################
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
 metadata:

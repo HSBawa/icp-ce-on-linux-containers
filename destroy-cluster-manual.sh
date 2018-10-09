@@ -15,7 +15,8 @@ if [[ ! -z $1 ]]; then
       lxc profile delete $profile
     done
     echo ""
-    ## This may fail if the name is set different than 'br0' in terraform config while creating network
+    ## NOTE: Following call will fail if the name is set different than 'br0' in terraform config while creating network
+    ## If not deleted, delete it manually: lxc network delete <name>
     echo "Deleting network: ${env}br0"
     lxc network delete ${env}br0
     echo ""
