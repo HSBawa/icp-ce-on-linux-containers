@@ -17,9 +17,7 @@
 
 **Check if password is set**
   * lxc config get core.trust_password
-    * true, if password is setup
-    * no results, no password
-
+    * 'true', if set
 
 **For more config options:**
 * lxc config set &lt;TAB TAB&gt;
