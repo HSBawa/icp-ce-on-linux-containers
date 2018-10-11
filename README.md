@@ -17,3 +17,12 @@ Documentation (update in progress):
 * [5.0 Setup NFS volume as PersistentVolume (PV) on IBM Cloud Private](https://github.com/HSBawa/icp-ce-on-linux-containers/wiki/5.0-Setup--NFS-volume-as-PersistentVolume-(PV)-on-IBM-Cloud-Private)
 
 [View Screenshots](https://github.com/HSBawa/icp-ce-on-linux-containers/tree/master/docs/screenshots/3.1.0)
+
+![](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/docs/screenshots/3.1.0/install/install-3.jpg)
+
+
+![](https://raw.githubusercontent.com/HSBawa/icp-ce-on-linux-containers/master/docs/screenshots/3.1.0/console/kubenetes-on-host.jpg)
+
+![](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/docs/screenshots/3.1.0/console/console-login-script.example.jpg?raw=true)
+
+![](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/docs/screenshots/3.1.0/icp-ui/icp-dashboard.jpg)
