@@ -11,7 +11,8 @@ bash "./lxd-setup/terraform-plugin/install-terraform-plugin-for-lxd.sh"
 bash "packer validate ./lxd-setup/images/xenial-packer-lxd-image-lvm-for-bionic-host"
 bash "packer build ./lxd-setup/images/xenial-packer-lxd-image-lvm-for-bionic-host"
 ## Use following for Xenial host only
-# eval "./packer validate ./lxd-setup/images/xenial-packer-lxd-image-lvm"
+# bash packer validate ./lxd-setup/images/xenial-packer-lxd-image-lvm"
+# bash packer validate ./lxd-setup/images/xenial-packer-lxd-image-lvm
 
 ## LVM Thin Provisioning
 # Creates new storage of type LVM pool-name=default, network-bridge=lxdbr0, lxd-profile=default
