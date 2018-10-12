@@ -1,15 +1,15 @@
 #!/bin/bash
 #### Run this script as sudo/root
 mkdir -p /media/lxcshare
-eval "./docker/install-docker.sh"
-eval "./lxd-setup/install-lxd-on-ubuntu-w-apt.sh"
+bash "./docker/install-docker.sh"
+bash "./lxd-setup/install-lxd-on-ubuntu-w-apt.sh"
 ## Install Terraform and Packer. Make sure to update latest version number
-eval "./lxd-setup/terraform-packer/install-terra-n-packer.sh"
+bash "./lxd-setup/terraform-packer/install-terra-n-packer.sh"
 ## Install Terraform Plugin for LXD. Make sure to get latest
-eval "./lxd-setup/terraform-plugin/install-terraform-plugin-for-lxd.sh"
+bash "./lxd-setup/terraform-plugin/install-terraform-plugin-for-lxd.sh"
 ## Use following for Bionic host only. Requires Internet Access
-eval "packer validate ./lxd-setup/images/xenial-packer-lxd-image-lvm-for-bionic-host"
-eval "packer build ./lxd-setup/images/xenial-packer-lxd-image-lvm-for-bionic-host"
+bash "packer validate ./lxd-setup/images/xenial-packer-lxd-image-lvm-for-bionic-host"
+bash "packer build ./lxd-setup/images/xenial-packer-lxd-image-lvm-for-bionic-host"
 ## Use following for Xenial host only
 # eval "./packer validate ./lxd-setup/images/xenial-packer-lxd-image-lvm"
 
