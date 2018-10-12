@@ -19,10 +19,8 @@ variable "lxd"{
     type = "map"
     default = {
         image="xenial-container-for-icp-lvm-bionic-host"
-        ## Remote 'local' will not work with LXD installed with APT
-        ##remote="local"
-        ## Remote 'local-https' works with LXD installed with APT or SNAP       
-        remote="local-https"
+        remote="local"
+        ##remote="local-https"
         ephemeral=false
     }
 }

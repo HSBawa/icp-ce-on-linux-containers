@@ -2,13 +2,16 @@
 .terraform
 temp*.*
 test*.*
+*.test
 *.tfstate
 *.tfstate.lock.info
 *.tfstate.backup
 **/states
 **/meta
 *.log
+ssh-keys/**/*.bak
 cluster/**/*.bak
 cluster/**/ssh_key
 cluster/**/config.yaml
+util-scripts/**/test*.*
 README.md.draft

@@ -21,13 +21,14 @@ provider "lxd"{
 
    #############################################
    ## Local (usually default)
-   ## Works only with LXD installed via APT
-   ## WILL NOT WORK WITH LXD via SNAP
+   ## Unix Socket Address for
+   ##     APT: /var/lib/lxd/unix.socket
+   ##    SNAP: /var/snap/lxd/common/lxd/unix.socket
    #############################################
    lxd_remote {
       name     = "local"
       scheme   = "unix"
-      address  = ""
+      address  = "/var/snap/lxd/common/lxd/unix.socket"
       password = ""
     }
 
@@ -40,7 +41,7 @@ provider "lxd"{
      name     = "local-https"
      scheme   = "https"
      address  = "127.0.0.1"
-     port     = "9443"
+     port     = "10443"
      password = "password"
    }
 
