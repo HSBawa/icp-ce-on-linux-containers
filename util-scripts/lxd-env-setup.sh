@@ -3,7 +3,7 @@
 linux="xenial"
 
 
-if [[ $version =~ ^("xenial","bionic") ]]; then
+if [[ $1 =~ ^("xenial","bionic") ]]; then
    linux=$1
    echo "User provided LXD base image option is: $linux"   
 else 
@@ -47,11 +47,11 @@ function init_lxd(){
 
 function create_image_for_icp(){
   if [[ $1 =~ ^("bionic") ]]; then
-     bash "packer validate ./lxd-setup/images/xenial-packer-lxd-image-lvm-for-bionic-host"
-     bash "packer build ./lxd-setup/images/xenial-packer-lxd-image-lvm-for-bionic-host"
+     packer validate ./lxd-setup/images/xenial-packer-lxd-image-lvm-for-bionic-host
+     packer build    ./lxd-setup/images/xenial-packer-lxd-image-lvm-for-bionic-host
   else
-     bash packer validate ./lxd-setup/images/xenial-packer-lxd-image-lvm"
-     bash packer validate ./lxd-setup/images/xenial-packer-lxd-image-lvm  
+     packer validate ./lxd-setup/images/xenial-packer-lxd-image-lvm
+     packer build    ./lxd-setup/images/xenial-packer-lxd-image-lvm  
   fi
 }
 
