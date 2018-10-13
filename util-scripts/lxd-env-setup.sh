@@ -3,7 +3,7 @@
 linux="xenial"
 
 
-if [[ $1 =~ ^("xenial","bionic") ]]; then
+if [[ $1 =~ ^("xenial"|"bionic") ]]; then
    linux=$1
    echo "User provided LXD base image option is: $linux"   
 else 
