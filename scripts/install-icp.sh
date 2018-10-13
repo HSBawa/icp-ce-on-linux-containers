@@ -16,8 +16,8 @@ cluster_domain=${11}
 cluster_CA_domain="${12}"
 default_namespace=${13}
 boot_node_grep_key=${14}
-cluster_lb_address=${15}
-proxy_lb_address=${16}
+cluster_lb_address=$(echo ${15} | tr ',' ' ' | xargs)
+proxy_lb_address=$(echo ${16} | tr ',' ' ' | xargs)
 disabled_management_services=${17}
 
 ### Environment
