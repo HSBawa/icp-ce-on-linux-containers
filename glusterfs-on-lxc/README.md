@@ -4,12 +4,12 @@ This sever will create 10 volumes.
 Pre-Requisites: 
   * Internet access (to download base Ubuntu LXD image, if not available locally)
   * LXD 2.21 or above
-  * Ubuntu 16.04 LTS or Ubuntu 17.10 (Artful) host. 
+  * Ubuntu 16.04 LTS or 18.04 LTS host. 
   * [Packer](https://www.packer.io/downloads.html) to build image for GlusterFS Server
   * Following shared folders on your host machine:
-    * /media/glusterfs/server1
-    * /media/glusterfs/server2
-    * /media/lxcshare
+    * /media/glusterfs/server1  (mkdir -p /media/glusterfs/server1)
+    * /media/glusterfs/server2  (mkdir -p /media/glusterfs/server2)
+    * /media/lxcshare           (mkdir -p /media/lxcshare)
   * This script uses 'default' lxd profile. If you plan to use different profile, update 'profiles' property in [glusterfs-server-lxc.sh](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/glusterfs-on-lxc/glusterfs-server-lxc.sh) accordingly. 
   * Update 'node_ip_pre' property with the network CIDR used by Profile. Perform following steps to retrieve CIDR info
     * Run: lxd profile show &lt;profile name&gt;  (in this case &lt;profile name&gt; is 'default')
