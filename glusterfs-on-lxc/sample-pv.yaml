@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+   name: jenkins-pv
+   labels:
+       project: devops
+spec:
+   capacity:
+      storage: 5Gi
+   accessModes:
+      - ReadWriteMany
+   persistentVolumeReclaimPolicy: Retain
+   glusterfs:
+      endpoint: glusterfs-lxd     
+      path: vol1 
+---
