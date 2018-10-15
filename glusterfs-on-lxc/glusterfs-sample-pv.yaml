@@ -12,6 +12,6 @@ spec:
       - ReadWriteMany
    persistentVolumeReclaimPolicy: Retain
    glusterfs:
-      endpoint: glusterfs-lxd     
+      endpoints: glusterfs-lxd     
       path: vol1 
 ---
