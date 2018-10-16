@@ -20,7 +20,7 @@ devices:
     path: /sys/module/apparmor/parameters/enabled
     source: /dev/null
     type: disk
-  gfsdir:
+  nfsdir:
     path: /nfs
     source: /media/nfs
     type: disk
