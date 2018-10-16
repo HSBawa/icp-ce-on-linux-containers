@@ -2,7 +2,7 @@
 
 * Create directories on your host to hold data:
   * `mkdir -p /media/nfs`
-  * Create folders /media/nfs/vol1 ... /media/nfs/vol10
+  * Create desired NFS folders. For example: /media/nfs/vol1 ... /media/nfs/vol10
   
 * Create LXD profile
   * `lxc profile create nfs-server`
