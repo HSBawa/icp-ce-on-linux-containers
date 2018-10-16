@@ -26,6 +26,9 @@
           /nfs/vol8   *(rw,sync,no_root_squash,no_subtree_check,insecure)
           /nfs/vol9   *(rw,sync,no_root_squash,no_subtree_check,insecure)
           /nfs/vol10  *(rw,sync,no_root_squash,no_subtree_check,insecure)
+          
+     * exportfs -a
+
 
 * Grab IP address of nfs-server container to use with NFS based PVs
   * `lxc list nfs-server -c 4 --format=csv | awk '{print $1}'`
