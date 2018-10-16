@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+   name: sample-nfs-pv
+   labels:
+       type: nfs
+spec:
+   persistentVolumeReclaimPolicy: Retain
+   capacity:
+      storage: 1Gi
+   accessModes:
+      - ReadWriteMany     
+   nfs:
+      server: 10.10.10.10 ### Use actual NFS IP address here
+      path: /nfs/vol1     ### Use actual NFS Folder's absolute path
+---
