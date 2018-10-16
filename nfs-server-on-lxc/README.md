@@ -1,3 +1,6 @@
+mkdir -p /media/nfs 
+  * Create folders /media/nfs/vol1 ... /media/nfs/vol10
+  
 lxc profile create nfs-server
 
 cat nfs-server-profile.yaml | lxc profile edit nfs-server
