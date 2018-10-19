@@ -4,8 +4,7 @@ Supported ICP-CE versions: 3.1.0
 
 Supported Ubuntu versions: Bionic (18.04)
 
-This IaC will create following Nodes for Community Edition:
-* [Nodes](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_3.1.0/getting_started/architecture.html):
+This IaC can create following [Nodes](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_3.1.0/getting_started/architecture.html) for Community Edition:
   * 1 Master - 2 Worker Nodes (w/ (M)inimal [install](https://github.com/HSBawa/icp-ce-on-linux-containers/tree/master/docs/screenshots/3.1.0/install/install-1.jpg) )
   * 1 Master, 1 Proxy. 1 Management and 2 Worker Nodes (w/ (F)ull [install](https://github.com/HSBawa/icp-ce-on-linux-containers/tree/master/docs/screenshots/3.1.0/install/install-1.jpg) )
   * Note: Worker node count can be changed (1..n) in terraform.tfvars before install.
