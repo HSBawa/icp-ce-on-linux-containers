@@ -12,7 +12,6 @@ variable "remote"{default="remote"}
 variable "name"{default="name"}
 variable "node_count"{default="node_count"}
 variable "name_short"{default="name_short"}
-variable "remote"{default="remote"}
 variable "image"{default="image"}
 
 ## Configuration (MAP)
