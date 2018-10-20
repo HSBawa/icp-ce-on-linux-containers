@@ -22,6 +22,7 @@ module "profile-proxy-mgmt" {
   lxd_network="${var.lxd_network}"
   icp="${var.icp}"
   proxy_node="${var.proxy_node}"
+  lxd="${var.lxd}"
   management_node="${var.management_node}"
 }
 
@@ -37,7 +38,7 @@ module "container-proxy-mgmt" {
   proxy_node="${var.proxy_node}"
   management_node="${var.management_node}"
   cluster="${var.cluster}"
-  lxd_image="${var.lxd_image}"
+  lxd="${var.lxd}"
   icp="${var.icp}"
 
 }
