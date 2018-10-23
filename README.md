@@ -2,7 +2,7 @@ Welcome to the IBM Cloud Private CE on Linux Containers Infrastructure As Code (
 
 Supported ICP-CE versions: 3.1.0
 
-Supported Ubuntu versions: Bionic (18.04)
+Supported Host Ubuntu versions: Bionic (18.04), Cosmic (18.10)
 
 This IaC can create following [Nodes](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_3.1.0/getting_started/architecture.html) for Community Edition:
   * 1 Master - 2 Worker Nodes (w/ (M)inimal [install](https://github.com/HSBawa/icp-ce-on-linux-containers/tree/master/docs/screenshots/3.1.0/install/install-1.jpg) )
