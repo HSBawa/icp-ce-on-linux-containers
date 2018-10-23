@@ -1,10 +1,10 @@
 config:
   core.https_address: '[::]:10443'
   core.trust_password: password
-cluster: null
 networks:
 - config:
-    ipv4.address: auto
+    ipv4.address: 10.10.10.1/24
+    ipv4.nat: "true"
     ipv6.address: none
   description: ""
   managed: false
@@ -12,7 +12,7 @@ networks:
   type: ""
 storage_pools:
 - config:
-    size: 200GB
+    size: 250GB
   description: ""
   name: default
   driver: lvm
@@ -28,6 +28,6 @@ profiles:
     root:
       path: /
       pool: default
-      size: 20GB
+      size: 30GB
       type: disk
   name: default
