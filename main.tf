@@ -108,3 +108,47 @@ module "container-master_worker" {
   icp_docker_image_archives="${var.icp_docker_image_archives}"
   common_profile="${var.common_profile}"
 }
+
+###############################################################################
+## This is addon template file that add proxt and management nodes to
+## master and worker node configuration
+##
+## Example code in install.sh:
+##     ### main template - Master worker nodes only)
+##     cp main.tf.tmpl main.tf
+##     ## Add proxy and management node support using this template]
+##     cat proxy-mgmt.tf.tmpl | tee -a main.tf
+##
+## @Author Harimohan S. Bawa hsbawa@us.ibm.com hsbawa@gmail.com
+###############################################################################
+module "profile-proxy-mgmt" {
+  source = "./modules/profile/proxy-mgmt"
+  ### Outputs
+  net_device_parent="${module.network.icp_ce_network_name_output}"
+  ipv4_cidr_count="${module.network.ipv4_cidr_count_output}"
+
+  ### Variables
+  environment="${var.environment}"
+  lxd_network="${var.lxd_network}"
+  icp="${var.icp}"
+  proxy_node="${var.proxy_node}"
+  lxd="${var.lxd}"
+  management_node="${var.management_node}"
+}
+
+
+module "container-proxy-mgmt" {
+  source = "./modules/container/proxy-mgmt"
+  ### Outputs
+  icp_ce_profile_name= "${module.profile-master-worker.icp_ce_profile_name_output}"
+  icp_ce_mgmt_profile_name= "${module.profile-proxy-mgmt.icp_ce_mgmt_profile_name_output}"
+  icp_ce_proxy_profile_name= "${module.profile-proxy-mgmt.icp_ce_proxy_profile_name_output}"
+  ### Variables
+  environment="${var.environment}"
+  proxy_node="${var.proxy_node}"
+  management_node="${var.management_node}"
+  cluster="${var.cluster}"
+  lxd="${var.lxd}"
+  icp="${var.icp}"
+
+}

@@ -280,12 +280,12 @@ kube_proxy_extra_args: ["--conntrack-max-per-core=0"]
 ######################  Linux Containers Specific Settings ###############
 
 ################ START VALUES FROM TERRAFORM VARS ################
-default_admin_password: admin_0000
+default_admin_password: admin_1111
 cluster_name: devicpcluster
 cluster_domain: cluster.local
 cluster_CA_domain: "{{ cluster_name }}.icp"
 cluster_lb_address: none
-proxy_lb_address: none,
+proxy_lb_address: none
 management_services:
    istio: disabled
    vulnerability-advisor: disabled
