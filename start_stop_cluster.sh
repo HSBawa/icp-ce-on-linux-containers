@@ -21,6 +21,7 @@ function start_stop_cluster(){
        do
           echo "Changing server $vm Docker state to: $input"
           lxc exec $vm  -- sh -c "systemctl $input docker"
+          echo "Changing server $vm Kubelet state to: $input"
           lxc exec $vm  -- sh -c "systemctl $input kubelet"
        done
     else
