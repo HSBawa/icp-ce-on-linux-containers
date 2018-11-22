@@ -1,6 +1,6 @@
 #!/bin/bash
 
-TERRA_LXD_VERSION="v1.1.1"
+TERRA_LXD_VERSION="v1.1.3"
 TERRA_LXD_ZIP="terraform-provider-lxd_${TERRA_LXD_VERSION}_linux_amd64.zip"
 TERRA_LXD_URL="https://github.com/sl1pm4t/terraform-provider-lxd/releases/download/${TERRA_LXD_VERSION}/${TERRA_LXD_ZIP}"
 TERRA_LXD_PLUGIN_LOC="${HOME}/.terraform.d/plugins/linux_amd64"
