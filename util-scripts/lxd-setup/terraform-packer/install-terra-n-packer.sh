@@ -3,8 +3,8 @@
 apt-get update
 apt install -y curl unzip
 
-PACKER_VERSION=1.2.5
-TERRAFORM_VERSION=0.11.7
+PACKER_VERSION=1.3.2
+TERRAFORM_VERSION=0.11.10
 
 PACKER_ZIP="packer_${PACKER_VERSION}_linux_amd64.zip"
 PACKER_URL="https://releases.hashicorp.com/packer/${PACKER_VERSION}/${PACKER_ZIP}"
