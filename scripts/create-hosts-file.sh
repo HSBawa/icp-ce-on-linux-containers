@@ -99,9 +99,23 @@ function copy_etc_hosts_file(){
     done
 }
 
+################################################################################
+## Restart Docker for each VM
+################################################################################
+function restart_docker(){
+    for vm in ${vms[*]}
+    do
+        lxc exec $vm -- sh -c "systemctl restart docker"
+    done
+}
+
 echo ">>>>>>>>>>>>>>>[Creating hosts file for VMs... ]"
 create_etc_hosts_file
 echo ""
 echo ">>>>>>>>>>>>>>>[Copying hosts file to all VMs... ]"
 copy_etc_hosts_file
 echo ""
+echo ">>>>>>>>>>>>>>>[Restarting Docker for all VMs... ]"
+restart_docker
+echo ""
+
