@@ -16,7 +16,7 @@ function enable_docker(){
         lxc exec $vm -- sh -c "rm /etc/systemd/system/multi-user.target.wants/docker.service"
         lxc exec $vm -- sh -c "systemctl daemon-reload"
         lxc exec $vm -- sh -c "systemctl restart docker"
-        lxc exec $vm -- sh -c "systemctl enable docker"
+        #lxc exec $vm -- sh -c "systemctl enable docker"
     done
 }
 enable_docker
