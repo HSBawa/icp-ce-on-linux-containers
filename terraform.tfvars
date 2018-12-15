@@ -73,7 +73,7 @@ master_node = {
     cpu=2
     start_host_num=101
     storage_device_name = "root"
-    storage_device_size = "30GB"
+    storage_device_size = "50GB"
     storage_device_path = "/"
     storage_device_pool = "default"
     storage_device_type = "disk"
@@ -90,7 +90,7 @@ worker_node = {
     profile_name="worker"
     start_host_num=201
     storage_device_name = "root"
-    storage_device_size = "25GB"
+    storage_device_size = "50GB"
     storage_device_path = "/"
     storage_device_pool = "default"
     storage_device_type = "disk"
@@ -105,7 +105,7 @@ icp_docker_image_archives = {
     enabled="false"
     # Provide absolute path on respective nodes.
     # Following example uses shared folder (host)
-    path="/share/icp310ce/icp-ce-310.tar"
+    path="/share/icp310ce/icp-ce-311.tar"
 }
 
 ###############################################################################
