@@ -36,6 +36,7 @@
         "bash -c 'sh /tmp/get-docker.sh &> /dev/null'",
         "bash -c 'usermod -aG docker root &> /dev/null'",
         "bash -c 'usermod -aG docker ubuntu &> /dev/null'",
+        "bash -c 'rm /etc/systemd/system/multi-user.target.wants/docker.service; systemctl daemon-reload; systemctl restart docker; systemctl enable docker &> /dev/null'",
         "sed -i 's|ExecStart=/usr/bin/dockerd -H fd://|ExecStart=/usr/bin/dockerd -H fd:// --max-concurrent-downloads 10|g' /etc/systemd/system/multi-user.target.wants/docker.service",
         "echo '{ \"log-driver\": \"json-file\", \"log-opts\": { \"max-size\": \"10m\" } }' >  /etc/docker/daemon.json",
         "echo [Package update complete]"
