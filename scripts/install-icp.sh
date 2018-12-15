@@ -90,6 +90,9 @@ source ./scripts/create-hosts-file.sh $env $minimal ${vms[*]}
 ## Create for VM root size
 source ./scripts/check-root-size.sh $env $recommended_root_size ${vms[*]}
 
+## Enable Docker
+source ./scripts/enable_docker.sh $env ${vms[*]}
+
 ## Prepare boot node and start install
 echo "Executing: source ./scripts/prepare-boot-node.sh $env $version $edition $icp_installer $install_dbg $boot_node_grep_key"
 source ./scripts/prepare-boot-node.sh $env $version $edition $icp_installer $install_dbg $boot_node_grep_key $cluster_name $default_namespace $admin_user $admin_pass
