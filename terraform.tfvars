@@ -20,7 +20,8 @@ environment = {
 ## Linux Container image for ICP properties
 ###############################################################################
 lxd = {
-    image="xenial-container-for-icp-lvm-bionic-host"
+    #image="xenial-container-for-icp-lvm-bionic-host"
+    image="bionic-container-for-icp"
 }
 
 ###############################################################################
