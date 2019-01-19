@@ -100,14 +100,11 @@ source ./scripts/prepare-boot-node.sh $env $version $edition $icp_installer $ins
 ##################################
 ## RUN ONLY IF INSTALL WAS SUCCESS
 ##################################
-
-success="$(ls /root | grep SUCCESS )"
-
-
-if [[ -z "$success"  ]];then
-  echo "WARNING!!! ICP Install may have failed.  Not setting up Docker CLI Auth and MCM PPA"
-else 
-  ## Configure Docker CLU Authentication for ICP
-  echo "Executing: source ./scripts/configure_docker_cli.sh ${env}"
-  source ./scripts/configure_docker_cli.sh ${env}
-fi
+#success="$(ls /root | grep SUCCESS )"
+#if [[ -z "$success"  ]];then
+#  echo "WARNING!!! ICP Install may have failed.  Not setting up Docker CLI Auth"
+#else 
+#  ## Configure Docker CLU Authentication for ICP
+#  echo "Executing: source ./scripts/configure_docker_cli.sh ${env}"
+#  source ./scripts/configure_docker_cli.sh ${env}
+#fi
