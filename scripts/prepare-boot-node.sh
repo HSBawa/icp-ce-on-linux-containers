@@ -139,7 +139,7 @@ function run_install(){
             echo "$cliname iam roles" | tee -a $icp_login_sh_file
             echo "$cliname iam services" | tee -a $icp_login_sh_file
             echo "$cliname iam service-ids" | tee -a $icp_login_sh_file
-            echo "$cliname pm password-rules $cluster_name $default_namespace" | tee -a $icp_login_sh_file
+            # echo "$cliname pm password-rules $cluster_name $default_namespace" | tee -a $icp_login_sh_file
             echo "$cliname catalog charts" | tee -a $icp_login_sh_file
         fi
         ### for some reason non-sudo command is not working
