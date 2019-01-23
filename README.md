@@ -1,6 +1,6 @@
 Welcome to the IBM Cloud Private CE on Linux Containers Infrastructure As Code (IaC). With the help of this IaC, developers can easily setup a multi node cluster on their Linux Desktop or Virtual Machine!!!
 
-Supported ICP-CE versions: 3.1.0
+Supported ICP-CE versions: 3.1.0, 3.1.1
 
 Supported Host Ubuntu versions: Bionic (18.04), Cosmic (18.10)
 
