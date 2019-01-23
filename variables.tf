@@ -56,7 +56,7 @@ variable "cluster"{
 variable "icp"{
     type = "map"
     default = {
-        tag="3.1.0"
+        tag="3.1.1"
         edition="ce"
         installer="ibmcom/icp-inception"
         ### Debug Install Use Only (true or false)
