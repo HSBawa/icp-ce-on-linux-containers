@@ -29,5 +29,5 @@ cloudctl catalog repos
 cloudctl iam roles
 cloudctl iam services
 cloudctl iam service-ids
-cloudctl pm password-rules devicpcluster default
+#cloudctl pm password-rules devicpcluster default
 cloudctl catalog charts
