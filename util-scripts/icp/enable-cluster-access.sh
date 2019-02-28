@@ -20,7 +20,7 @@ function set_master_vm(){
 function add_or_remove_cluster_access(){
   if [[ "y" == "$1"  ]]; then
     echo "Adding cluster access URL"
-    lxc exec ${MASTER_VM} -- sh -c "/opt/icp-3.1.0-ce/bin/addclusteraccessurl.sh ${IP_ADDRESS}"
+    lxc exec ${MASTER_VM} -- sh -c "/opt/icp-3.1.0-ce/bin/clusteraccessurl.sh ${IP_ADDRESS}"
   elif [[ "n" == "$1"  ]]; then
     echo "Removing cluster access URL"
     lxc exec ${MASTER_VM} -- sh -c "/opt/icp-3.1.0-ce/bin/removeclusteraccessurl.sh ${IP_ADDRESS}"
