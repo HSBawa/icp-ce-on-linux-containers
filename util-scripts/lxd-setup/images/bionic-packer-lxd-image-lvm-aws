@@ -27,6 +27,7 @@
         "apt-add-repository 'deb http://us-east-2.ec2.archive.ubuntu.com/ubuntu/ bionic-updates multiverse'",
         "apt-add-repository 'deb http://us-east-2.ec2.archive.ubuntu.com/ubuntu/ bionic-backports main restricted universe multiverse'",
         "bash -c 'apt-get -y update &> /dev/null'",
+        "bash -c 'apt-get -y upgrade &> /dev/null'",        
         "bash -c 'apt install -y ntp curl wget resolvconf linux-image-$(uname -r) linux-image-extra-virtual bridge-utils dnsmasq thin-provisioning-tools apt-transport-https ca-certificates software-properties-common python-setuptools python-pip build-essential python-dev aufs-tools nfs-common unzip'",
         "bash -c 'apt -y autoremove &> /dev/null'",
         "bash -c 'apt -y install socat &> /dev/null'",
