@@ -1,0 +1,184 @@
+#!/bin/bash
+###############################################################################
+## This programs initiates ICP on CE installation process using terraform
+##   a) Create one of the following cluster of LXD nodes for IBM Cloud Private - Community Edition (ICP-CE)
+##       1) 1 Master - n Worker nodes architecture
+##       2) 1 Master, 1 Proxy, 1 Management and n Worker node(s) architecture
+##   b) Install ICP-CE installation on cluster of LXD nodes
+## @Author Harimohan S. Bawa hsbawa@us.ibm.com hsbawa@gmail.com
+###############################################################################
+
+minimal="0"
+main_tf_tmpl="main.tf.tmpl"
+main_tf="main.tf"
+tf_vars="terraform.tfvars"
+mgmt_node="false"
+proxy_node="false"
+is_test=$1
+IP_ADDRESS="$(ip addr show ens7 | grep 'inet\b' | awk '{print $2}' | cut -d/ -f1)"
+
+if [[ "$1" == "hsb" ]]; then
+    ### HSB TEST Mode
+    cp terraform.tfvars.test terraform.tfvars
+fi
+
+####################################################################################
+##  This function is workaround for the terrform plugin snap path issue.
+##  This issue may have been addressed in the new lxd terraform plugin. 
+##  Update the code as needed later.
+####################################################################################
+function select_right_unix_socket_address(){
+  local APT_UNIX_SOCKET_ADDRESS="/var/lib/lxd/unix.socket"
+  local SNAP_UNIX_SOCKET_ADDRESS="/var/snap/lxd/common/lxd/unix.socket"
+  local UNIX_SOCKET_ADDRESS="@@UNIX_SOCKET_ADDRESS@@"
+  local lxc_loc="$(which lxc)"
+
+  if [[  -z lxc_loc  ]]; then
+     echo "LXC binary not found. Exiting"
+     exit;
+  fi
+
+  if echo "$lxc_loc" | grep -q "snap"; then
+      echo "Updating Socket Adderess to SNAP"
+      sed -i "s|$UNIX_SOCKET_ADDRESS|$SNAP_UNIX_SOCKET_ADDRESS|g" $main_tf
+  else
+      echo "Updating Socket Adderess to APT"
+      sed -i "s|$UNIX_SOCKET_ADDRESS|$APT_UNIX_SOCKET_ADDRESS|g" $main_tf
+  fi
+
+}
+
+function set_cluster_proxy_lb_addresses(){
+  IP_ADDRESS="$(ip addr show ens7 | grep 'inet\b' | awk '{print $2}' | cut -d/ -f1)"
+  if [[ -z $IP_ADDRESS   ]]; then
+     IP_ADDRESS="none"
+  fi
+ 
+  echo "Host IP ADDRESS is $IP_ADDRESS"
+
+  CLUSTER_LB_ADDRESS="#cluster_lb_address"
+  CLUSTER_LB_ADDRESS_VAL="cluster_lb_address=\"$IP_ADDRESS\""
+  PROXY_LB_ADDRESS="#proxy_lb_address"
+  PROXY_LB_ADDRESS_VAL="proxy_lb_address=\"$IP_ADDRESS\""
+
+#  sed -i "s|$CLUSTER_LB_ADDRESS|$CLUSTER_LB_ADDRESS_VAL|g" $tf_vars
+#  if [[ "p" == *"$1"*  ]]; then
+#    sed -i "s|$PROXY_LB_ADDRESS|$PROXY_LB_ADDRESS_VAL|g" $tf_vars
+#  fi
+
+  sed -i 's|'"$CLUSTER_LB_ADDRESS"'|'"$CLUSTER_LB_ADDRESS_VAL"'|g' $tf_vars
+  if [[ "p" == *"$1"*  ]]; then
+    sed -i 's|'"$PROXY_LB_ADDRESS"'|'"$PROXY_LB_ADDRESS_VAL"'|g' $tf_vars
+  fi
+
+}
+
+
+##### TEMP ONLY FOR TESTING
+function terra_clean(){
+    echo "Deleting terraform states"
+    #rm -rf .terraform
+    rm terraform.tfstate
+    rm terraform.tfstate.backup
+    rm plan/*
+}
+
+
+function start_banner(){
+     echo ""
+     echo ""
+     echo "+-+-+-+-+-+-+-+ +-+-+ +-+-+-+ +-+-+ +-+-+-+-+-+ +-+-+-+-+-+-+-+-+-+-+"
+     echo "|W|e|l|c|o|m|e| |t|o| |I|C|P| |o|n| |L|i|n|u|x| |C|o|n|t|a|i|n|e|r|s|"
+     echo "---------------------------------------------------------------------"
+     echo "|           |H|a|r|i|m|o|h|a|n| |S| |B|a|w|a|                       |"
+     echo "+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+ +-+ +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+"
+     echo ""
+     echo ""
+}
+
+
+
+function select_install_option(){
+    cp ${tf_vars}.tmpl ${tf_vars}
+    if [[ "p" == "$1"  ]]; then
+	    proxy_node="true"
+	    mgmt_node="false"
+    elif [[ "mp" == "$1"  ]]; then
+	    proxy_node="true"
+	    mgmt_node="true"
+
+    else
+	    echo "Install Options: Master(R), Proxy(O), Management(O) and Worker(R) Nodes."
+	    echo "Create Proxy Node? (y/n)"
+	    read node
+
+	    shopt -s nocasematch
+	    if [[ "$node" == "n"  ]]; then
+	       proxy_node="false"
+	   elif [[ "$node" == "y"  ]]; then
+	       echo "User selected Proxy Node install."
+	       proxy_node="true"
+	    else
+	       echo "Invalid selection for proxy node. Please try again. Exiting."
+	       exit -1;
+	    fi
+	    shopt -u nocasematch
+
+	   echo "Create Management Node? (y/n)"
+	    read node
+
+	    shopt -s nocasematch
+	    if [[ "$node" == "n"  ]]; then
+	       mgmt_node="false"
+	   elif [[ "$node" == "y"  ]]; then
+	       echo "User selected Managment Node install."
+	       mgmt_node="true"
+	    else
+	       echo "Invalid selection for proxy node. Please try again. Exiting."
+	       exit -1;
+	    fi
+	    shopt -u nocasematch
+    fi 
+
+}
+
+function start_install(){
+    mkdir -p /media/lxcshare &> /dev/null
+    chmod +x ./scripts/*.sh
+    mkdir -p ./plan &> /dev/null
+    cp $main_tf_tmpl $main_tf &> /dev/null
+    select_right_unix_socket_address
+
+    if [[ "$proxy_node" == "true"  ]]; then
+        ## Setup Proxy Node
+        cat proxy.tf.tmpl | tee -a main.tf   &> /dev/null
+    fi
+
+  if [[ "$mgmt_node" == "true"  ]]; then
+        ## Setup Management node
+        cat mgmt.tf.tmpl | tee -a main.tf   &> /dev/null
+    fi
+
+
+    ## Start installation
+    terraform init
+    if [[ "$minimal" == "false"  ]]; then
+        echo "Executing terraform: terraform plan -var 'cluster={minimal=false}' -out=plan/icp-on-lxc-plan.txt"
+        terraform plan -var 'cluster={minimal=false}' -out=plan/icp-on-lxc-plan.txt
+    else
+        echo "Executing terraform: terraform plan -out=plan/icp-on-lxc-plan.txt"
+        terraform plan -out=plan/icp-on-lxc-plan.txt
+    fi
+    terraform apply plan/icp-on-lxc-plan.txt
+
+}
+
+rm "/root/ICP_LXD_INSTALL_STARTED" &> /dev/null
+rm "/root/ICP_LXD_INSTALL_SUCCESS" &> /dev/null
+rm "/root/ICP_LXD_INSTALL_FAILED" &> /dev/null
+touch "/root/ICP_LXD_INSTALL_STARTED" &> /dev/null
+start_banner
+terra_clean
+select_install_option $1 
+set_cluster_proxy_lb_addresses $1
+start_install

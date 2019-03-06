@@ -1,29 +1,136 @@
-Welcome to the IBM Cloud Private CE on Linux Containers Infrastructure As Code (IaC). With the help of this IaC, developers can easily setup a multi node cluster on their Linux Desktop or Virtual Machine!!!
+Welcome to my IBM Cloud Private (Community Edition) on Linux Containers Infrastructure as a Code (IaaC). With the help of this IaaC, developers can easily setup a **multi virtual node ICP cluster** on a **single** Linux Metal/VM!!!<br>
 
-Supported ICP-CE versions: 3.1.0, 3.1.1
+This IaC will install required CLIs, setup LXD, setup ICP-CE and create some utility scripts. As ICP is installed on LXD VMs, it can be easily installed and removed without any impact to host environment. Only LXD, CLIs and other desired/required packages will be installed on the host.
 
-Supported Host Ubuntu versions: Bionic (18.04), Cosmic (18.10)
+[High Level Architecture](/README.md#high-level-architecture) <br>
+[Supported Platforms](/README.md#supported-platforms) <br>
+[Topologies](/README.md#topologies) <br>
+[Install Configuration](/install.properties)<br>
+[Usage](/README.md#usage) <br>
+[ICP 3.1.2 - Getting started](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_3.1.2/getting_started/introduction.html)
 
-This IaC can create following [Nodes](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_3.1.0/getting_started/architecture.html) for Community Edition:
-  * 1 Master - 2 Worker Nodes (w/ (M)inimal [install](https://github.com/HSBawa/icp-ce-on-linux-containers/tree/master/docs/screenshots/3.1.0/install/install-1.jpg) )
-  * 1 Master, 1 Proxy. 1 Management and 2 Worker Nodes (w/ (F)ull [install](https://github.com/HSBawa/icp-ce-on-linux-containers/tree/master/docs/screenshots/3.1.0/install/install-1.jpg) )
-  * Note: Worker node count can be changed (1..n) in terraform.tfvars before install.
-
-Documentation (update in progress):
-* [Tips on getting started with LXD on your Linux Host](https://github.com/HSBawa/icp-ce-on-linux-containers/wiki/Getting-started-with-LXD-on-your-Linux-Host-(Ubuntu))
-* [1.0 Create Base Linux Container image for IBM Cloud Private-CE nodes with Hashicorp Packer](https://github.com/HSBawa/icp-ce-on-linux-containers/wiki/1.0-Create-Base-Linux-Container-Image-For-IBM-Cloud-Private-with-Hashicorp-Packer)
-* [2.0 Create Linux Container cluster and start IBM Cloud Private-CE install with Terraform](https://github.com/HSBawa/icp-ce-on-linux-containers/wiki/2.0-Create-LXD-Cluster-and-ICP-install-with-Terraform)
-* [3.0 Manual Install and uninstall process for IBM Cloud Private-CE on Linux Container cluster](https://github.com/HSBawa/icp-ce-on-linux-containers/wiki/3.0-ICP-CE-install-and-uninstall-process-on-LXD-cluster)
-* [4.0 Setup Helm for IBM Cloud Private](https://github.com/HSBawa/icp-ce-on-linux-containers/wiki/4.0-Setting-up-Helm-for-IBM-Cloud-Private)
-* [5.0 Setup NFS volume as PersistentVolume (PV) on IBM Cloud Private](https://github.com/HSBawa/icp-ce-on-linux-containers/wiki/5.0-Setup--NFS-volume-as-PersistentVolume-(PV)-on-IBM-Cloud-Private)
-
-[View Screenshots](https://github.com/HSBawa/icp-ce-on-linux-containers/tree/master/docs/screenshots/3.1.0)
-
-![](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/docs/screenshots/3.1.0/install/install-3.jpg)
+### **__High Level Architecture__**<br>
+<table border="0">
+ <tr align="center"><td>An example 4 node topology</td></tr>
+ <tr align="center"><td><img src="/docs/screenshots/arch/icp-lxd-4-node-arch.png"></td></tr>
+</table> <br>
 
 
-![](https://raw.githubusercontent.com/HSBawa/icp-ce-on-linux-containers/master/docs/screenshots/3.1.0/console/kubenetes-on-host.jpg)
+### **__Supported platforms__**<br>
+<table>
+ <tr>
+   <th align="center" >Host</th>
+   <th align="center">Guest VM</th>
+   <th align="center">ICP-CE</th>
+   <th align="center">LXD</th>  
+   <th align="center">Minimum compute power</th>  
+</tr>
+ <tr>
+    <td align="center">Ubuntu 18.04</td>
+    <td align="center">Ubuntu 18.04</td>
+    <td align="center">3.1.2</td>
+    <td align="center">3.0.3 (apt)</td>  
+    <td align="center">8Core 16GB-RAM 300GB-Disk</td>  
+</tr>
+</table> <br>
 
-![](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/docs/screenshots/3.1.0/console/console-login-script.example.jpg?raw=true)
+### **__Topologies__**<br>
+<table>
+ <tr>
+   <th>Boot (B)</th>
+   <th>Master (M)</th>
+   <th>Management (M)</th>
+   <th>Proxy (P)</th>
+   <th>Worker (W)</th>
+ </tr>
+ <tr>
+    <td colspan="4" align="center">1 (B/M/M/P)</td>
+    <td align="center">1+*</td>
+ </tr>
 
-![](https://github.com/HSBawa/icp-ce-on-linux-containers/blob/master/docs/screenshots/3.1.0/icp-ui/icp-dashboard.jpg)
+ <tr>
+   <td colspan="3" align="center">1 (B/M/M)</td>
+   <td align="center">1</td>
+   <td align="center">1+*</td>
+ </tr>
+ <tr>
+   <td colspan="2" align="center">1 (B/M) </td>
+   <td align="center">1</td>
+   <td align="center">1</td>
+   <td align="center">1+*</td>
+ <tr>
+  <td colspan="5">*Set desired worker node count in install.properties before setting up cluster.</td>
+ </tr>
+ <tr>
+    <td colspan="5">Supported topologies based on <a href="https://www.ibm.com/support/knowledgecenter/en/SSBS6K_3.1.2/getting_started/architecture.html)">ICP Architecture</a></td>
+ <tr>
+    <td colspan="5">ICP Community Edition does not support HA. Master, Management and Proxy nodes count must always be 1</td>
+ </tr>
+</table> <br>
+
+### **__Usage__**<br>
+
+#### **__Install properties:__**<br>
+
+      For simplified setup, there is one single install.properites file, that will cover configuration for CLIs, LXD and ICP.
+
+      Examples:
+      ## Use y to create separate Proxy, Management Nodes
+      PROXY_NODE=y
+      MGMT_NODE=y
+
+      ## If for some reason public/external IP lookup fails or gets incorrect address,
+      ## set lookup to 'n', manually provide IP  addresses and then re-create cluster
+      ICP_AUTO_LOOKUP_HOST_IP_ADDRESS_AS_LB_ADDRESS=y
+      ICP_MASTER_LB_ADDRESS=none
+      ICP_PROXY_LB_ADDRESS=none
+
+      ## Enable/Disable management services ####
+      ICP_MGMT_SVC_CUST_METRICS=enabled
+      ICP_MGMT_SVC_IMG_SEC_ENFORCE=enabled
+      ICP_MGMT_SVC_METERING=enabled
+      ...
+
+      ## Used for console/scripted login, provide your choice of username and password
+      ## Default namespace will be added to auto-generated login helper script
+      ICP_DEFAULT_NAMESPACE=default
+      ICP_DEFAULT_ADMIN_USER=admin
+      ICP_DEFAULT_ADMIN_PASSWORD=xxxxxxx
+
+
+#### **__Create cluster:__**<br>
+
+
+     Usage:    ./create_cluster.sh [options]
+                  -es or --env-short : Environment name in short. ex: test, dev, demo etc.
+                  -f  or --force     : [yY]|[yY][eE][sS] or n. Delete cluster LXD components from past install.
+                  -h  or --host      : Provide host type information: pc (default), vsi, fyre, aws or othervm.
+                  help               : Print this usage.
+
+      Examples: ./create_cluster.sh --host=fyre
+                ./create_cluster.sh --host=fyre -f
+                ./create_cluster.sh -es=demo --force --host=pc
+
+      Important Notes:
+         It is imporant to use use right `host` parameter depending upon the host machine/vm.
+         LXD cluster uses internal and private subnet. To expose this cluster, HAProxy is installed and configured by default to enable remote access.
+         Make sure to use `static external IP`.
+         If IP is changed after build, remote access to cluster will fail and thus will require a new build.
+         See architecture diagram for more information
+
+#### **__Download `cloudctl` and `helm` clis__:**<br>
+
+     ./download_icp_cloudctl_helm.sh
+
+#### **__Login into cluster:__**<br>
+
+     ./icp-login-3.1.2-ce.sh
+     or
+     cloudctl login -a https://10.50.50.101:8443 -u admin -p xxxx -c id-devicpcluster-account -n default  --skip-ssl-validation  (manual)
+
+#### **__Destory Cluster:__**<br>
+
+     ./destroy-cluster.sh (Delete lxd cluster w/ ICP-CE)
+
+#### **__Setting up LXD based NFS Server:__** (Optional)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[NFS Server on Linux Container](https://github.com/HSBawa/nfs-server-on-linux-container)

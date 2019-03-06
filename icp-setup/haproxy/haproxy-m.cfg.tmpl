@@ -1,0 +1,35 @@
+## MARKER START @@ICP_CONFIG@@
+## DO NOT CHANGE MARKER LINE ABOVE
+
+######################################################################
+###  Particular care must be taken against port ranges, because
+###  every <address:port> couple consumes one socket (= a file
+###  descriptor), so it's easy to consume lots of descriptors
+###  with a simple range, and to run out of sockets
+###  bind [<address>]:<port_range> [, ...]
+###  bind *:25000-25100, 30000,30010
+######################################################################
+### Following setup is working
+frontend icp_master
+    bind *:80
+    bind *:443
+    bind *:8443
+    bind *:8001
+    bind *:8500
+    bind *:8600
+    bind *:9443
+    bind *:9090
+    bind *:30000
+    bind *:30000-32767
+    mode tcp
+    #default_backend icp_master_server
+    use_backend icp_master_server
+
+backend icp_master_server
+    balance roundrobin
+    mode tcp
+    server @@MASTER_NODE_NAME@@ @@MASTER_NODE_IP@@@
+    ##server dev-master-0 10.50.50.101
+
+## DO NOT CHANGE MARKER LINE BELOW
+## MARKER END @@ICP_CONFIG@@

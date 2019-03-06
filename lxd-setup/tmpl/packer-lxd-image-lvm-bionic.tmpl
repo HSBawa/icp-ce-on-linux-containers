@@ -1,0 +1,50 @@
+{
+  "_comment": "Use this image only for Bionic Hosts. Configured for LVM support",
+  "builders": [
+    {
+        "image": "@@LXD_BASE_IMAGE_NAME@@",
+        "name": "@@ICP_LXD_IMAGE_NAME@@",
+        "output_image": "@@ICP_LXD_IMAGE_NAME@@",
+        "init_sleep": "15",
+        "profile": "@@ICP_LXD_PROFILE_NAME@@",
+        "publish_properties": {
+          "description": "@@ICP_LXD_IMAGE_PUB_DESC@@"
+        },
+        "type": "lxd"
+    }
+  ],
+  "post-processors": [],
+  "provisioners": [
+    {
+      "inline": [
+        "echo [Diabling UFW]",
+        "bash -c 'ufw disable &> /dev/null'",
+        "echo Waiting for container to settle down ...",
+        "bash -c 'sleep 10'",
+        "echo [Updating packages]",
+        "bash -c 'apt-get -y update &> /dev/null'",
+        "bash -c 'apt-get -y upgrade &> /dev/null'",
+        "bash -c 'add-apt-repository -y -u ppa:gluster/glusterfs-3.13 &> /dev/null'",
+        "bash -c 'apt-get -y update &> /dev/null'",
+        "bash -c 'apt install -y ntp curl wget resolvconf linux-image-$(uname -r) linux-modules-extra-$(uname -r) linux-image-extra-virtual bridge-utils dnsmasq thin-provisioning-tools apt-transport-https ca-certificates software-properties-common python-setuptools python-pip build-essential python-dev aufs-tools glusterfs-client nfs-common unzip &> /dev/null'",
+        "bash -c 'apt -y autoremove &> /dev/null'",
+        "bash -c 'apt -y install socat &> /dev/null'",
+        "echo [Updating nameserver]",
+        "bash -c 'echo nameserver 8.8.8.8 >> /etc/resolvconf/resolv.conf.d/head'",
+        "bash -c 'echo nameserver 8.8.4.4 >> /etc/resolvconf/resolv.conf.d/head'",
+        "bash -c 'resolvconf -u'",
+        "bash -c 'mkdir /share'",
+        "echo [Installing docker-ce]",
+        "bash -c 'curl -o /tmp/get-docker.sh -fsSL get.docker.com &> /dev/null'",
+        "bash -c 'sh /tmp/get-docker.sh &> /dev/null'",
+        "bash -c 'usermod -aG docker root &> /dev/null'",
+        "bash -c 'usermod -aG docker ubuntu &> /dev/null'",
+        "bash -c 'rm /etc/systemd/system/multi-user.target.wants/docker.service; systemctl daemon-reload; systemctl restart docker; systemctl enable docker &> /dev/null'",
+        "sed -i 's|ExecStart=/usr/bin/dockerd -H fd://|ExecStart=/usr/bin/dockerd -H fd:// --max-concurrent-downloads 10|g' /etc/systemd/system/multi-user.target.wants/docker.service",
+        "echo '{ \"log-driver\": \"json-file\", \"storage-driver\": \"overlay2\", \"log-opts\": { \"max-size\": \"10m\" } }' >  /etc/docker/daemon.json",
+        "echo [Package update complete]"
+      ],
+      "type": "shell"
+    }
+  ]
+}
