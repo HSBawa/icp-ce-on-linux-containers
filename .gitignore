@@ -3,3 +3,4 @@ terraform.tfstate*
 .terraform.tfstate.lock.info
 icp-setup/plan/*.txt
 icp-setup/ssh-keys/id_rsa*
+cluster.properties
