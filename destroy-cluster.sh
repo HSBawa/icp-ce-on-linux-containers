@@ -6,7 +6,7 @@ function  read_properties() {
       if [[ "${KEY:0:1}" =~ ^[A-Z]$ ]]; then
         export "$KEY=$VALUE"
       fi
-  done < ../install.properties
+  done < ./install.properties
 }
 
 function destory_cluster(){
@@ -19,14 +19,14 @@ function destory_cluster(){
       if [[ ! -z ${vms} ]] || [[ ! -z ${profiles} ]]  || [[ ! -z ${networks} ]]; then
         echo "This program will delete following IBM Cloud Private [$env] cluster LXD components."
         if [[ ! -z "${vms}" ]]; then
-          echo "   Containers: $vms"
+          echo "Containers: $vms"
         fi
         if [[ ! -z  ${profiles} ]]; then
-          echo "   Profile: $profiles"
+          echo "Profile: $profiles"
         fi
 
         if [[ ! -z ${networks} ]]; then
-          echo "   Networks: $networks"
+          echo "Networks: $networks"
         fi
         echo "Press Ctrl-C to cancel now OR in next 10 seconds they are gone ...."
         sleep 10
