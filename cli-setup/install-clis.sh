@@ -102,19 +102,24 @@ function install_docker(){
 
 function install_kubectl(){
   if [[ ${INSTALL_KUBECTL} =~ ^([yY][eE][sS]|[yY])+$  ]]; then
-    if [[ -z "${KUBECTL_VERSION}" ]]; then
-       KUBECTL_VERSION="$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)"
-    fi
-    KUBECTL_URL=https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl
+    EXISTS="$(which kubectl)"
+    if [[ -z ${EXISTS} ]] || [[ ${OVERWRITE_CLIS} =~ ^([yY][eE][sS]|[yY])+$  ]]; then
+      if [[ -z "${KUBECTL_VERSION}" ]]; then
+         KUBECTL_VERSION="$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)"
+      fi
+      KUBECTL_URL=https://storage.googleapis.com/kubernetes-release/release/${KUBECTL_VERSION}/bin/linux/amd64/kubectl
 
-    echo ""
-    echo "Installing Kubectl version ${KUBECTL_VERSION} ... "
-    curl -fso ${TEMP_FOLDER}/kubectl ${KUBECTL_URL} >& /dev/null
-    chmod +x ${TEMP_FOLDER}/kubectl >& /dev/null
-    sudo mv ${TEMP_FOLDER}/kubectl ${CLI_LOC}/kubectl >& /dev/null
-    echo "Done."
-    echo "$(which kubectl)"
-    echo ""
+      echo ""
+      echo "Installing Kubectl version ${KUBECTL_VERSION} ... "
+      curl -fso ${TEMP_FOLDER}/kubectl ${KUBECTL_URL} >& /dev/null
+      chmod +x ${TEMP_FOLDER}/kubectl >& /dev/null
+      sudo mv ${TEMP_FOLDER}/kubectl ${CLI_LOC}/kubectl >& /dev/null
+      echo "Done."
+      echo "$(which kubectl)"
+      echo ""
+    else
+      echo "Kubectl already installed."
+    fi
   fi
 }
 

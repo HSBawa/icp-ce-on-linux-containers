@@ -1,6 +1,8 @@
 Welcome to my IBM Cloud Private (Community Edition) on Linux Containers Infrastructure as a Code (IaaC). With the help of this IaaC, developers can easily setup a **multi virtual node ICP cluster** on a **single** Linux Metal/VM!!!<br>
 
-This IaC will install required CLIs, setup LXD, setup ICP-CE and create some utility scripts. As ICP is installed on LXD VMs, it can be easily installed and removed without any impact to host environment. Only LXD, CLIs and other desired/required packages will be installed on the host.
+This IaC not only takes away the pain of all manual configuration, but will also save valuable resources (nodes) by utilizing a single host machine to provide multi node ICP Kubernetes experience. It will install required CLIs, setup LXD, setup ICP-CE and some utility scripts.
+
+As ICP is installed on LXD VMs, it can be easily installed and removed without any impact to host environment. Only LXD, CLIs and other desired/required packages will be installed on the host.
 
 [High Level Architecture](/README.md#high-level-architecture) <br>
 [Supported Platforms](/README.md#supported-platforms) <br>
@@ -23,7 +25,7 @@ This IaC will install required CLIs, setup LXD, setup ICP-CE and create some uti
    <th align="center">Guest VM</th>
    <th align="center">ICP-CE</th>
    <th align="center">LXD</th>  
-   <th align="center">Minimum compute power</th>  
+   <th align="center">Minimum compute power</th>
 </tr>
  <tr>
     <td align="center">Ubuntu 18.04</td>
