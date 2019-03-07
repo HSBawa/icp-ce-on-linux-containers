@@ -43,23 +43,23 @@ As ICP is installed on LXD VMs, it can be easily installed and removed without a
 <table>
  <tr>
    <th>Boot (B)</th>
-   <th>Master (M)</th>
+   <th>Master/Etcd (ME)</th>
    <th>Management (M)</th>
    <th>Proxy (P)</th>
    <th>Worker (W)</th>
  </tr>
  <tr>
-    <td colspan="4" align="center">1 (B/M/M/P)</td>
+    <td colspan="4" align="center">1 (B/ME/M/P)</td>
     <td align="center">1+*</td>
  </tr>
 
  <tr>
-   <td colspan="3" align="center">1 (B/M/M)</td>
+   <td colspan="3" align="center">1 (B/ME/M)</td>
    <td align="center">1</td>
    <td align="center">1+*</td>
  </tr>
  <tr>
-   <td colspan="2" align="center">1 (B/M) </td>
+   <td colspan="2" align="center">1 (B/ME) </td>
    <td align="center">1</td>
    <td align="center">1</td>
    <td align="center">1+*</td>
