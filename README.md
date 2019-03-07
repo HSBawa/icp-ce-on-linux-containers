@@ -4,12 +4,13 @@ This IaC not only takes away the pain of all manual configuration, but will also
 
 As ICP is installed on LXD VMs, it can be easily installed and removed without any impact to host environment. Only LXD, CLIs and other desired/required packages will be installed on the host.
 
+[ICP 3.1.2 - Getting started](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_3.1.2/getting_started/introduction.html)  <br>
 [High Level Architecture](/README.md#high-level-architecture) <br>
 [Supported Platforms](/README.md#supported-platforms) <br>
 [Topologies](/README.md#topologies) <br>
 [Install Configuration](/install.properties)<br>
 [Usage](/README.md#usage) <br>
-[ICP 3.1.2 - Getting started](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_3.1.2/getting_started/introduction.html)  <br>
+[Post Install](/README.md#post-install) <br>
 [Screenshots](/docs/screenshots) <br>
 
 ### **__High Level Architecture__**<br>
@@ -67,7 +68,7 @@ As ICP is installed on LXD VMs, it can be easily installed and removed without a
   <td colspan="5">*Set desired worker node count in install.properties before setting up cluster.</td>
  </tr>
  <tr>
-    <td colspan="5">Supported topologies based on <a href="https://www.ibm.com/support/knowledgecenter/en/SSBS6K_3.1.2/getting_started/architecture.html)">ICP Architecture</a></td>
+    <td colspan="5">Supported topologies based on <a href="https://www.ibm.com/support/knowledgecenter/en/SSBS6K_3.1.2/getting_started/architecture.html">ICP Architecture</a></td>
  <tr>
     <td colspan="5">ICP Community Edition does not support HA. Master, Management and Proxy nodes count must always be 1</td>
  </tr>
