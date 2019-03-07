@@ -12,6 +12,7 @@
 IS_MINIMAL_INSTALL="0"
 HOST_IP_ADDRESS=""
 INSTALL_PROPERTIES="./install.properties"
+CLUSTER_PROPERTIES="./cluster.properties"
 
 MAIN_TF_TMPL_NAME=""
 MAIN_TF_FILE_NAME=""
@@ -35,6 +36,7 @@ function  read_properties() {
     echo "Missing install properties file ${INSTALL_PROPERTIES}. Exiting now."
     exit -1
   fi
+  touch ${CLUSTER_PROPERTIES}
 }
 
 function initialize(){
