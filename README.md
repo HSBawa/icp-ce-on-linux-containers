@@ -149,6 +149,6 @@ As ICP is installed on LXD VMs, it can be easily installed and removed without a
 
 <table border="0">
   <tr align="center"><td><img src="/docs/screenshots/install/icp-install-finish.png"></td></tr>
-  <tr align="center">td><img src="/docs/screenshots/install/icp-login.png"></td></tr>
+  <tr align="center"><td><img src="/docs/screenshots/install/icp-login.png"></td></tr>
   <tr align="center"><td><img src="/docs/screenshots/install/icp-dashboard.png"></td></tr>
 </table> <br>
