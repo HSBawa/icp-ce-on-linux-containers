@@ -16,6 +16,7 @@ As ICP is installed on LXD VMs, it can be easily installed and removed without a
 <table border="0">
  <tr align="center"><td>An example 4 node topology</td></tr>
  <tr align="center"><td><img src="/docs/screenshots/arch/icp-lxd-4-node-arch.png"></td></tr>
+ <tr align="center"><td>An example 5 node topology deployment</td></tr>
  <tr align="center"><td><img src="/docs/screenshots/install/k8s-nodes.png"></td></tr>
  <tr align="center"><td><img src="/docs/screenshots/install/lxc-node-list.png"></td></tr>
 </table> <br>
@@ -147,7 +148,7 @@ As ICP is installed on LXD VMs, it can be easily installed and removed without a
 ### **__Post install__**<br>
 
 <table border="0">
-  <tr align="center"><td>End of install message</td><td><img src="/docs/screenshots/install/icp-install-finish.png"></td></tr>
-  <tr align="center"><td>ICP login</td><td><img src="/docs/screenshots/install/icp-login.png"></td></tr>
-  <tr align="center"><td>ICP dashboard</td><td><img src="/docs/screenshots/install/icp-dashboard.png"></td></tr>
+  <tr align="center"><td><img src="/docs/screenshots/install/icp-install-finish.png"></td></tr>
+  <tr align="center">td><img src="/docs/screenshots/install/icp-login.png"></td></tr>
+  <tr align="center"><td><img src="/docs/screenshots/install/icp-dashboard.png"></td></tr>
 </table> <br>
