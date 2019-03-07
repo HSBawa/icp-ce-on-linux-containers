@@ -22,11 +22,11 @@ As ICP is installed on LXD VMs, it can be easily installed and removed without a
 ### **__Supported platforms__**<br>
 <table>
  <tr>
-   <th align="center">Host OS</th>
-   <th align="center">Guest VM OS</th>
-   <th align="center">ICP-CE Version</th>
-   <th align="center">LXD Version</th>  
-   <th align="center">Minimum Compute Power</th>
+   <th align="center">Host</th>
+   <th align="center">Guest VM</th>
+   <th align="center">ICP-CE</th>
+   <th align="center">LXD</th>  
+   <th align="center">Min. Compute Power</th>
    <th align="center">User Privileges</th>
 </tr>
  <tr>
