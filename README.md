@@ -9,7 +9,7 @@ As ICP is installed on LXD VMs, it can be easily installed and removed without a
 [Topologies](/README.md#topologies) <br>
 [Install Configuration](/install.properties)<br>
 [Usage](/README.md#usage) <br>
-[ICP 3.1.2 - Getting started](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_3.1.2/getting_started/introduction.html)
+[ICP 3.1.2 - Getting started](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_3.1.2/getting_started/introduction.html)  <br>
 [Screenshots](/docs/screenshots) <br>
 
 ### **__High Level Architecture__**<br>
