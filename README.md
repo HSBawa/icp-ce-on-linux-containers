@@ -10,23 +10,26 @@ As ICP is installed on LXD VMs, it can be easily installed and removed without a
 [Install Configuration](/install.properties)<br>
 [Usage](/README.md#usage) <br>
 [ICP 3.1.2 - Getting started](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_3.1.2/getting_started/introduction.html)
+[Screenshots](/docs/screenshots) <br>
 
 ### **__High Level Architecture__**<br>
 <table border="0">
  <tr align="center"><td>An example 4 node topology</td></tr>
  <tr align="center"><td><img src="/docs/screenshots/arch/icp-lxd-4-node-arch.png"></td></tr>
+ <tr align="center"><td><img src="/docs/screenshots/install/k8s-nodes.png"></td></tr>
+ <tr align="center"><td><img src="/docs/screenshots/install/lxc-node-list.png"></td></tr>
 </table> <br>
 
 
 ### **__Supported platforms__**<br>
 <table>
  <tr>
-   <th align="center" >Host</th>
-   <th align="center">Guest VM</th>
-   <th align="center">ICP-CE</th>
-   <th align="center">LXD</th>  
-   <th align="center">Minimum compute power</th>
-   <th align="center">System Privileges</th>
+   <th align="center">Host OS</th>
+   <th align="center">Guest VM OS</th>
+   <th align="center">ICP-CE Version</th>
+   <th align="center">LXD Version</th>  
+   <th align="center">Minimum Compute Power</th>
+   <th align="center">User Privileges</th>
 </tr>
  <tr>
     <td align="center">Ubuntu 18.04</td>
@@ -130,11 +133,21 @@ As ICP is installed on LXD VMs, it can be easily installed and removed without a
 
      ./icp-login-3.1.2-ce.sh
      or
-     cloudctl login -a https://10.50.50.101:8443 -u admin -p xxxx -c id-devicpcluster-account -n default  --skip-ssl-validation  (manual)
+     cloudctl login -a https://<internal_master_ip>:8443 -u <default_admin_user> -p <default_admin_user> -c id-devicpcluster-account -n default --skip-ssl-validation
+     or
+     cloudctl login -a https://<public_ip>:8443 -u <default_admin_user> -p <default_admin_user> -c id-devicpcluster-account -n default --skip-ssl-validation
 
 #### **__Destory Cluster:__**<br>
 
-     ./destroy-cluster.sh (Delete lxd cluster w/ ICP-CE)
+     ./destroy-cluster.sh (Deletes lxd cluster w/ ICP-CE. Use with caution)
 
 #### **__Setting up LXD based NFS Server:__** (Optional)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[NFS Server on Linux Container](https://github.com/HSBawa/nfs-server-on-linux-container)
+
+### **__Post install__**<br>
+
+<table border="0">
+  <tr align="center"><td>End of install message</td><td><img src="/docs/screenshots/install/icp-install-finish.png"></td></tr>
+  <tr align="center"><td>ICP login</td><td><img src="/docs/screenshots/install/icp-login.png"></td></tr>
+  <tr align="center"><td>ICP dashboard</td><td><img src="/docs/screenshots/install/icp-dashboard.png"></td></tr>
+</table> <br>
