@@ -7,6 +7,7 @@
 ##############################################################################
 
 TERRA_LXD_PLUGIN_LOC="${HOME}/.terraform.d/plugins/linux_amd64"
+TERRA_LXD_PLUGIN="${TERRA_LXD_PLUGIN_LOC}/terraform-provider-lxd_${TERRA_LXD_VERSION}_x4"
 
 function  read_properties() {
   while IFS== read -r KEY VALUE
@@ -19,18 +20,23 @@ function  read_properties() {
 
 function install_terraform_plugin_for_lxd(){
   if [[ ${INSTALL_TERRAFORM_LXD_PLUGIN} =~ ^([yY][eE][sS]|[yY])+$  ]]; then
-    mkdir -p ${TERRA_LXD_PLUGIN_LOC}
-    TERRA_LXD_ZIP="terraform-provider-lxd_${TERRA_LXD_VERSION}_linux_amd64.zip"
-    TERRA_LXD_URL="https://github.com/sl1pm4t/terraform-provider-lxd/releases/download/${TERRA_LXD_VERSION}/${TERRA_LXD_ZIP}"
-    echo ""
-    echo "Installing Terraform Plugin for LXD  ${TERRA_LXD_VERSION} ... "
-    wget -nv -q ${TERRA_LXD_URL} -O  ${TEMP_FOLDER}/${TERRA_LXD_ZIP}
-    unzip -o ${TEMP_FOLDER}/${TERRA_LXD_ZIP} -d ${TERRA_LXD_PLUGIN_LOC} &> /dev/null
-    rm ${TEMP_FOLDER}/${TERRA_LXD_ZIP} &> /dev/null
-    echo "Done"
-    echo "$(ls -a ${TERRA_LXD_PLUGIN_LOC})"
-    echo ""
-
+    if [[ -f ${TERRA_LXD_PLUGIN} ]] || [[ ${OVERWRITE_CLIS} =~ ^([yY][eE][sS]|[yY])+$  ]]; then
+      if [[ ! -d "${TERRA_LXD_PLUGIN_LOC}" ]]; then
+        mkdir -p ${TERRA_LXD_PLUGIN_LOC}
+      fi
+      TERRA_LXD_ZIP="terraform-provider-lxd_${TERRA_LXD_VERSION}_linux_amd64.zip"
+      TERRA_LXD_URL="https://github.com/sl1pm4t/terraform-provider-lxd/releases/download/${TERRA_LXD_VERSION}/${TERRA_LXD_ZIP}"
+      echo ""
+      echo "Installing Terraform Plugin for LXD  ${TERRA_LXD_VERSION} ... "
+      wget -nv -q ${TERRA_LXD_URL} -O  ${TEMP_FOLDER}/${TERRA_LXD_ZIP}
+      unzip -o ${TEMP_FOLDER}/${TERRA_LXD_ZIP} -d ${TERRA_LXD_PLUGIN_LOC} &> /dev/null
+      rm ${TEMP_FOLDER}/${TERRA_LXD_ZIP} &> /dev/null
+      echo "Done"
+      echo "$(ls -a ${TERRA_LXD_PLUGIN_LOC})"
+      echo ""
+    else
+      echo "Terraform LXD plugin already installed."      
+    fi
   fi
 }
 

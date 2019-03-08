@@ -23,6 +23,19 @@ function help(){
   echo ""
 }
 
+function is_root(){
+  if [[ $EUID -ne 0 ]]; then
+    echo "Create cluster script (./create_cluster.sh) must be run as 'root' user"
+    echo "Sudoer may work or may not, depending upon its configuration"
+    echo "Suggestion: sudo su -"
+    echo "            cd ${PWD}"
+    echo "            ./create_cluster.sh ${args[*]}"
+    echo ""
+    echo "Exiting. Please try again."
+    exit 1
+  fi
+}
+
 function parse_params(){
   LXD_HOST=""
   ICP_ENV_NAME_SHORT=""
@@ -75,5 +88,6 @@ function install() {
   source ./icp-setup/setup-icp.sh
 }
 
+is_root
 parse_params
 install

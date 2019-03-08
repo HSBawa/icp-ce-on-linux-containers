@@ -9,9 +9,10 @@
 ##############################################################################
 
 TERRA_LXD_PLUGIN_LOC="${HOME}/.terraform.d/plugins/linux_amd64"
-
 LXD_PACKER_TMPL_NAME=./lxd-setup/tmpl/packer-lxd-image-lvm-bionic.tmpl
 LXD_PACKER_FILE_NAME=./lxd-setup/gen/packer-lxd-image-lvm-bionic
+LXD_MEDIA_SHARE_FOLDER="/media/lxcshare"
+INSTALL_PROPERTIES="./install.properties"
 
 
 function  read_properties() {
@@ -20,7 +21,7 @@ function  read_properties() {
       if [[ "${KEY:0:1}" =~ ^[A-Z]$ ]]; then
         export "$KEY=$VALUE"
       fi
-  done < ./install.properties
+  done < ${INSTALL_PROPERTIES}
 }
 
 function initialize(){
@@ -29,51 +30,68 @@ function initialize(){
   echo ""
   echo "   Running apt-get update ..."
   echo ""
-  sudo apt-get update &> /dev/null
+  apt-get update &> /dev/null
 
   if [[ ${LXD_HOST} =~ ^([aA][wW][sS])+$  ]]; then
-    sudo apt-add-repository 'deb http://us-east-2.ec2.archive.ubuntu.com/ubuntu/ bionic-updates main restricted' &> /dev/null
-    sudo apt-add-repository 'deb http://us-east-2.ec2.archive.ubuntu.com/ubuntu/ bionic universe' &> /dev/null
-    sudo apt-add-repository 'deb http://us-east-2.ec2.archive.ubuntu.com/ubuntu/ bionic-updates universe' &> /dev/null
-    sudo apt-add-repository 'deb http://us-east-2.ec2.archive.ubuntu.com/ubuntu/ bionic multiverse' &> /dev/null
-    sudo apt-add-repository 'deb http://us-east-2.ec2.archive.ubuntu.com/ubuntu/ bionic-updates multiverse' &> /dev/null
-    sudo apt-add-repository 'deb http://us-east-2.ec2.archive.ubuntu.com/ubuntu/ bionic-backports main restricted universe multiverse' &> /dev/null
-    sudo apt-get update &> /dev/null
+    apt-add-repository 'deb http://us-east-2.ec2.archive.ubuntu.com/ubuntu/ bionic-updates main restricted' &> /dev/null
+    apt-add-repository 'deb http://us-east-2.ec2.archive.ubuntu.com/ubuntu/ bionic universe' &> /dev/null
+    apt-add-repository 'deb http://us-east-2.ec2.archive.ubuntu.com/ubuntu/ bionic-updates universe' &> /dev/null
+    apt-add-repository 'deb http://us-east-2.ec2.archive.ubuntu.com/ubuntu/ bionic multiverse' &> /dev/null
+    apt-add-repository 'deb http://us-east-2.ec2.archive.ubuntu.com/ubuntu/ bionic-updates multiverse' &> /dev/null
+    apt-add-repository 'deb http://us-east-2.ec2.archive.ubuntu.com/ubuntu/ bionic-backports main restricted universe multiverse' &> /dev/null
+    apt-get update &> /dev/null
   fi
 
   if [[ ! -z  " ${UPDATE_LINUX_IMAGE}" ]] && [[ ${UPDATE_LINUX_IMAGE} =~ ^([yY][eE][sS]|[yY])+$  ]]; then
     if [[ ${LXD_HOST} =~ ^([aA][wW][sS])+$  ]]; then
       echo "   Updating image: linux-image-$(uname -r) linux-image-extra-virtual"
       echo ""
-      sudo apt install -y linux-image-$(uname -r) linux-modules-extra-$(uname -r) linux-image-extra-virtual &> /dev/null
+      apt install -y linux-image-$(uname -r) linux-image-extra-virtual &> /dev/null
     else
       echo "   Updating image: linux-image-$(uname -r) linux-modules-extra-$(uname -r) linux-image-extra-virtual"
       echo ""
-      sudo apt install -y linux-image-$(uname -r) linux-modules-extra-$(uname -r) linux-image-extra-virtual &> /dev/null
+      apt install -y linux-image-$(uname -r) linux-modules-extra-$(uname -r) linux-image-extra-virtual &> /dev/null
     fi
   fi
 
   if [[ ! -z "${UBUNTU_PACKAGES_TO_INSTALL}" ]]; then
       echo "   Installing packages: ${UBUNTU_PACKAGES_TO_INSTALL} ..."
       echo ""
-      sudo apt install -y ${UBUNTU_PACKAGES_TO_INSTALL} &> /dev/null
+      apt install -y ${UBUNTU_PACKAGES_TO_INSTALL} &> /dev/null
   fi
 
   if [[ ! -z "${HAPROXY_PACKAGE_TO_INSTALL}" ]] &&  [[ ${INSTALL_HAPROXY} =~ ^([yY][eE][sS]|[yY])+$  ]]; then
       echo "   Installing packages: '${HAPROXY_PACKAGE_TO_INSTALL}' ..."
       echo ""
-      sudo apt install -y ${HAPROXY_PACKAGE_TO_INSTALL} &> /dev/null
+      apt install -y ${HAPROXY_PACKAGE_TO_INSTALL} &> /dev/null
   fi
 
-  echo "   Updating/Installing packages: lxd and client ..."
-  echo ""
-  sudo apt install -y lxd lxd-client &> /dev/null
+  ## if LXD is not installed and user has set install to false. Nothing will work. EXIT
+  EXISTS="$(which lxd)"
+  if [[ -z "${EXISTS}"  ]]  && [[ ! ${INSTALL_LXD} =~ ^([yY][eE][sS]|[yY])+$ ]]; then
+      echo "***********************************************************************"
+      echo "Seems like LXD is not installed and install option if tuned off"
+      echo "Set INSTALL_LXD=y in install.properties and try again."
+      echo "***********************************************************************"
+      echo "Exiting."
+      exit
+  fi
 
+  if [[ ${INSTALL_LXD} =~ ^([yY][eE][sS]|[yY])+$  ]]; then
+    echo "   Updating/Installing packages: lxd and lxd client ..."
+    echo ""
+    apt install -y lxd lxd-client &> /dev/null
+  else
+    echo "   User opted not to update/install LXD packages."
+    echo ""
+  fi
 
-  echo "   Creating folder : /media/lxcshare"
-  sudo mkdir -p  /media/lxcshare
-  echo "Done"
-  echo ""
+  if [[ ! -d "${LXD_MEDIA_SHARE_FOLDER}" ]]; then
+    echo "   Creating folder : ${LXD_MEDIA_SHARE_FOLDER}"
+    mkdir -p ${LXD_MEDIA_SHARE_FOLDER}
+    echo ""
+  fi
+
   echo "Waiting for system to settle down ..."
   sleep 10
   echo ""
@@ -81,6 +99,7 @@ function initialize(){
 
 function lxd_init(){
    LXD_LOC="$(which lxd)"
+   ## 2nd Check
    if [[ -z "${LXD_LOC}"  ]]; then
      echo "***********************************************************************"
      echo "Seems like LXD is not installed. Please validate and run install again."
@@ -88,9 +107,9 @@ function lxd_init(){
      echo ""
      exit
    fi
-   LXD_VERSION="$(lxd version)"
 
-   if [[ "3.0.3" != "${LXD_VERSION}" ]]; then
+   LXD_VERSION="$(lxd version)"
+   if [[ "3.0.3" != "${LXD_VERSION}" ]] || [[ "${LXD_LOC}" == *"snap"* ]]; then
      echo "*******************************************************************"
      echo "Unsupported LXD version. Your installation may not work"
      echo "*******************************************************************"
