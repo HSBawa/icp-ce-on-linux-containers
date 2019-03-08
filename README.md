@@ -8,7 +8,7 @@ As ICP is installed on LXD VMs, it can be easily installed and removed without a
 [High Level Architecture](/README.md#high-level-architecture) <br>
 [Supported Platforms](/README.md#supported-platforms) <br>
 [Topologies](/README.md#topologies) <br>
-[Install Configuration](/install.properties)<br>
+[View Install Configuration](/install.properties)<br>
 [Usage](/README.md#usage) <br>
 [Post Install](/README.md#post-install) <br>
 [Screenshots](/docs/screenshots) <br>
@@ -36,7 +36,7 @@ As ICP is installed on LXD VMs, it can be easily installed and removed without a
     <td align="center">3.1.2</td>
     <td align="center">3.0.3 (apt)</td>  
     <td align="center">8Core 16GB-RAM 300GB-Disk</td>  
-    <td align="center">root/sudoer</td>  
+    <td align="center">root</td>  
 </tr>
 </table> <br>
 
@@ -60,6 +60,12 @@ As ICP is installed on LXD VMs, it can be easily installed and removed without a
    <td align="center">1+*</td>
  </tr>
  <tr>
+   <td colspan="2" align="center">1 (B/ME/P)</td>
+   <td align="center">1</td>
+   <td align="center"></td>
+   <td align="center">1+*</td>
+ </tr>
+ <tr>
    <td colspan="2" align="center">1 (B/ME) </td>
    <td align="center">1</td>
    <td align="center">1</td>
@@ -76,10 +82,15 @@ As ICP is installed on LXD VMs, it can be easily installed and removed without a
 
 ### **__Usage__**<br>
 
-#### **__Install properties:__**<br>
+#### **__Git clone:__**<br>
+      sudo su - 
+      git clone https://github.com/HSBawa/icp-ce-on-linux-containers.git
+      cd icp-ce-on-linux-containers
+      
+#### **__Update install properties:__**<br>
 
       For simplified setup, there is one single install.properites file, that will cover configuration for CLIs, LXD and ICP.
-
+           
       Examples:
       ## Use y to create separate Proxy, Management Nodes
       PROXY_NODE=y
@@ -105,7 +116,6 @@ As ICP is installed on LXD VMs, it can be easily installed and removed without a
 
 
 #### **__Create cluster:__**<br>
-
 
      Usage:    ./create_cluster.sh [options]
                   -es or --env-short : Environment name in short. ex: test, dev, demo etc.
