@@ -83,14 +83,14 @@ As ICP is installed on LXD VMs, it can be easily installed and removed without a
 ### **__Usage__**<br>
 
 #### **__Git clone:__**<br>
-      sudo su - 
+      sudo su -
       git clone https://github.com/HSBawa/icp-ce-on-linux-containers.git
       cd icp-ce-on-linux-containers
-      
+
 #### **__Update install properties:__**<br>
 
       For simplified setup, there is one single install.properites file, that will cover configuration for CLIs, LXD and ICP.
-           
+
       Examples:
       ## Use y to create separate Proxy, Management Nodes
       PROXY_NODE=y
@@ -128,11 +128,15 @@ As ICP is installed on LXD VMs, it can be easily installed and removed without a
                 ./create_cluster.sh -es=demo --force --host=pc
 
       Important Notes:
-         It is imporant to use use right `host` parameter depending upon the host machine/vm.
-         LXD cluster uses internal and private subnet. To expose this cluster, HAProxy is installed and configured by default to enable remote access.
-         Make sure to use `static external IP`.
-         If IP is changed after build, remote access to cluster will fail and thus will require a new build.
-         See architecture diagram for more information
+         - It is imporant to use use right `host` parameter depending upon your host machine/vm.
+         - LXD cluster uses internal and private subnet. To expose this cluster, HAProxy is installed and configured by default to enable remote access.
+         - Recommended use of `static external IP`.
+         - If external IP gets changed after build, remote access to cluster will fail and thus will require a new build.
+         - This IaC is not tested with LXD installed via SNAP. I had so many issues using it, that I had to switch to APT based 3.0.3, which is considered as production stable
+         - During install, if you encounter error: "...Failed container creation: Create LXC container: LXD doesn't have a uid/gid allocation...", validate that the files '/etc/subgid' and '/etc/subuid' have content similar to shown below:
+               lxd:100000:65536
+               root:100000:65536
+               [username goes here]:165536:65536
 
 #### **__Download `cloudctl` and `helm` clis__:**<br>
 
