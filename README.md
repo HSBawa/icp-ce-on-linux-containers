@@ -137,6 +137,12 @@ As ICP is installed on LXD VMs, it can be easily installed and removed without a
                lxd:100000:65536
                root:100000:65536
                [username goes here]:165536:65536
+         - During install, if your build is stuck at the following message for greater than 5 mins: "....icp_ce_master: Still creating... ", perform the following steps:
+               * Cancel installation (Ctrl-C). May need more than one. 
+               * Destroy cluster (./destroy_cluster.sh)
+               * Create cluster  (./create_cluster.sh)
+               
+               If you still see this issue next time, open a GIT issue, with as much possible details, and I can take look into it.
 
 #### **__Download `cloudctl` and `helm` clis__:**<br>
 
