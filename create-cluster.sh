@@ -85,7 +85,7 @@ function parse_params(){
 function install() {
   source ./cli-setup/install-clis.sh
   source ./lxd-setup/setup-lxd.sh
-  source ./icp-setup/setup-icp.sh
+  # source ./icp-setup/setup-icp.sh
 }
 
 is_root

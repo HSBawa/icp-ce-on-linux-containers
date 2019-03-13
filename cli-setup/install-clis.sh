@@ -18,6 +18,21 @@ function  read_properties() {
   done < ./install.properties
 }
 
+function check_curl_wget(){
+   EXISTS="$(which curl)"
+   if [[ -z ${EXISTS} ]]; then
+      echo "Installing dependency curl"
+      apt install curl -y
+      echo ""
+   fi
+   EXISTS="$(which wget)"
+   if [[ -z ${EXISTS} ]]; then
+      echo "Installing dependency wget ..."
+      apt install wget -y
+      echo ""
+   fi
+}
+
 function install_terraform_plugin_for_lxd(){
   if [[ ${INSTALL_TERRAFORM_LXD_PLUGIN} =~ ^([yY][eE][sS]|[yY])+$  ]]; then
     if [[ -f ${TERRA_LXD_PLUGIN} ]] || [[ ${OVERWRITE_CLIS} =~ ^([yY][eE][sS]|[yY])+$  ]]; then
@@ -35,7 +50,7 @@ function install_terraform_plugin_for_lxd(){
       echo "$(ls -a ${TERRA_LXD_PLUGIN_LOC})"
       echo ""
     else
-      echo "Terraform LXD plugin already installed."      
+      echo "Terraform LXD plugin already installed."
     fi
   fi
 }
@@ -130,6 +145,7 @@ function install_kubectl(){
 }
 
 read_properties
+check_curl_wget
 install_terraform_plugin_for_lxd
 install_terraform
 install_kubectl
