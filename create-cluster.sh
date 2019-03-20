@@ -8,6 +8,16 @@ INSTALL_PROPERITES="./install.properties"
 
 args=($@)
 
+function  read_properties() {
+  while IFS== read -r KEY VALUE
+  do
+      if [[ "${KEY:0:1}" =~ ^[A-Z]$ ]]; then
+        export "$KEY=$VALUE"
+      fi
+  done < ${INSTALL_PROPERITES}
+}
+
+
 function help(){
   echo ""
   echo "Any command options passed with install will update 'install.properties' file accordingly."
@@ -83,11 +93,15 @@ function parse_params(){
 }
 
 function install() {
+  if [[ -f "./cluster.properties" ]]; then
+    echo "## This file is auto-generated ##" > cluster.properties
+  fi
   source ./cli-setup/install-clis.sh
   source ./lxd-setup/setup-lxd.sh
   source ./icp-setup/setup-icp.sh
 }
 
 is_root
+read_properties
 parse_params
 install

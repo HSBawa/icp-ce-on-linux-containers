@@ -2,5 +2,14 @@
 terraform.tfstate*
 .terraform.tfstate.lock.info
 icp-setup/plan/*.txt
-icp-setup/ssh-keys/id_rsa*
+plan/*.txt
 cluster.properties
+icp-setup/ssh-keys/id_rsa
+icp-setup/ssh-keys/id_rsa.pub
+icp-setup/ssh-keys/id_rsa.bak
+icp-setup/ssh-keys/id_rsa.pub.bak
+icp-setup/cluster/ssh-key
+icp-setup/cluster/config.yaml
+icp-setup/cluster/config.yaml.bak
+icp-setup/router-certs/icp-router.csr
+icp-setup/router-certs/icp-router.key

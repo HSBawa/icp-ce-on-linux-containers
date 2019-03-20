@@ -33,8 +33,14 @@ function read_properties(){
 
 ## configure_docker_cli.sh ${ICP_ENV_NAME_SHORT}
 function initialize(){
-  CA_DOMAIN="${ICP_CLUSTER_NAME}.icp:8500"
-  CRT_DIR="/etc/docker/certs.d/${ICP_CLUSTER_NAME}.icp:8500"
+  if [[ ${ICP_USE_ROUTER_KEY} =~ ^([yY][eE][sS]|[yY])+$ ]] && [[ ! -z ${ICP_ROUTER_CA_DOMAIN} ]]; then
+    CA_DOMAIN=${ICP_ROUTER_CA_DOMAIN}
+  else
+    ## Assuming that ICP CA DOMAIN is {{ cluster_name }}.icp
+    ## Tune your logic accordingly
+    CA_DOMAIN="${ICP_CLUSTER_NAME}.icp"
+  fi
+    CRT_DIR="/etc/docker/certs.d/${CA_DOMAIN}:8500"
 }
 
 function auth_for_docker_cli(){

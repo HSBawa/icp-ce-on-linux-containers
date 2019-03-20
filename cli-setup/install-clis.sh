@@ -150,3 +150,4 @@ install_terraform_plugin_for_lxd
 install_terraform
 install_kubectl
 install_packer
+install_docker

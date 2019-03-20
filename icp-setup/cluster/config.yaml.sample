@@ -187,11 +187,11 @@ isolated_proxies: []
 
 ## External loadbalancer IP or domain
 ## Or floating IP in OpenStack environment
-cluster_lb_address: 192.168.1.57
+cluster_lb_address: 192.168.1.59
 
 ## External loadbalancer IP or domain
 ## Or floating IP in OpenStack environment
-proxy_lb_address: 192.168.1.57
+proxy_lb_address: 192.168.1.59
 
 ## Install in firewall enabled mode
 # firewall_enabled: false

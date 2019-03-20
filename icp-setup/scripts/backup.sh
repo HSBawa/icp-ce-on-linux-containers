@@ -21,20 +21,31 @@ function backup(){
     CLUSTER_FOLDER="${ICP_SETUP_FOLDER}/cluster"
 
     echo ">>>>>>>>>>>>>>>[Backing up SSH Keys on local host ... ]"
-    mv ${SSH_KEYS_FOLDER}/id_rsa ${SSH_KEYS_FOLDER}/id_rsa.bak &> /dev/null
-    mv ${SSH_KEYS_FOLDER}/id_rsa.pub ${SSH_KEYS_FOLDER}/id_rsa.pub.bak &> /dev/null
+    if [[ -f "${SSH_KEYS_FOLDER}/id_rsa" ]]; then
+      mv ${SSH_KEYS_FOLDER}/id_rsa ${SSH_KEYS_FOLDER}/id_rsa.bak &> /dev/null
+    fi
+    
+    if [[ -f "${SSH_KEYS_FOLDER}/id_rsa.pub" ]]; then
+      mv ${SSH_KEYS_FOLDER}/id_rsa.pub ${SSH_KEYS_FOLDER}/id_rsa.pub.bak &> /dev/null
+    fi
     echo ""
 
     echo ">>>>>>>>>>>>>>>[Backing up hosts file on local host ... ]"
-    mv ${CLUSTER_FOLDER}/hosts ${CLUSTER_FOLDER}/hosts.bak &> /dev/null
+    if [[ -f "${CLUSTER_FOLDER}/hosts" ]]; then
+      mv ${CLUSTER_FOLDER}/hosts ${CLUSTER_FOLDER}/hosts.bak &> /dev/null
+    fi
     echo ""
 
     echo ">>>>>>>>>>>>>>>[Backing up etc-hosts file on local host ... ]"
-    mv ${CLUSTER_FOLDER}/etc-hosts ${CLUSTER_FOLDER}/etc-hosts.bak &> /dev/null
+    if [[ -f "${CLUSTER_FOLDER}/etc-hosts" ]]; then
+      mv ${CLUSTER_FOLDER}/etc-hosts ${CLUSTER_FOLDER}/etc-hosts.bak &> /dev/null
+    fi
     echo ""
 
     echo ">>>>>>>>>>>>>>>[Backing up config file on local host ... ]"
-    mv ${CLUSTER_FOLDER}/config.yaml ${CLUSTER_FOLDER}/config.yaml.bak &> /dev/null
+    if [[ -f "${CLUSTER_FOLDER}/etc-hosts" ]]; then
+      mv ${CLUSTER_FOLDER}/config.yaml ${CLUSTER_FOLDER}/config.yaml.bak &> /dev/null
+    fi
     echo ""
 }
 

@@ -48,7 +48,7 @@ function update_config(){
 
     echo ">>>>>>>>>>>>>>>[Update ICP Config YAML : ${ICP_CONFIG_FILE}]"
     ICP_CLUSTER_NAME="${ICP_ENV_NAME_SHORT}icpcluster"
-    echo "ICP_CLUSTER_NAME=${ICP_CLUSTER_NAME}" > ${CLUSTER_PROPERTIES}
+    echo "ICP_CLUSTER_NAME=${ICP_CLUSTER_NAME}" >> ${CLUSTER_PROPERTIES}
 
     if [[ ${ICP_AUTO_LOOKUP_HOST_IP_ADDRESS_AS_LB_ADDRESS} =~ ^([yY][eE][sS]|[yY])+$  ]]; then
         ICP_MASTER_LB_ADDRESS=${HOST_IP_ADDRESS}

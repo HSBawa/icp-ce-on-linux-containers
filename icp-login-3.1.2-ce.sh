@@ -21,8 +21,8 @@ echo  ""
 echo "[If you have issues executing cloudctl command, clean up ~/.cloudctl and ~/.helm]"
 echo  ""
 cloudctl login -a https://10.50.50.101:8443 \
-               -u admin \
-               -p admin_4589 \
+               -u hsbawa \
+               -p Adm1n_6754 \
                -c id-devicpcluster-account \
                -n default \
                --skip-ssl-validation

@@ -26,6 +26,11 @@ function install(){
     if [[ ${SETUP_HAPROXY_ICP} =~ ^([yY][eE][sS]|[yY])+$  ]] && [[ ${INSTALL_HAPROXY} =~ ^([yY][eE][sS]|[yY])+$ ]]; then
         sudo ${SCRIPTS_FOLDER}/haproxy-cfg.sh
     fi
+
+    if [[ ${ICP_USE_ROUTER_KEY} =~ ^([yY][eE][sS]|[yY])+$  ]]; then
+        sudo ${SCRIPTS_FOLDER}/router-keys.sh
+    fi
+
     ## VM Performance tuning
     source ${SCRIPTS_FOLDER}/lxd-node-opt.sh
 

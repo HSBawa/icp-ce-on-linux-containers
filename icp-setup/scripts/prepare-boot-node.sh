@@ -25,6 +25,8 @@ ICP_PROXY_IMG="/share/icp-ce-3.1.2-proxy.tar.gz"
 ICP_LOGIN_SH_FILE=""
 SSH_KEYS_FOLDER=""
 CLUSTER_FOLDER=""
+ROUTER_KEYS_FOLDER=""
+BOOT_ICP_CFC_CERTS_DIR=""
 
 
 function  read_properties(){
@@ -57,12 +59,14 @@ function  read_properties(){
 function  initialize(){
   SSH_KEYS_FOLDER="${ICP_SETUP_FOLDER}/ssh-keys"
   CLUSTER_FOLDER="${ICP_SETUP_FOLDER}/cluster"
+  ROUTER_KEYS_FOLDER="${ICP_SETUP_FOLDER}/router-certs"
   DOWNLOAD_CLIS_FILE_TMPL="${ICP_SETUP_FOLDER}/scripts/tmpl/download-icp-cloudctl-helm.sh.tmpl"
   ICP_LOGIN_SH_FILE_TMPL="${ICP_SETUP_FOLDER}/scripts/tmpl/icp-login.sh.tmpl"
   BOOT_NODE_GREP_KEY="${ICP_MASTER_NAME}"
   VMS=($(lxc list ${ICP_ENV_NAME_SHORT}- -c n --format=csv))
   BOOT_ICP_DIR="/opt/icp-${ICP_TAG}-${ICP_EDITION}"
   BOOT_ICP_CLUSTER_DIR="$BOOT_ICP_DIR/cluster"
+  BOOT_ICP_CFC_CERTS_DIR="${BOOT_ICP_CLUSTER_DIR}/cfc-certs/router"
   BOOT_ICP_BIN_DIR="$BOOT_ICP_DIR/bin"
   BOOT_ICP_LOG_DIR="$BOOT_ICP_DIR/log"
   BOOT_VM="${ICP_ENV_NAME_SHORT}-${ICP_MASTER_NAME}-0"
@@ -101,12 +105,18 @@ function copy_config_files(){
     lxc file push --create-dirs=true --gid=0 --uid=0 --mode="0744" ${CLUSTER_FOLDER}/install.sh $BOOT_VM$BOOT_ICP_BIN_DIR/install.sh
     lxc file push --create-dirs=true --gid=0 --uid=0 --mode="0744" ${CLUSTER_FOLDER}/install-dbg.sh $BOOT_VM$BOOT_ICP_BIN_DIR/install-dbg.sh
     lxc file push --create-dirs=true --gid=0 --uid=0 --mode="0744" ${CLUSTER_FOLDER}/uninstall.sh $BOOT_VM$BOOT_ICP_BIN_DIR/uninstall.sh
+
     echo "$BOOT_ICP_CLUSTER_DIR"
     echo "lxc exec $BOOT_VM -- sh -c \"cp /root/cluster/config.yaml $BOOT_ICP_CLUSTER_DIR/config.yaml\""
     lxc exec $BOOT_VM -- sh -c  "cp /root/.ssh/id_rsa $BOOT_ICP_CLUSTER_DIR/ssh_key"
     lxc exec $BOOT_VM -- sh -c "cp /root/cluster/hosts $BOOT_ICP_CLUSTER_DIR/hosts"
     lxc exec $BOOT_VM -- sh -c "cp /root/cluster/config.yaml $BOOT_ICP_CLUSTER_DIR/config.yaml"
     lxc exec $BOOT_VM -- sh -c "ls -al $BOOT_ICP_CLUSTER_DIR"
+    if [[ ${ICP_USE_ROUTER_KEY} =~ ^([yY][eE][sS]|[yY])+$  ]]; then
+      lxc file push --create-dirs=true --gid=0 --uid=0 --mode="0400" ${ROUTER_KEYS_FOLDER}/icp-router.crt $BOOT_VM/${BOOT_ICP_CFC_CERTS_DIR}/icp-router.crt
+      lxc file push --create-dirs=true --gid=0 --uid=0 --mode="0400" ${ROUTER_KEYS_FOLDER}/icp-router.key $BOOT_VM/${BOOT_ICP_CFC_CERTS_DIR}/icp-router.key
+    fi
+    lxc exec $BOOT_VM -- sh -c "ls -al $BOOT_ICP_CFC_CERTS_DIR"
 }
 
 function extract_configuration_data(){
