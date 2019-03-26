@@ -54,12 +54,13 @@ function update_haproxy_cfg(){
           -e 's|@@MASTER_NODE_IP@@|'"${MASTER_NODE_IP}"'|g' < ${ICP_HAPROXY_MP_TMPL} >> ${HAPROXY_CFG}
       # cat ${ICP_HAPROXY_M_FILE} >> ${HAPROXY_CFG}
     fi
-    cat ${HAPROXY_CFG}
-    sleep 5
-    sudo systemctl restart haproxy.service
+    echo "Listing updated /etc/haproxy/haproxy.cfg ..."
+    cat ${HAPROXY_CFG}    
   fi
 }
 
 read_properties
 initialize
 update_haproxy_cfg
+echo "Restarting haproxy service ..."
+sudo systemctl restart haproxy.service
