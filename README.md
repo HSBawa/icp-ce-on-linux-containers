@@ -128,6 +128,7 @@ As ICP is installed on LXD VMs, it can be easily installed and removed without a
                 ./create_cluster.sh -es=demo --force --host=pc
 
       Important Notes:
+         - v1.1.3 version of Terraform Provider for LXD may not work with recently released Terraform 0.12.x. 
          - It is imporant to use use right `host` parameter depending upon your host machine/vm.
          - LXD cluster uses internal and private subnet. To expose this cluster, HAProxy is installed and configured by default to enable remote access.
          - Recommended use of `static external IP`.
