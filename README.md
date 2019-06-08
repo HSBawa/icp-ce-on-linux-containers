@@ -110,9 +110,20 @@ As ICP is installed on LXD VMs, it can be easily installed and removed without a
 
       ## Used for console/scripted login, provide your choice of username and password
       ## Default namespace will be added to auto-generated login helper script
+      ## For extra security, random Username and Password auto generation based on patterns is supported.
+      ## Auto generated username and/or password can be found in config.yaml or helper login script (keep them secure)
       ICP_DEFAULT_NAMESPACE=default
       ICP_DEFAULT_ADMIN_USER=admin
+      ICP_AUTO_GEN_RANDOM_ADMIN_USERNAME=n
+      ICP_AUTO_GEN_RANDOM_ADMIN_USERNAME_PATTERN=a-z
+      ICP_AUTO_GEN_RANDOM_ADMIN_USERNAME_LENGTH=10
+
       ICP_DEFAULT_ADMIN_PASSWORD=xxxxxxx
+      ICP_AUTO_GEN_RANDOM_PASSWORD=y
+      ## ICP Default password pattern of '^([a-zA-Z0-9\-]' with length 32 chars or more
+      ICP_PASSWORD_RULE_PATTERN=^([a-zA-Z0-9\-]{32,})$
+      ICP_AUTO_GEN_RANDOM_PASSWORD_LENGTH=35
+      ICP_AUTO_GEN_RANDOM_PASSWORD_PATTERN=a-zA-Z0-9-
 
 
 #### **__Create cluster:__**<br>
