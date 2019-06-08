@@ -1,4 +1,4 @@
-Welcome to my IBM Cloud Private (Community Edition) on Linux Containers Infrastructure as a Code (IaaC). With the help of this IaaC, developers can easily setup a **multi virtual node ICP cluster** on a **single** Linux Metal/VM!!!<br>
+Welcome to my IBM Cloud Private (Community Edition) on Linux Containers Infrastructure as a Code (IaaC). With the help of this IaaC, developers can easily setup a **virtual multi-node ICP cluster** on a **single** Linux Metal/VM!!!<br>
 
 This IaC not only takes away the pain of all manual configuration, but will also save valuable resources (nodes) by utilizing a single host machine to provide multi node ICP Kubernetes experience. It will install required CLIs, setup LXD, setup ICP-CE and some utility scripts.
 
