@@ -23,7 +23,7 @@ echo  ""
 echo "cloudctl login -a https://10.50.50.101:8443 -u admin -p ****** -c id-devicpcluster-account -n default --skip-ssl-validation"
 cloudctl login -a https://10.50.50.101:8443 \
                -u admin \
-               -p taydasadsadreqwr \
+               -p ********** \
                -c id-devicpcluster-account \
                -n default \
                --skip-ssl-validation

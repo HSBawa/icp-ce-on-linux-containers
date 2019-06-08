@@ -191,13 +191,13 @@ function run_install(){
         pod_check_interval=20
         echo ""
         echo ">>>>>>>>>>>>>>>[ICP installation was success]"
-        if [[ ${ICP_TAG} =~ ^("3.1.1"|"3.1.2"|"3.2.0")$ ]]; then
+        if [[ ${ICP_TAG} =~ ^("3.1.2"|"3.2.0")$ ]]; then
             echo ">>>>>>>>>>>>>>>>>>Creating shell script ($DOWNLOAD_CLIS_FILE) to download: cloudctl, helm and kubectl<<<<<<<<<<<<<<<<<<"
             create_cli_download_script
             echo ""
             echo ">>>>>>>>>>>>>>>>>Creating helper login script for your login ease <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
             create_icp_login_script
-            cat ${ICP_LOGIN_SH_FILE}
+            echo "Login helper script (**contains password**): ${ICP_LOGIN_SH_FILE}"
             echo "Done"
             echo ""
         fi
