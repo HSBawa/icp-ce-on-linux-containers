@@ -4,7 +4,7 @@ This IaC not only takes away the pain of all manual configuration, but will also
 
 As ICP is installed on LXD VMs, it can be easily installed and removed without any impact to host environment. Only LXD, CLIs and other desired/required packages will be installed on the host.
 
-[ICP 3.1.2 - Getting started](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_3.1.2/getting_started/introduction.html)  <br>
+[ICP 3.2.0 - Getting started](https://www.ibm.com/support/knowledgecenter/en/SSBS6K_3.2.0/getting_started/introduction.html)  <br>
 [High Level Architecture](/README.md#high-level-architecture) <br>
 [Supported Platforms](/README.md#supported-platforms) <br>
 [Topologies](/README.md#topologies) <br>
@@ -33,7 +33,7 @@ As ICP is installed on LXD VMs, it can be easily installed and removed without a
  <tr>
     <td align="center">Ubuntu 18.04</td>
     <td align="center">Ubuntu 18.04</td>
-    <td align="center">3.1.2</td>
+    <td align="center">3.2.0</td>
     <td align="center">3.0.3 (apt)</td>  
     <td align="center">8Core 16GB-RAM 300GB-Disk</td>  
     <td align="center">root</td>  
@@ -74,7 +74,7 @@ As ICP is installed on LXD VMs, it can be easily installed and removed without a
   <td colspan="5">*Set desired worker node count in install.properties before setting up cluster.</td>
  </tr>
  <tr>
-    <td colspan="5">Supported topologies based on <a href="https://www.ibm.com/support/knowledgecenter/en/SSBS6K_3.1.2/getting_started/architecture.html">ICP Architecture</a></td>
+    <td colspan="5">Supported topologies based on <a href="https://www.ibm.com/support/knowledgecenter/en/SSBS6K_3.2.0/getting_started/architecture.html">ICP Architecture</a></td>
  <tr>
     <td colspan="5">ICP Community Edition does not support HA. Master, Management and Proxy nodes count must always be 1</td>
  </tr>
@@ -128,7 +128,7 @@ As ICP is installed on LXD VMs, it can be easily installed and removed without a
                 ./create_cluster.sh -es=demo --force --host=pc
 
       Important Notes:
-         - v1.1.3 version of Terraform Provider for LXD may not work with recently released Terraform 0.12.x. 
+         - v1.1.3 version of Terraform Provider for LXD may not work with recently released Terraform 0.12.x.
          - It is imporant to use use right `host` parameter depending upon your host machine/vm.
          - LXD cluster uses internal and private subnet. To expose this cluster, HAProxy is installed and configured by default to enable remote access.
          - Recommended use of `static external IP`.
@@ -139,10 +139,10 @@ As ICP is installed on LXD VMs, it can be easily installed and removed without a
                root:100000:65536
                [username goes here]:165536:65536
          - During install, if your build is stuck at the following message for greater than 10 mins: "....icp_ce_master: Still creating... ", perform the following steps:
-               * Cancel installation (Ctrl-C). May need more than one. 
+               * Cancel installation (Ctrl-C). May need more than one.
                * Destroy cluster (./destroy_cluster.sh)
                * Create cluster  (./create_cluster.sh)
-               
+
                If you still see this issue next time, open a GIT issue, with as much possible details, and I can take look into it.
 
 #### **__Download `cloudctl` and `helm` clis__:**<br>
@@ -151,7 +151,7 @@ As ICP is installed on LXD VMs, it can be easily installed and removed without a
 
 #### **__Login into cluster:__**<br>
 
-     ./icp-login-3.1.2-ce.sh
+     ./icp-login-3.2.0-ce.sh
      or
      cloudctl login -a https://<internal_master_ip>:8443 -u <default_admin_user> -p <default_admin_user> -c id-devicpcluster-account -n default --skip-ssl-validation
      or
