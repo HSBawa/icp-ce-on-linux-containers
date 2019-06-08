@@ -42,7 +42,7 @@ provider "lxd"{
      scheme   = "https"
      address  = "127.0.0.1"
      port     = "10443"
-     password = "yTR78_Z90"
+     password = "U7r90Xdr64043"
    }
 
   # ### Images

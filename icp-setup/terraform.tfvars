@@ -41,7 +41,7 @@ lxd = {
 ## ICP properties
 ###############################################################################
 icp = {
-    tag="3.1.2"
+    tag="3.2.0"
     edition="ce"
     installer="ibmcom/icp-inception-amd64"
     ### Debug Install Use Only (true or false)

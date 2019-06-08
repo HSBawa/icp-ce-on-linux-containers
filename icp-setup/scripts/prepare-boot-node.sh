@@ -93,6 +93,10 @@ function setup_inception_image(){
     fi
 }
 
+function fix_loop_issue(){
+    lxc exec ${BOOT_VM} -- sh -c "sed -i 's/nameserver 127.0.0.1/#nameserver 127.0.0.1/g' /etc/resolv.conf"
+}
+
 function copy_config_files(){
     lxc exec $BOOT_VM -- mkdir -p $BOOT_ICP_CLUSTER_DIR
     lxc exec $BOOT_VM -- mkdir -p /root/cluster/
@@ -187,7 +191,7 @@ function run_install(){
         pod_check_interval=20
         echo ""
         echo ">>>>>>>>>>>>>>>[ICP installation was success]"
-        if [[ ${ICP_TAG} =~ ^("3.1.1"|"3.1.2")$ ]]; then
+        if [[ ${ICP_TAG} =~ ^("3.1.1"|"3.1.2"|"3.2.0")$ ]]; then
             echo ">>>>>>>>>>>>>>>>>>Creating shell script ($DOWNLOAD_CLIS_FILE) to download: cloudctl, helm and kubectl<<<<<<<<<<<<<<<<<<"
             create_cli_download_script
             echo ""
@@ -226,6 +230,9 @@ initialize
 echo ">>>>>>>>>>>>>>>[Retrieving boot node information ...] "
 get_boot_vm_name
 echo "Boot Node name is: $BOOT_VM"
+echo ""
+echo ">>>>>>>>>>>>>>>[Fix loop on $BOOT_VM ...]"
+fix_loop_issue
 echo ""
 echo ">>>>>>>>>>>>>>>[Setting up inception image on $BOOT_VM ...] "
 setup_inception_image

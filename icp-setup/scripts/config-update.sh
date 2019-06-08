@@ -43,7 +43,7 @@ function  read_properties() {
 }
 
 function update_config(){
-    ICP_CONFIG_TMPL_FILE="${ICP_SETUP_FOLDER}/cluster/config.yaml.312.tmpl"
+    ICP_CONFIG_TMPL_FILE="${ICP_SETUP_FOLDER}/cluster/${ICP_CONFIG_YAML_TMPL_FILE}"
     ICP_CONFIG_FILE="${ICP_SETUP_FOLDER}/cluster/config.yaml"
 
     echo ">>>>>>>>>>>>>>>[Update ICP Config YAML : ${ICP_CONFIG_FILE}]"

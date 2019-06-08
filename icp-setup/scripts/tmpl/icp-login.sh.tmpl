@@ -20,18 +20,34 @@ fi
 echo  ""
 echo "[If you have issues executing cloudctl command, clean up ~/.cloudctl and ~/.helm]"
 echo  ""
+echo "cloudctl login -a https://@@MASTER_NODE_IP@@:8443 -u @@ICP_DEFAULT_ADMIN_USER@@ -p ****** -c id-@@ICP_CLUSTER_NAME@@-account -n @@ICP_DEFAULT_NAMESPACE@@ --skip-ssl-validation"
 cloudctl login -a https://@@MASTER_NODE_IP@@:8443 \
                -u @@ICP_DEFAULT_ADMIN_USER@@ \
                -p @@ICP_DEFAULT_ADMIN_PASSWORD@@ \
                -c id-@@ICP_CLUSTER_NAME@@-account \
                -n @@ICP_DEFAULT_NAMESPACE@@ \
                --skip-ssl-validation
-cloudctl cm nodes
-cloudctl api
-cloudctl target
-cloudctl config --list
-cloudctl catalog repos
-cloudctl iam roles
-cloudctl iam services
-cloudctl iam service-ids
-cloudctl catalog charts
+ echo  ""
+ echo "cloudctl api : "
+ cloudctl api
+ echo  ""
+ echo "cloudctl target : "
+ cloudctl target
+ echo  ""
+ echo "cloudctl config --list : "
+ cloudctl config --list
+ echo  ""
+ echo "cloudctl catalog repos : "
+ cloudctl catalog repos
+ echo  ""
+ echo "cloudctl iam roles : "
+ cloudctl iam roles
+ echo  ""
+ echo "cloudctl iam services : "
+ cloudctl iam services
+ echo  ""
+ echo "cloudctl iam service-ids : "
+ cloudctl iam service-ids
+ echo  ""
+ echo "cloudctl catalog charts : "
+ cloudctl catalog charts
