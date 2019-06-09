@@ -34,7 +34,7 @@ As ICP is installed on LXD VMs, it can be easily installed and removed without a
  <tr>
     <td align="center">Ubuntu 18.04</td>
     <td align="center">Ubuntu 18.04</td>
-    <td align="center">3.2.0</td>
+    <td align="center">3.2.0/3.1.2</td>
     <td align="center">3.0.3 (apt)</td>  
     <td align="center">8Core 16GB-RAM 300GB-Disk</td>  
     <td align="center">root</td>  
