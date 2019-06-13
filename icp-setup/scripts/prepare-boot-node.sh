@@ -17,16 +17,14 @@ MASTER_IP="10.50.50.101"
 DOWNLOAD_CLIS_FILE="./download_icp_cloudctl_helm.sh"
 ICP_LOGIN_SH_FILE_TMPL=""
 BOOT_NODE_GREP_KEY="master"
-ICP_BOOT_IMG_LXCSHARE="/media/lxcshare/icp-ce-3.1.2-boot.tar.gz"
-ICP_BOOT_IMG="/share/icp-ce-3.1.2-boot.tar.gz"
-ICP_MASTER_IMG="/share/icp-ce-3.1.2-master.tar.gz"
-ICP_COMMON_WORKER_IMG="/share/icp-ce-3.1.2-common-worker.tar.gz"
-ICP_PROXY_IMG="/share/icp-ce-3.1.2-proxy.tar.gz"
+BOOT_ICP_DOCKER_IMAGE=""
+BOOT_ICP_DOCKER_IMAGE_LOCAL=""
 ICP_LOGIN_SH_FILE=""
 SSH_KEYS_FOLDER=""
 CLUSTER_FOLDER=""
 ROUTER_KEYS_FOLDER=""
 BOOT_ICP_CFC_CERTS_DIR=""
+
 
 
 function  read_properties(){
@@ -71,6 +69,8 @@ function  initialize(){
   BOOT_ICP_LOG_DIR="$BOOT_ICP_DIR/log"
   BOOT_VM="${ICP_ENV_NAME_SHORT}-${ICP_MASTER_NAME}-0"
   BOOT_NODE_GREP_KEY=${ICP_MASTER_NAME}
+  BOOT_ICP_DOCKER_IMAGE="/share/${ICP_DOCKER_IMG}"
+  BOOT_ICP_DOCKER_IMAGE_LOCAL="/media/lxcshare/${ICP_DOCKER_IMG}"
   ICP_LOGIN_SH_FILE=./icp-login-${ICP_TAG}-${ICP_EDITION}.sh
   MASTER_IP=$(lxc exec  ${BOOT_VM} -- ip addr show eth0 | grep 'inet\b' | awk '{print $2}' | cut -d/ -f1)
   echo "$MASTER_IP"
@@ -83,13 +83,13 @@ function get_boot_vm_name(){
 }
 
 function setup_inception_image(){
-    echo "Checking if $ICP_BOOT_IMG_LXCSHARE exists"
-    if [[ ! -f $ICP_BOOT_IMG_LXCSHARE ]]; then
-       echo "$ICP_BOOT_IMG_LXCSHARE does not exists"
-       echo "Pulling ${ICP_INSTALLER}:${ICP_TAG}"
-       lxc exec $BOOT_VM -- sh -c "docker pull ${ICP_INSTALLER}:${ICP_TAG}"
+    echo "Checking if ${BOOT_ICP_DOCKER_IMAGE_LOCAL} exists"
+    if [[ -f ${BOOT_ICP_DOCKER_IMAGE_LOCAL} ]] && [[ ${ICP_USE_DOCKER_IMG} =~ ^([yY][eE][sS]|[yY])+$ ]]; then
+      lxc file push --create-dirs=true --gid=0 --uid=0 --mode="0644" ${BOOT_ICP_DOCKER_IMAGE_LOCAL} $BOOT_VM/$BOOT_ICP_CLUSTER_DIR/images/${ICP_DOCKER_IMG}
+      load_icp_docker_image
     else
-       load_docker_archives
+      echo "Pulling ${ICP_INSTALLER}:${ICP_TAG}"
+      lxc exec $BOOT_VM -- sh -c "docker pull ${ICP_INSTALLER}:${ICP_TAG}"
     fi
 }
 
@@ -113,43 +113,31 @@ function copy_config_files(){
     lxc exec $BOOT_VM -- sh -c "cp /root/cluster/config.yaml $BOOT_ICP_CLUSTER_DIR/config.yaml"
     lxc exec $BOOT_VM -- sh -c "ls -al $BOOT_ICP_CLUSTER_DIR"
     if [[ ${ICP_USE_ROUTER_KEY} =~ ^([yY][eE][sS]|[yY])+$  ]]; then
+      echo "$(ls -al ${ROUTER_KEYS_FOLDER})"
       lxc file push --create-dirs=true --gid=0 --uid=0 --mode="0400" ${ROUTER_KEYS_FOLDER}/icp-router.crt $BOOT_VM/${BOOT_ICP_CFC_CERTS_DIR}/icp-router.crt
       lxc file push --create-dirs=true --gid=0 --uid=0 --mode="0400" ${ROUTER_KEYS_FOLDER}/icp-router.key $BOOT_VM/${BOOT_ICP_CFC_CERTS_DIR}/icp-router.key
+      lxc exec $BOOT_VM -- sh -c "ls -al $BOOT_ICP_CFC_CERTS_DIR"
+      echo "To replace certificates after install: https://www.ibm.com/support/knowledgecenter/SSBS6K_3.1.2/user_management/byok_certs.html"
     fi
-    lxc exec $BOOT_VM -- sh -c "ls -al $BOOT_ICP_CFC_CERTS_DIR"
+
 }
 
 function extract_configuration_data(){
   echo "Extracting configuration data ..."
-  lxc exec $BOOT_VM -- sh -c "docker run -e LICENSE=accept -v $BOOT_ICP_DIR:/data $ICP_INSTALLER:${ICP_TAG} cp -r cluster /data"
+    if [[ -f ${BOOT_ICP_DOCKER_IMAGE_LOCAL} ]] && [[ ${ICP_USE_DOCKER_IMG} =~ ^([yY][eE][sS]|[yY])+$ ]]; then
+      lxc exec $BOOT_VM -- sh -c "docker run -e LICENSE=accept -v $BOOT_ICP_DIR:/data $ICP_INSTALLER:${ICP_TAG}-${ICP_EDITION} cp -r cluster /data"
+
+    else
+      lxc exec $BOOT_VM -- sh -c "docker run -e LICENSE=accept -v $BOOT_ICP_DIR:/data $ICP_INSTALLER:${ICP_TAG} cp -r cluster /data"
+    fi
   sleep 10
   lxc exec $BOOT_VM -- sh -c "ls -al $BOOT_ICP_CLUSTER_DIR"
 }
 
-function load_docker_archives(){
-    echo ">>>>>>>>>>>>>>>>>>>>>>>>> Loading ICP Docker Images for all VMS<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
-    for index in ${!VMS[*]}
-    do
-        vm=${VMS[$index]}
-        ## Update VM /etc/hosts file
-        case "$vm" in
-             *master*)
-                 echo "Loading ICP Docker images for Master Node: "
-                 lxc exec $vm -- sh -c "docker load -i $ICP_BOOT_IMG" &> /dev/null
-                 lxc exec $vm -- sh -c "docker load -i $ICP_COMMON_WORKER_IMG" &> /dev/null
-                 lxc exec $vm -- sh -c "docker load -i $ICP_MASTER_IMG" &> /dev/null
-                 ;;
-             *proxy*)
-                 echo "Loading ICP Docker images for Proxy Node: "
-                 lxc exec $vm -- sh -c "docker load -i $ICP_COMMON_WORKER_IMG" &> /dev/null
-                 lxc exec $vm -- sh -c "docker load -i $ICP_PROXY_IMG" &> /dev/null
-                 ;;
-             *worker*)
-                 echo "Loading ICP Docker images for Worker Node: "
-                 lxc exec $vm -- sh -c "docker load -i $ICP_COMMON_WORKER_IMG" &> /dev/null
-                 ;;
-         esac
-    done
+
+function load_icp_docker_image(){
+    echo ">>>>>>>>>>>>>>>>>>>>>>>>> Loading ${BOOT_ICP_DOCKER_IMAGE} on ${BOOT_VM} <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
+    lxc exec ${BOOT_VM} -- sh -c "tar xf ${BOOT_ICP_DOCKER_IMAGE} -O | sudo docker load"
 }
 
 
@@ -167,17 +155,20 @@ function create_icp_login_script(){
 
 
 function run_install(){
+    TAG_EDITION=${ICP_TAG}
     rm "${HOME}/ICP_LXD_INSTALL_STARTED" &> /dev/null
     rm "${HOME}/ICP_LXD_INSTALL_SUCCESS" &> /dev/null
     rm "${HOME}/ICP_LXD_INSTALL_FAILURE" &> /dev/null
     touch "${HOME}/ICP_LXD_INSTALL_STARTED" &> /dev/null
-
+    if [[ -f ${BOOT_ICP_DOCKER_IMAGE_LOCAL} ]] && [[ ${ICP_USE_DOCKER_IMG} =~ ^([yY][eE][sS]|[yY])+$ ]]; then
+      ICP_TAG_EDITION=${ICP_TAG}-${ICP_EDITION}
+    fi
     if [[ $install_dbg == "1" ]]; then
         echo "Running install in debug mode"
-        lxc exec $BOOT_VM -- sh -c "$BOOT_ICP_BIN_DIR/install-dbg.sh $BOOT_ICP_CLUSTER_DIR ${ICP_INSTALLER} ${ICP_TAG} $BOOT_ICP_LOG_DIR"
+        lxc exec $BOOT_VM -- sh -c "$BOOT_ICP_BIN_DIR/install-dbg.sh $BOOT_ICP_CLUSTER_DIR ${ICP_INSTALLER} ${ICP_TAG_EDITION} $BOOT_ICP_LOG_DIR"
     else
         echo "Running install in non-debug mode"
-        lxc exec $BOOT_VM -- sh -c "$BOOT_ICP_BIN_DIR/install.sh $BOOT_ICP_CLUSTER_DIR ${ICP_INSTALLER} ${ICP_TAG} $BOOT_ICP_LOG_DIR"
+        lxc exec $BOOT_VM -- sh -c "$BOOT_ICP_BIN_DIR/install.sh $BOOT_ICP_CLUSTER_DIR ${ICP_INSTALLER} ${ICP_TAG_EDITION} $BOOT_ICP_LOG_DIR"
     fi
 
     success=$?

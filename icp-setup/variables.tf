@@ -18,7 +18,8 @@ variable "environment"{
 variable "lxd"{
     type = "map"
     default = {
-        image="xenial-container-for-icp-lvm-bionic-host"
+        image="bionic-image-for-icp-lvm"
+        nfs_image="bionic-image-for-nfs-lvm"
         remote="local"
         ##remote="local-https"
         ephemeral=false
@@ -187,4 +188,27 @@ variable "management_node" {
     storage_device_pool = "default"
     storage_device_type = "disk"
   }
+}
+
+###############################################################################
+## LXD Profile (nfs) properties
+###############################################################################
+variable "nfs_node"{
+    type = "map"
+    default={
+        name="nfs-server"
+        name_short="nfs-server"
+        shared_device_source="/media/lxcshare"
+        shared_device_path="/share"
+        nfs_device_source="/media/nfs"
+        nfs_device_path="/nfs"
+        nfs_init_vol_count="10"
+        start_host_num=211
+        storage_device_name = "root"
+        storage_device_size = "30GB"
+        storage_device_path = "/"
+        storage_device_pool = "default"
+        storage_device_type = "disk"
+
+    }
 }

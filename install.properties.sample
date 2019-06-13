@@ -81,7 +81,13 @@ ICP_LXD_IMAGE_NAME=bionic-image-for-icp-lvm
 ICP_LXD_IMAGE_PUB_DESC=Ubuntu 18.04 LTS Bionic (amd64) image for IBM Cloud Private CE
 LXD_OVERWRITE_EXISTING_IMAGE=n
 LXD_AUTO_DESTROY_OLD_CLUSTER_COMPONENTS=y
+ICP_HOST_MEDIA_SHARE_FOLDER=/media/lxcshare
 
+## Copy ICP Docker tar.gz archive in /media/lxcshare (ICP_HOST_MEDIA_SHARE_FOLDER)
+## Provide path relative to /media/lxcshare
+## Update ICP_EDITION=eeeeeeeeeeeeeeeeeeee to ee if ICP_USE_DOCKER_IMG is y
+ICP_USE_DOCKER_IMG=y
+ICP_DOCKER_IMG=ibm-cloud-private-x86_64-3.1.2.tar.gz
 ##############################################################################
 # ICP Configuration
 # IMPORTANT: Change ICP_DEFAULT_ADMIN_PASSWORD value to more secure one
@@ -118,7 +124,7 @@ ICP_KUBE_PROXY_EXTRA_ARGS=["--conntrack-max-per-core=0"]
 ICP_BOOTSTRAP_TOKEN_TTL=24h0m0s
 ICP_CLUSTER_DOMAIN=cluster.local
 ICP_CLUSTER_CA_DOMAIN={{ cluster_name }}.icp
-ICP_USE_ROUTER_KEY=n
+ICP_USE_ROUTER_KEY=y
 ICP_ROUTER_CRT_FILE=/opt/certs/icp/icp-router.crt
 ICP_ROUTER_KEY_FILE=/opt/certs/icp/icp-router.key
 ICP_ROUTER_CA_DOMAIN=icp.example.com
@@ -157,7 +163,7 @@ ICP_MASTER_NAME=master
 ICP_MASTER_NODE_COUNT=1
 ICP_MASTER_CPU_COUNT=2
 ICP_MASTER_START_HOST_IP=101
-ICP_MASTER_STORAGE_DEVICE_SIZE=30GB
+ICP_MASTER_STORAGE_DEVICE_SIZE=100GB
 ICP_MASTER_STORAGE_DEVICE_NAME=root
 ICP_MASTER_STORAGE_DEVICE_PATH=/
 ICP_MASTER_STORAGE_DEVICE_TYPE=disk

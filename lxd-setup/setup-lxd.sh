@@ -54,10 +54,10 @@ function initialize(){
     fi
   fi
 
-  if [[ ! -z "${UBUNTU_PACKAGES_TO_INSTALL}" ]]; then
-      echo "   Installing packages: ${UBUNTU_PACKAGES_TO_INSTALL} ..."
+  if [[ ! -z "${CORE_PACKAGES_TO_INSTALL}" ]]; then
+      echo "   Installing core packages: ${CORE_PACKAGES_TO_INSTALL} ..."
       echo ""
-      apt install -y ${UBUNTU_PACKAGES_TO_INSTALL} &> /dev/null
+      apt install -y ${CORE_PACKAGES_TO_INSTALL} &> /dev/null
   fi
 
   if [[ ! -z "${HAPROXY_PACKAGE_TO_INSTALL}" ]] &&  [[ ${INSTALL_HAPROXY} =~ ^([yY][eE][sS]|[yY])+$  ]]; then
@@ -91,6 +91,14 @@ function initialize(){
     mkdir -p ${LXD_MEDIA_SHARE_FOLDER}
     echo ""
   fi
+
+
+  if [[ ${NFS_NODE} =~ ^([yY][eE][sS]|[yY])+$ ]] && [[ ! -d "${NFS_DEVICE_SOURCE}" ]]; then
+    echo "   Creating folder : ${NFS_DEVICE_SOURCE}"
+    mkdir -p ${NFS_DEVICE_SOURCE}
+    echo ""
+  fi
+
 
   echo "Waiting for system to settle down ..."
   sleep 10
@@ -183,8 +191,8 @@ function create_lxd_image_for_icp(){
       if [[ ! -z  "${packer}" ]]; then
 
         if [[ ${LXD_HOST}  =~ ^([aA][wW][sS])+$ ]]; then
-          LXD_PACKER_TMPL_NAME=./lxd-setup/tmpl/packer-lxd-image-lvm-bionic-for-aws.tmpl
-          LXD_PACKER_FILE_NAME=./lxd-setup/gen/packer-lxd-image-lvm-bionic-for-aws
+          LXD_PACKER_TMPL_NAME=${AWS_LXD_PACKER_TMPL_NAME}
+          LXD_PACKER_FILE_NAME=${AWS_LXD_PACKER_FILE_NAME}
         fi
         sed -e 's|@@ICP_LXD_IMAGE_NAME@@|'"${ICP_LXD_IMAGE_NAME}"'|g' \
             -e 's|@@LXD_BASE_IMAGE_NAME@@|'"${LXD_BASE_IMAGE_NAME}"'|g' \
@@ -219,12 +227,53 @@ function create_lxd_image_for_icp(){
     echo ""
     echo "LXD Image ${ICP_LXD_IMAGE_NAME} already exists and overwrite is disabled. Skipping image creation process."
     echo "To create new image, either delete existing image or set OVERWRITE_EXISTING_IMAGE=y"
+    delete_lxd_components
     echo ""
   fi
 }
 
-function delete_lxd_components(){
+function create_lxd_image_for_nfs(){
+  if [[ ${NFS_NODE} =~ ^([yY][eE][sS]|[yY])+$ ]]; then
+    EXISTS="$(lxc image list | grep ${NFS_LXD_IMAGE_NAME})"
+    if [[ ${NFS_OVERWRITE_EXISTING_LXD_IMAGE} =~ ^([yY][eE][sS]|[yY])+$ ]] ||  [[ -z ${EXISTS} ]]; then
+      if [[ -f "${NFS_LXD_PACKER_TMPL_NAME}" ]]; then
+        packer=$(which packer)
+        if [[ ! -z  "${packer}" ]]; then
 
+          if [[ ${LXD_HOST}  =~ ^([aA][wW][sS])+$ ]]; then
+            NFS_LXD_PACKER_TMPL_NAME=${AWS_NFS_LXD_PACKER_TMPL_NAME}
+            NFS_LXD_PACKER_FILE_NAME=${AWS_NFS_LXD_PACKER_FILE_NAME}
+          fi
+          sed -e 's|@@NFS_LXD_IMAGE_NAME@@|'"${NFS_LXD_IMAGE_NAME}"'|g' \
+              -e 's|@@LXD_BASE_IMAGE_NAME@@|'"${LXD_BASE_IMAGE_NAME}"'|g' \
+              -e 's|@@NFS_SHARED_DEVICE_PATH@@|'"${NFS_SHARED_DEVICE_PATH}"'|g' \
+              -e 's|@@NFS_DEVICE_PATH@@|'"${NFS_DEVICE_PATH}"'|g' \
+              -e 's|@@NFS_LXD_IMAGE_PUB_DESC@@|'"${NFS_LXD_IMAGE_PUB_DESC}"'|g' \
+              -e 's|@@ICP_LXD_PROFILE_NAME@@|'"${LXD_PROFILE_N_POOL_NAME}"'|g' < ${NFS_LXD_PACKER_TMPL_NAME} > ${NFS_LXD_PACKER_FILE_NAME}
+
+          eval ${packer} validate ${NFS_LXD_PACKER_FILE_NAME}
+          eval ${packer} build    ${NFS_LXD_PACKER_FILE_NAME}
+        else
+          echo "Missing packer executable. Exiting."
+          echo ""
+          exit -1
+        fi
+        sleep 5
+      else
+        echo "Missing packer image template file:${NFS_LXD_PACKER_TMPL_NAME} . Exiting."
+        echo ""
+        exit -1
+      fi
+    else
+      echo ""
+      echo "LXD Image ${ICP_LXD_IMAGE_NAME} already exists and overwrite is disabled. Skipping image creation process."
+      echo "To create new image, either delete existing image or set OVERWRITE_EXISTING_IMAGE=y"
+      echo ""
+    fi
+  fi ## if NFS_NODE=~
+}
+
+function delete_lxd_components(){
   ### Delete NW and Profile - No longer needed
   lxc network delete ${LXD_NW_NAME}
   echo ""
@@ -239,4 +288,5 @@ function delete_lxd_components(){
 read_properties
 initialize
 lxd_init
+create_lxd_image_for_nfs
 create_lxd_image_for_icp

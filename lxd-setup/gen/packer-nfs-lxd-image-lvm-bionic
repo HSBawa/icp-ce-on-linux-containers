@@ -1,0 +1,39 @@
+{
+  "_comment": "Use this image only for Bionic Hosts. Configured for LVM support",
+  "builders": [
+    {
+        "image": "ubuntu:bionic/amd64",
+        "name": "bionic-image-for-nfs-lvm",
+        "output_image": "bionic-image-for-nfs-lvm",
+        "init_sleep": "15",
+        "profile": "icpce",
+        "publish_properties": {
+          "description": "Ubuntu 18.04 LTS Bionic (amd64) image for NFS"
+        },
+        "type": "lxd"
+    }
+  ],
+  "post-processors": [],
+  "provisioners": [
+    {
+      "inline": [
+        "echo [Diabling UFW]",
+        "bash -c 'ufw disable &> /dev/null'",
+        "echo Waiting for container to settle down ...",
+        "bash -c 'sleep 10'",
+        "echo [Updating packages]",
+        "bash -c 'apt-get -y update &> /dev/null'",
+        "bash -c 'apt-get -y upgrade &> /dev/null'",
+        "bash -c 'apt install -y ntp curl wget resolvconf nfs-kernel-server nfs-common unzip &> /dev/null'",
+        "echo [Updating nameserver]",
+        "bash -c 'echo nameserver 8.8.8.8 >> /etc/resolvconf/resolv.conf.d/head'",
+        "bash -c 'echo nameserver 8.8.4.4 >> /etc/resolvconf/resolv.conf.d/head'",
+        "bash -c 'resolvconf -u'",
+        "bash -c 'mkdir /share'",
+        "bash -c 'mkdir /nfs'",
+        "echo [Package update complete]"
+      ],
+      "type": "shell"
+    }
+  ]
+}

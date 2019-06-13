@@ -21,7 +21,7 @@ function initialize() {
   SCRIPTS_FOLDER="${ICP_SETUP_FOLDER}/scripts"
 }
 
-function install(){
+function pre_install_config(){
 
     if [[ ${SETUP_HAPROXY_ICP} =~ ^([yY][eE][sS]|[yY])+$  ]] && [[ ${INSTALL_HAPROXY} =~ ^([yY][eE][sS]|[yY])+$ ]]; then
         sudo ${SCRIPTS_FOLDER}/haproxy-cfg.sh
@@ -49,25 +49,28 @@ function install(){
 
     ## Create for VM root size
     source ${SCRIPTS_FOLDER}/check-root-size.sh
+}
 
-    ## Prepare boot node and start install
-    #echo "Executing: source ${SCRIPTS_FOLDER}/prepare-boot-node.sh"
-    source ${SCRIPTS_FOLDER}/prepare-boot-node.sh
+function install(){
+  ## Prepare boot node and start install
+  #echo "Executing: source ${SCRIPTS_FOLDER}/prepare-boot-node.sh"
+  source ${SCRIPTS_FOLDER}/prepare-boot-node.sh
 
+  ##################################
+  ## RUN ONLY IF INSTALL WAS SUCCESS
+  ##################################
 
-    ##################################
-    ## RUN ONLY IF INSTALL WAS SUCCESS
-    ##################################
+  success="$(ls ${HOME} | grep SUCCESS )"
+  echo "Success value: $success"
 
-    success="$(ls ${HOME} | grep SUCCESS )"
-    echo "Success value: $success"
+  if [[ ! -z "$success"  ]];then
+    ## Configure Docker CLU Authentication for ICP and Requires ROOT access
+    source ${SCRIPTS_FOLDER}/configure-docker-cli.sh
+  fi
 
-    if [[ ! -z "$success"  ]];then
-      ## Configure Docker CLU Authentication for ICP and Requires ROOT access
-      source ${SCRIPTS_FOLDER}/configure-docker-cli.sh
-    fi
 }
 
 read_properties
 initialize
-install
+#pre_install_config
+#install

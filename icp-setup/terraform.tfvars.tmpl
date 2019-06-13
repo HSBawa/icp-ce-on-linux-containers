@@ -21,6 +21,7 @@ environment = {
 ###############################################################################
 lxd = {
     image="@@ICP_LXD_IMAGE_NAME@@"
+    nfs_image="@@NFS_LXD_IMAGE_NAME@@"    
 }
 
 ###############################################################################
@@ -117,6 +118,26 @@ icp_docker_image_archives = {
 ###############################################################################
 common_profile = {
     name="@@ICP_COMMON_PROFILE_NAME@@"
+}
+
+###############################################################################
+## LXD Profile (nfs) properties
+###############################################################################
+nfs_node = {
+    name="@@NFS_NAME@@"
+    name_short="@@NFS_NAME_SHORT@@"
+    shared_device_source="@@NFS_SHARED_DEVICE_SOURCE@@"
+    shared_device_path="@@NFS_SHARED_DEVICE_PATH@@"
+    nfs_device_source="@@NFS_DEVICE_SOURCE@@"
+    nfs_device_path="@@NFS_DEVICE_PATH@@"
+    nfs_init_vol_count="@@NFS_INITIAL_VOLUME_COUNT@@"
+    start_host_num=@@NFS_START_HOST_IP@@
+    storage_device_name = "@@NFS_STORAGE_DEVICE_NAME@@"
+    storage_device_size = "@@NFS_STORAGE_DEVICE_SIZE@@"
+    storage_device_path = "@@NFS_STORAGE_DEVICE_PATH@@"
+    storage_device_pool = "@@NFS_POOL_NAME@@"
+    storage_device_type = "@@NFS_STORAGE_DEVICE_TYPE@@"
+
 }
 
 ###############################################################################

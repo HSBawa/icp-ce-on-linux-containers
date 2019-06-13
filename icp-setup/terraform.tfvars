@@ -21,6 +21,7 @@ environment = {
 ###############################################################################
 lxd = {
     image="bionic-image-for-icp-lvm"
+    nfs_image="bionic-image-for-nfs-lvm"    
 }
 
 ###############################################################################
@@ -77,7 +78,7 @@ master_node = {
     profile_name="master"
     start_host_num=101
     storage_device_name = "root"
-    storage_device_size = "30GB"
+    storage_device_size = "100GB"
     storage_device_path = "/"
     storage_device_pool = "icpce"
     storage_device_type = "disk"
@@ -117,6 +118,26 @@ icp_docker_image_archives = {
 ###############################################################################
 common_profile = {
     name="icpce-common"
+}
+
+###############################################################################
+## LXD Profile (nfs) properties
+###############################################################################
+nfs_node = {
+    name="nfs-server"
+    name_short="nfs-server"
+    shared_device_source="/media/lxcshare"
+    shared_device_path="/share"
+    nfs_device_source="/media/nfs"
+    nfs_device_path="/nfs"
+    nfs_init_vol_count="10"
+    start_host_num=10
+    storage_device_name = "root"
+    storage_device_size = "20GB"
+    storage_device_path = "/"
+    storage_device_pool = "icpce"
+    storage_device_type = "disk"
+
 }
 
 ###############################################################################

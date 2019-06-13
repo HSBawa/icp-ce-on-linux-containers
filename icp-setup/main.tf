@@ -42,7 +42,7 @@ provider "lxd"{
      scheme   = "https"
      address  = "127.0.0.1"
      port     = "10443"
-     password = "yTR78_Z90"
+     password = "U7r90SGh23664043"
    }
 
   # ### Images
@@ -177,7 +177,7 @@ module "profile-mgmt" {
 }
 
 
-module "container-proxy-mgmt" {
+module "container-mgmt" {
   source = "./modules/container/mgmt"
   ### Outputs
   icp_ce_profile_name= "${module.profile-master-worker.icp_ce_profile_name_output}"
@@ -189,4 +189,3 @@ module "container-proxy-mgmt" {
   lxd="${var.lxd}"
   icp="${var.icp}"
 }
-

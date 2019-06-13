@@ -5,6 +5,7 @@
 ##############################################################################
 
 INSTALL_PROPERITES="./install.properties"
+CLUSTER_PROPERITES="./cluster.properties"
 
 args=($@)
 
@@ -80,10 +81,10 @@ function parse_params(){
   done
 
   if [[ ! -z "${LXD_HOST}" ]]; then
-      sed -i "s|LXD_HOST.*|LXD_HOST=${LXD_HOST}|g"                                                                       ${INSTALL_PROPERITES}
+      sed -i "s|LXD_HOST.*|LXD_HOST=${LXD_HOST}|g"                                                                                                     ${INSTALL_PROPERITES}
   fi
   if [[ ! -z "${ICP_ENV_NAME_SHORT}" ]]; then
-      sed -i "s|ICP_ENV_NAME_SHORT.*|ICP_ENV_NAME_SHORT=${ICP_ENV_NAME_SHORT}|g"                                                   ${INSTALL_PROPERITES}
+      sed -i "s|ICP_ENV_NAME_SHORT.*|ICP_ENV_NAME_SHORT=${ICP_ENV_NAME_SHORT}|g"                                                                       ${INSTALL_PROPERITES}
   fi
   if [[ ! -z "${LXD_AUTO_DESTROY_OLD_CLUSTER_COMPONENTS}" ]]; then
       sed -i "s|LXD_AUTO_DESTROY_OLD_CLUSTER_COMPONENTS.*|LXD_AUTO_DESTROY_OLD_CLUSTER_COMPONENTS=${LXD_AUTO_DESTROY_OLD_CLUSTER_COMPONENTS}|g"         ${INSTALL_PROPERITES}
@@ -93,8 +94,9 @@ function parse_params(){
 }
 
 function install() {
-  if [[ -f "./cluster.properties" ]]; then
-    echo "## This file is auto-generated ##" > cluster.properties
+  echo "## This file is auto-generated ##" | tee ${CLUSTER_PROPERITES}
+  if [[ -f ${ICP_HOST_MEDIA_SHARE_FOLDER}/${ICP_DOCKER_IMG} ]] && [[ ${ICP_USE_DOCKER_IMG} =~ ^([yY][eE][sS]|[yY])+$ ]]; then
+      echo "ICP_EDITION=ee" | tee -a ${CLUSTER_PROPERITES}
   fi
   source ./cli-setup/install-clis.sh
   source ./lxd-setup/setup-lxd.sh

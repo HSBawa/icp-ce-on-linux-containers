@@ -1,0 +1,46 @@
+{
+  "_comment": "Use this image only for Bionic Hosts. Configured for LVM support",
+  "builders": [
+    {
+        "image": "@@LXD_BASE_IMAGE_NAME@@",
+        "name": "@@NFS_LXD_IMAGE_NAME@@",
+        "output_image": "@@NFS_LXD_IMAGE_NAME@@",
+        "init_sleep": "15",
+        "profile": "@@ICP_LXD_PROFILE_NAME@@",
+        "publish_properties": {
+          "description": "@@NFS_LXD_IMAGE_PUB_DESC@@"
+        },
+        "type": "lxd"
+    }
+  ],
+  "post-processors": [],
+  "provisioners": [
+    {
+      "inline": [
+        "echo [Diabling UFW]",
+        "bash -c 'ufw disable &> /dev/null'",
+        "echo Waiting for container to settle down ...",
+        "bash -c 'sleep 10'",
+        "echo [Updating packages]",
+        "bash -c 'apt-get -y update &> /dev/null'",
+        "apt-add-repository 'deb http://us-east-2.ec2.archive.ubuntu.com/ubuntu/ bionic-updates main restricted'",
+        "apt-add-repository 'deb http://us-east-2.ec2.archive.ubuntu.com/ubuntu/ bionic universe'",
+        "apt-add-repository 'deb http://us-east-2.ec2.archive.ubuntu.com/ubuntu/ bionic-updates universe'",
+        "apt-add-repository 'deb http://us-east-2.ec2.archive.ubuntu.com/ubuntu/ bionic multiverse'",
+        "apt-add-repository 'deb http://us-east-2.ec2.archive.ubuntu.com/ubuntu/ bionic-updates multiverse'",
+        "apt-add-repository 'deb http://us-east-2.ec2.archive.ubuntu.com/ubuntu/ bionic-backports main restricted universe multiverse'",
+        "bash -c 'apt-get -y update &> /dev/null'",
+        "bash -c 'apt-get -y upgrade &> /dev/null'",
+        "bash -c 'apt install -y nfs-kernel-server nfs-common &> /dev/null'",
+        "echo [Updating nameserver]",
+        "bash -c 'echo nameserver 8.8.8.8 >> /etc/resolvconf/resolv.conf.d/head'",
+        "bash -c 'echo nameserver 8.8.4.4 >> /etc/resolvconf/resolv.conf.d/head'",
+        "bash -c 'resolvconf -u'",
+        "bash -c 'mkdir @@NFS_SHARED_DEVICE_PATH@@'",
+        "bash -c 'mkdir @@NFS_DEVICE_PATH@@'",
+        "echo [Package update complete]"
+      ],
+      "type": "shell"
+    }
+  ]
+}

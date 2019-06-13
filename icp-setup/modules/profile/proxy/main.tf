@@ -48,4 +48,3 @@ resource "lxd_profile" "icp_ce_proxy" {
 output "icp_ce_proxy_profile_name_output" {
   value = "${lxd_profile.icp_ce_proxy.*.name}"
 }
-

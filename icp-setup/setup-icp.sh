@@ -44,6 +44,7 @@ function initialize(){
   MAIN_TF_FILE_NAME="./${ICP_SETUP_FOLDER}/main.tf"
   PROXY_TF_TMPL_NAME="./${ICP_SETUP_FOLDER}/proxy.tf.tmpl"
   MGMT_TF_TMPL_NAME="./${ICP_SETUP_FOLDER}/mgmt.tf.tmpl"
+  NFS_TF_TMPL_NAME="./${ICP_SETUP_FOLDER}/nfs.tf.tmpl"
   TFVARS_TMPL_NAME="./${ICP_SETUP_FOLDER}/terraform.tfvars.tmpl"
   TFVARS_FILE_NAME="./${ICP_SETUP_FOLDER}/terraform.tfvars"
   VARS_FILE_NAME="./${ICP_SETUP_FOLDER}/variables.tf"
@@ -159,6 +160,7 @@ function initialize_tfvars(){
       -e 's|@@ICP_ENV_NAME_DESC@@|'"${ICP_ENV_NAME_DESC}"'|g' \
       -e 's|@@ICP_INSTALL_DEBUG@@|'"${ICP_INSTALL_DEBUG}"'|g' \
       -e 's|@@ICP_LXD_IMAGE_NAME@@|'"${ICP_LXD_IMAGE_NAME}"'|g' \
+      -e 's|@@NFS_LXD_IMAGE_NAME@@|'"${NFS_LXD_IMAGE_NAME}"'|g' \
       -e 's|@@ICP_TAG@@|'"${ICP_TAG}"'|g' \
       -e 's|@@ICP_EDITION@@|'"${ICP_EDITION}"'|g' \
       -e 's|@@ICP_INSTALLER@@|'"${ICP_INSTALLER}"'|g' \
@@ -179,35 +181,49 @@ function initialize_tfvars(){
       -e 's|@@ICP_WORKER_STORAGE_DEVICE_NAME@@|'"${ICP_WORKER_STORAGE_DEVICE_NAME}"'|g' \
       -e 's|@@ICP_PROXY_STORAGE_DEVICE_NAME@@|'"${ICP_PROXY_STORAGE_DEVICE_NAME}"'|g' \
       -e 's|@@ICP_MGMT_STORAGE_DEVICE_NAME@@|'"${ICP_MGMT_STORAGE_DEVICE_NAME}"'|g' \
+      -e 's|@@NFS_STORAGE_DEVICE_NAME@@|'"${NFS_STORAGE_DEVICE_NAME}"'|g' \
       -e 's|@@ICP_MASTER_STORAGE_DEVICE_SIZE@@|'"${ICP_MASTER_STORAGE_DEVICE_SIZE}"'|g' \
       -e 's|@@ICP_WORKER_STORAGE_DEVICE_SIZE@@|'"${ICP_WORKER_STORAGE_DEVICE_SIZE}"'|g' \
       -e 's|@@ICP_PROXY_STORAGE_DEVICE_SIZE@@|'"${ICP_PROXY_STORAGE_DEVICE_SIZE}"'|g' \
       -e 's|@@ICP_MGMT_STORAGE_DEVICE_SIZE@@|'"${ICP_MGMT_STORAGE_DEVICE_SIZE}"'|g' \
+      -e 's|@@NFS_STORAGE_DEVICE_SIZE@@|'"${NFS_STORAGE_DEVICE_SIZE}"'|g' \
       -e 's|@@ICP_MASTER_STORAGE_DEVICE_PATH@@|'"${ICP_MASTER_STORAGE_DEVICE_PATH}"'|g' \
       -e 's|@@ICP_WORKER_STORAGE_DEVICE_PATH@@|'"${ICP_WORKER_STORAGE_DEVICE_PATH}"'|g' \
       -e 's|@@ICP_PROXY_STORAGE_DEVICE_PATH@@|'"${ICP_PROXY_STORAGE_DEVICE_PATH}"'|g' \
       -e 's|@@ICP_MGMT_STORAGE_DEVICE_PATH@@|'"${ICP_MGMT_STORAGE_DEVICE_PATH}"'|g' \
+      -e 's|@@NFS_STORAGE_DEVICE_PATH@@|'"${NFS_STORAGE_DEVICE_PATH}"'|g' \
       -e 's|@@ICP_MASTER_STORAGE_DEVICE_TYPE@@|'"${ICP_MASTER_STORAGE_DEVICE_TYPE}"'|g' \
       -e 's|@@ICP_WORKER_STORAGE_DEVICE_TYPE@@|'"${ICP_WORKER_STORAGE_DEVICE_TYPE}"'|g' \
       -e 's|@@ICP_PROXY_STORAGE_DEVICE_TYPE@@|'"${ICP_PROXY_STORAGE_DEVICE_TYPE}"'|g' \
       -e 's|@@ICP_MGMT_STORAGE_DEVICE_TYPE@@|'"${ICP_MGMT_STORAGE_DEVICE_TYPE}"'|g' \
+      -e 's|@@NFS_STORAGE_DEVICE_TYPE@@|'"${NFS_STORAGE_DEVICE_TYPE}"'|g' \
       -e 's|@@ICP_MASTER_CPU_COUNT@@|'"${ICP_MASTER_CPU_COUNT}"'|g' \
       -e 's|@@ICP_PROXY_CPU_COUNT@@|'"${ICP_PROXY_CPU_COUNT}"'|g' \
       -e 's|@@ICP_MGMT_CPU_COUNT@@|'"${ICP_MGMT_CPU_COUNT}"'|g' \
       -e 's|@@ICP_WORKER_CPU_COUNT@@|'"${ICP_WORKER_CPU_COUNT}"'|g' \
+      -e 's|@@NFS_CPU_COUNT@@|'"${NFS_CPU_COUNT}"'|g' \
       -e 's|@@ICP_MASTER_START_HOST_IP@@|'"${ICP_MASTER_START_HOST_IP}"'|g' \
       -e 's|@@ICP_PROXY_START_HOST_IP@@|'"${ICP_PROXY_START_HOST_IP}"'|g' \
       -e 's|@@ICP_MGMT_START_HOST_IP@@|'"${ICP_MGMT_START_HOST_IP}"'|g' \
       -e 's|@@ICP_WORKER_START_HOST_IP@@|'"${ICP_WORKER_START_HOST_IP}"'|g' \
+      -e 's|@@NFS_START_HOST_IP@@|'"${NFS_START_HOST_IP}"'|g' \
       -e 's|@@ICP_MASTER_NODE_COUNT@@|'"${ICP_MASTER_NODE_COUNT}"'|g' \
       -e 's|@@ICP_PROXY_NODE_COUNT@@|'"${ICP_PROXY_NODE_COUNT}"'|g' \
       -e 's|@@ICP_MGMT_NODE_COUNT@@|'"${ICP_MGMT_NODE_COUNT}"'|g' \
       -e 's|@@ICP_WORKER_NODE_COUNT@@|'"${ICP_WORKER_NODE_COUNT}"'|g' \
+      -e 's|@@NFS_NODE_COUNT@@|'"${NFS_NODE_COUNT}"'|g' \
       -e 's|@@ICP_MASTER_POOL_NAME@@|'"${ICP_MASTER_POOL_NAME}"'|g' \
       -e 's|@@ICP_PROXY_POOL_NAME@@|'"${ICP_PROXY_POOL_NAME}"'|g' \
       -e 's|@@ICP_MGMT_POOL_NAME@@|'"${ICP_MGMT_POOL_NAME}"'|g' \
+      -e 's|@@NFS_POOL_NAME@@|'"${NFS_POOL_NAME}"'|g' \
+      -e 's|@@NFS_NAME@@|'"${NFS_NAME}"'|g' \
+      -e 's|@@NFS_NAME_SHORT@@|'"${NFS_NAME_SHORT}"'|g' \
+      -e 's|@@NFS_SHARED_DEVICE_SOURCE@@|'"${NFS_SHARED_DEVICE_SOURCE}"'|g' \
+      -e 's|@@NFS_SHARED_DEVICE_PATH@@|'"${NFS_SHARED_DEVICE_PATH}"'|g' \
+      -e 's|@@NFS_DEVICE_SOURCE@@|'"${NFS_DEVICE_SOURCE}"'|g' \
+      -e 's|@@NFS_DEVICE_PATH@@|'"${NFS_DEVICE_PATH}"'|g' \
+      -e 's|@@NFS_INITIAL_VOLUME_COUNT@@|'"${NFS_INITIAL_VOLUME_COUNT}"'|g' \
       -e 's|@@ICP_WORKER_POOL_NAME@@|'"${ICP_WORKER_POOL_NAME}"'|g' < ${TFVARS_TMPL_NAME} > ${TFVARS_FILE_NAME}
-
 }
 
 
@@ -233,7 +249,7 @@ function start_banner(){
      echo ""
 }
 
-function start_install(){
+function setup_terraform(){
     mkdir -p /media/lxcshare &> /dev/null
     chmod +x ${ICP_SETUP_FOLDER}/scripts/*.sh
     mkdir -p ${TERRA_PLAN_FOLDER} &> /dev/null
@@ -250,7 +266,12 @@ function start_install(){
         cat  ${MGMT_TF_TMPL_NAME}  | tee -a ${MAIN_TF_FILE_NAME}   &> /dev/null
     fi
 
+    if [[ ${NFS_NODE} =~ ^([yY][eE][sS]|[yY])+$ ]]; then
+        cat  ${NFS_TF_TMPL_NAME}  | tee -a ${MAIN_TF_FILE_NAME}   &> /dev/null
+    fi
+}
 
+function start_install(){
     ## Start installation
     echo ""
     echo "Initializing terraform"
@@ -278,4 +299,5 @@ get_ip_address
 terra_clean
 initialize_tfvars
 start_banner
+setup_terraform
 start_install
