@@ -36,8 +36,8 @@
         "bash -c 'echo nameserver 8.8.8.8 >> /etc/resolvconf/resolv.conf.d/head'",
         "bash -c 'echo nameserver 8.8.4.4 >> /etc/resolvconf/resolv.conf.d/head'",
         "bash -c 'resolvconf -u'",
-        "bash -c 'mkdir @@NFS_SHARED_DEVICE_PATH@@'",
-        "bash -c 'mkdir @@NFS_DEVICE_PATH@@'",
+        "bash -c 'mkdir -p @@NFS_SHARED_DEVICE_PATH@@'",
+        "bash -c 'mkdir -p @@NFS_DEVICE_PATH@@'",
         "echo [Package update complete]"
       ],
       "type": "shell"

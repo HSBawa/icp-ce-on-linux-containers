@@ -24,7 +24,7 @@ SSH_KEYS_FOLDER=""
 CLUSTER_FOLDER=""
 ROUTER_KEYS_FOLDER=""
 BOOT_ICP_CFC_CERTS_DIR=""
-
+NFS_VM=""
 
 
 function  read_properties(){
@@ -127,14 +127,20 @@ function copy_config_files(){
 }
 
 function prepare_nfs_server(){
+  NFS_VM="$(lxc list ${ICP_ENV_NAME_SHORT}- -c n --format=csv | grep ${NFS_NAME})"
+  echo "Your NFS VM is: $NFS_VM"
   for (( i = 1; i <= ${NFS_INITIAL_VOLUME_COUNT}; i++ )); do
     NFS_VOL=${NFS_DEVICE_SOURCE}/vol${i}
     if [[ ! -d ${NFS_VOL} ]]; then
       mkdir -p ${NFS_VOL}
-      lxc exec $BOOT_VM -- echo "${NFS_DEVICE_PATH}/vol${i}   *(rw,sync,no_root_squash,no_subtree_check,insecure)" | tee -a /etc/exports
+    fi
+    if [[ ${i} == 1 ]]; then
+      lxc exec $NFS_VM -- sh -c "echo \"${NFS_DEVICE_PATH}/vol${i}   *(rw,sync,no_root_squash,no_subtree_check,insecure)\" > /etc/exports"
+    else
+      lxc exec $NFS_VM -- sh -c "echo \"${NFS_DEVICE_PATH}/vol${i}   *(rw,sync,no_root_squash,no_subtree_check,insecure)\" >> /etc/exports"
     fi
   done
-  lxc exec $BOOT_VM -- exportfs -a
+  lxc exec $NFS_VM -- exportfs -a
 }
 
 function extract_configuration_data(){
@@ -251,5 +257,5 @@ echo ">>>>>>>>>>>>>>>[Copying config file to $BOOT_VM for installation  ...] "
 copy_config_files
 echo ""
 echo ">>>>>>>>>>>>>>>[Starting ICP install on $BOOT_VM ...] "
-#run_install
+run_install
 echo ""
