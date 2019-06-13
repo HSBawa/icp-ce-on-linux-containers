@@ -100,7 +100,7 @@ function install_uninstall(){
     post_install_instructions
   elif [[ "$1" == "uninstall" ]]; then
     echo "Uninstalling istio ..."
-    #uninstall_istio
+    uninstall_istio
   else
     echo "Valid command options are (install|uninstall)"
     echo "istio-setup install"
