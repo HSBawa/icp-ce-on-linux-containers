@@ -126,6 +126,17 @@ function copy_config_files(){
 
 }
 
+function prepare_nfs_server(){
+  for (( i = 1; i <= ${NFS_INITIAL_VOLUME_COUNT}; i++ )); do
+    NFS_VOL=${NFS_DEVICE_SOURCE}/vol${i}
+    if [[ ! -d ${NFS_VOL} ]]; then
+      mkdir -p ${NFS_VOL}
+      lxc exec $BOOT_VM -- echo "${NFS_DEVICE_PATH}/vol${i}   *(rw,sync,no_root_squash,no_subtree_check,insecure)" | tee -a /etc/exports
+    fi
+  done
+  lxc exec $BOOT_VM -- exportfs -a
+}
+
 function extract_configuration_data(){
   echo "Extracting configuration data ..."
     if [[ -f ${BOOT_ICP_DOCKER_IMAGE_LOCAL} ]] && [[ ${ICP_USE_DOCKER_IMG} =~ ^([yY][eE][sS]|[yY])+$ ]]; then
@@ -225,6 +236,11 @@ echo ""
 echo ">>>>>>>>>>>>>>>[Fix loop on $BOOT_VM ...]"
 fix_loop_issue
 echo ""
+if [[ ${NFS_NODE} =~ ^([yY][eE][sS]|[yY])+$ ]]; then
+  echo ">>>>>>>>>>>>>>>[Preparing NFS Server ...]"
+  prepare_nfs_server
+  echo ""
+fi
 echo ">>>>>>>>>>>>>>>[Setting up inception image on $BOOT_VM ...] "
 setup_inception_image
 echo ""
@@ -235,5 +251,5 @@ echo ">>>>>>>>>>>>>>>[Copying config file to $BOOT_VM for installation  ...] "
 copy_config_files
 echo ""
 echo ">>>>>>>>>>>>>>>[Starting ICP install on $BOOT_VM ...] "
-run_install
+#run_install
 echo ""

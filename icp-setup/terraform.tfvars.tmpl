@@ -21,7 +21,7 @@ environment = {
 ###############################################################################
 lxd = {
     image="@@ICP_LXD_IMAGE_NAME@@"
-    nfs_image="@@NFS_LXD_IMAGE_NAME@@"    
+    nfs_image="@@NFS_LXD_IMAGE_NAME@@"
 }
 
 ###############################################################################
@@ -126,6 +126,7 @@ common_profile = {
 nfs_node = {
     name="@@NFS_NAME@@"
     name_short="@@NFS_NAME_SHORT@@"
+    node_count="@@NFS_NODE_COUNT@@"
     shared_device_source="@@NFS_SHARED_DEVICE_SOURCE@@"
     shared_device_path="@@NFS_SHARED_DEVICE_PATH@@"
     nfs_device_source="@@NFS_DEVICE_SOURCE@@"

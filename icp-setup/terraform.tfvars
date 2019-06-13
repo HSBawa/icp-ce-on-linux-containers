@@ -21,7 +21,7 @@ environment = {
 ###############################################################################
 lxd = {
     image="bionic-image-for-icp-lvm"
-    nfs_image="bionic-image-for-nfs-lvm"    
+    nfs_image="bionic-image-for-nfs-lvm"
 }
 
 ###############################################################################
@@ -126,11 +126,12 @@ common_profile = {
 nfs_node = {
     name="nfs-server"
     name_short="nfs-server"
+    node_count="1"
     shared_device_source="/media/lxcshare"
     shared_device_path="/share"
     nfs_device_source="/media/nfs"
     nfs_device_path="/nfs"
-    nfs_init_vol_count="10"
+    nfs_init_vol_count="15"
     start_host_num=10
     storage_device_name = "root"
     storage_device_size = "20GB"

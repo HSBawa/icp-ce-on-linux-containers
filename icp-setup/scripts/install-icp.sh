@@ -72,5 +72,5 @@ function install(){
 
 read_properties
 initialize
-#pre_install_config
-#install
+pre_install_config
+install

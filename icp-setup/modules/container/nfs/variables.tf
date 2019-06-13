@@ -10,7 +10,7 @@ variable "remote"{default="remote"}
 variable "name"{default="name"}
 variable "node_count"{default="node_count"}
 variable "name_short"{default="name_short"}
-variable "image"{default="image"}
+variable "nfs_image"{default="nfs_image"}
 
 ## Configuration (MAP)
 variable "environment"{type = "map"}

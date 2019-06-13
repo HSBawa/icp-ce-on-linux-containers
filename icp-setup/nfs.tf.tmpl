@@ -27,10 +27,9 @@ module "profile-nfs" {
 module "container-nfs" {
   source = "./modules/container/nfs"
   ### Outputs
-  nfs_proxy_profile_name= "${module.profile-nfs.nfs_profile_name_output}"
+  nfs_profile_name= "${module.profile-nfs.nfs_profile_name_output}"
   ### Variables
   environment="${var.environment}"
-  nfs_node="${var.proxy_node}"
-  cluster="${var.cluster}"
+  nfs_node="${var.nfs_node}"
   lxd="${var.lxd}"
 }
