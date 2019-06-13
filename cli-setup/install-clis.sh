@@ -35,7 +35,7 @@ function check_curl_wget(){
 
 function install_terraform_plugin_for_lxd(){
   if [[ ${INSTALL_TERRAFORM_LXD_PLUGIN} =~ ^([yY][eE][sS]|[yY])+$  ]]; then
-    if [[ -f ${TERRA_LXD_PLUGIN} ]] || [[ ${OVERWRITE_CLIS} =~ ^([yY][eE][sS]|[yY])+$  ]]; then
+    if [[ ! -f ${TERRA_LXD_PLUGIN} ]] || [[ ${OVERWRITE_CLIS} =~ ^([yY][eE][sS]|[yY])+$  ]]; then
       if [[ ! -d "${TERRA_LXD_PLUGIN_LOC}" ]]; then
         mkdir -p ${TERRA_LXD_PLUGIN_LOC}
       fi

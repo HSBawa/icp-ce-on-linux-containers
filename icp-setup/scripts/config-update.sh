@@ -43,8 +43,20 @@ function  read_properties() {
 }
 
 function update_config(){
-    ICP_CONFIG_TMPL_FILE="${ICP_SETUP_FOLDER}/cluster/config.yaml.312.tmpl"
+    ICP_CONFIG_TMPL_FILE="${ICP_SETUP_FOLDER}/cluster/${ICP_CONFIG_YAML_TMPL_FILE}"
     ICP_CONFIG_FILE="${ICP_SETUP_FOLDER}/cluster/config.yaml"
+
+    ## Validate if admin username property is empty OR auto gen username is set to yes pattern [yY][eE][sS]|[yY]
+    if [[ ${ICP_AUTO_GEN_RANDOM_ADMIN_USERNAME} =~ ^([yY][eE][sS]|[yY])+$  ]] || [[ -z ${ICP_DEFAULT_ADMIN_USER} ]]; then
+      ICP_DEFAULT_ADMIN_USER=$(./gen_random_string.sh ${ICP_AUTO_GEN_RANDOM_ADMIN_USERNAME_PATTERN} ${ICP_AUTO_GEN_RANDOM_ADMIN_USERNAME_LENGTH})
+      echo "ICP_DEFAULT_ADMIN_USER=${ICP_DEFAULT_ADMIN_USER}" >> ${CLUSTER_PROPERTIES}
+    fi
+
+    ## Validate if admin password property is empty OR auto gen password is set to yes pattern [yY][eE][sS]|[yY]
+    if [[ ${ICP_AUTO_GEN_RANDOM_PASSWORD} =~ ^([yY][eE][sS]|[yY])+$  ]] || [[ -z ${ICP_DEFAULT_ADMIN_PASSWORD} ]]; then
+      ICP_DEFAULT_ADMIN_PASSWORD=$(./gen_random_string.sh ${ICP_AUTO_GEN_RANDOM_PASSWORD_PATTERN} ${ICP_AUTO_GEN_RANDOM_PASSWORD_LENGTH})
+      echo "ICP_DEFAULT_ADMIN_PASSWORD=${ICP_DEFAULT_ADMIN_PASSWORD}" >> ${CLUSTER_PROPERTIES}
+    fi
 
     echo ">>>>>>>>>>>>>>>[Update ICP Config YAML : ${ICP_CONFIG_FILE}]"
     ICP_CLUSTER_NAME="${ICP_ENV_NAME_SHORT}icpcluster"
