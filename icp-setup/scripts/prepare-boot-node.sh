@@ -140,7 +140,7 @@ function prepare_nfs_server(){
       lxc exec $NFS_VM -- sh -c "echo \"${NFS_DEVICE_PATH}/vol${i}   *(rw,sync,no_root_squash,no_subtree_check,insecure)\" >> /etc/exports"
     fi
   done
-  lxc exec $NFS_VM -- exportfs -a
+  lxc exec $NFS_VM -- sh -c "exportfs -a"
 }
 
 function extract_configuration_data(){
@@ -183,13 +183,16 @@ function run_install(){
     touch "${HOME}/ICP_LXD_INSTALL_STARTED" &> /dev/null
     if [[ -f ${BOOT_ICP_DOCKER_IMAGE_LOCAL} ]] && [[ ${ICP_USE_DOCKER_IMG} =~ ^([yY][eE][sS]|[yY])+$ ]]; then
       ICP_TAG_EDITION=${ICP_TAG}-${ICP_EDITION}
+    else
+      ICP_TAG_EDITION=${ICP_TAG}
     fi
     if [[ $install_dbg == "1" ]]; then
         echo "Running install in debug mode"
         lxc exec $BOOT_VM -- sh -c "$BOOT_ICP_BIN_DIR/install-dbg.sh $BOOT_ICP_CLUSTER_DIR ${ICP_INSTALLER} ${ICP_TAG_EDITION} $BOOT_ICP_LOG_DIR"
     else
-        echo "Running install in non-debug mode"
-        lxc exec $BOOT_VM -- sh -c "$BOOT_ICP_BIN_DIR/install.sh $BOOT_ICP_CLUSTER_DIR ${ICP_INSTALLER} ${ICP_TAG_EDITION} $BOOT_ICP_LOG_DIR"
+        echo "Running install in non-debug mode:"
+        echo "lxc exec $BOOT_VM -- sh -c \"$BOOT_ICP_BIN_DIR/install.sh ${BOOT_ICP_CLUSTER_DIR} ${ICP_INSTALLER} ${ICP_TAG_EDITION} $BOOT_ICP_LOG_DIR\""
+        lxc exec $BOOT_VM -- sh -c "$BOOT_ICP_BIN_DIR/install.sh ${BOOT_ICP_CLUSTER_DIR} ${ICP_INSTALLER} ${ICP_TAG_EDITION} $BOOT_ICP_LOG_DIR"
     fi
 
     success=$?

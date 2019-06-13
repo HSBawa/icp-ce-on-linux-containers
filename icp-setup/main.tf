@@ -189,38 +189,3 @@ module "container-mgmt" {
   lxd="${var.lxd}"
   icp="${var.icp}"
 }
-
-###############################################################################
-## This is addon template file that add proxt and management nodes to
-## master and worker node configuration
-##
-## Example code in install.sh:
-##     ### main template - Master worker nodes only)
-##     cp main.tf.tmpl main.tf
-##     ## Add proxy and management node support using this template]
-##     cat nfs.tf.tmpl | tee -a main.tf
-##
-## @Author Harimohan S. Bawa hsbawa@us.ibm.com hsbawa@gmail.com
-###############################################################################
-module "profile-nfs" {
-  source = "./modules/profile/nfs"
-
-  net_device_parent="${module.network.icp_ce_network_name_output}"
-  ipv4_cidr_count="${module.network.ipv4_cidr_count_output}"
-
-  ### Variables
-  environment="${var.environment}"
-  lxd_network="${var.lxd_network}"
-  lxd="${var.lxd}"
-  nfs_node="${var.nfs_node}"
-}
-
-module "container-nfs" {
-  source = "./modules/container/nfs"
-  ### Outputs
-  nfs_profile_name= "${module.profile-nfs.nfs_profile_name_output}"
-  ### Variables
-  environment="${var.environment}"
-  nfs_node="${var.nfs_node}"
-  lxd="${var.lxd}"
-}
