@@ -82,6 +82,10 @@ function update_config(){
         -e 's|@@ICP_MASTER_LB_ADDRESS@@|'"${ICP_MASTER_LB_ADDRESS}"'|g' \
         -e 's|@@ICP_PROXY_LB_ADDRESS@@|'"${ICP_PROXY_LB_ADDRESS}"'|g' \
         -e 's|@@ICP_MGMT_SVC_ISTIO@@|'"${ICP_MGMT_SVC_ISTIO}"'|g' \
+        -e 's|@@ISTIO_KIALI_USERNAME@@|'"${ISTIO_KIALI_USERNAME}"'|g' \
+        -e 's|@@ISTIO_KIALI_PASSPHRASE@@|'"${ISTIO_KIALI_PASSPHRASE}"'|g' \
+        -e 's|@@ISTIO_GRAPHANA_USERNAME@@|'"${ISTIO_GRAPHANA_USERNAME}"'|g' \
+        -e 's|@@ISTIO_GRAPHANA_PASSPHRASE@@|'"${ISTIO_GRAPHANA_PASSPHRASE}"'|g' \
         -e 's|@@ICP_INGRESS_HTTP_PORT@@|'"${ICP_INGRESS_HTTP_PORT}"'|g' \
         -e 's|@@ICP_INGRESS_HTTPS_PORT@@|'"${ICP_INGRESS_HTTPS_PORT}"'|g' \
         -e 's|@@ICP_MGMT_SVC_VA@@|'"${ICP_MGMT_SVC_VA}"'|g' \

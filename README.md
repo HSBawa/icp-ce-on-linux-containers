@@ -94,12 +94,12 @@ As ICP is installed on LXD VMs, it can be easily installed and removed without a
       For simplified setup, there is one single install.properites file, that will cover configuration for CLIs, LXD and ICP.
 
       Examples:
-      
+
       # 3.1.2 or 3.2.0
       ICP_TAG=3.2.0
       # config.yaml.312.tmpl for 3.1.2 or config.yaml.320.tmpl for 3.2.0
       ICP_CONFIG_YAML_TMPL_FILE=config.yaml.320.tmpl
-      
+
       ## Use y to create separate Proxy, Management Nodes
       PROXY_NODE=y
       MGMT_NODE=y
@@ -132,7 +132,7 @@ As ICP is installed on LXD VMs, it can be easily installed and removed without a
       ICP_PASSWORD_RULE_PATTERN=^([a-zA-Z0-9\-]{32,})$
       ICP_AUTO_GEN_RANDOM_PASSWORD_LENGTH=35
       ICP_AUTO_GEN_RANDOM_PASSWORD_PATTERN=a-zA-Z0-9-
-      
+
 
 
 
@@ -168,7 +168,7 @@ As ICP is installed on LXD VMs, it can be easily installed and removed without a
 
 #### **__Download `cloudctl` and `helm` clis__:**<br>
 
-     ./download_icp_cloudctl_helm.sh
+     sudo ./download_icp_cloudctl_helm.sh
 
 #### **__Login into cluster:__**<br>
 
@@ -180,7 +180,7 @@ As ICP is installed on LXD VMs, it can be easily installed and removed without a
 
 #### **__Destory Cluster:__**<br>
 
-     ./destroy-cluster.sh (Deletes lxd cluster w/ ICP-CE. Use with caution)
+     sudo ./destroy-cluster.sh (Deletes lxd cluster w/ ICP-CE. Use with caution)
 
 #### **__Setting up LXD based NFS Server:__** (Optional)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[NFS Server on Linux Container](https://github.com/HSBawa/nfs-server-on-linux-container)

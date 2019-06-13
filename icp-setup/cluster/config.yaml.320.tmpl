@@ -314,13 +314,13 @@ logs_maxage: @@ICP_ELASTIC_SEARCH_LOG_MAX_AGE@@
 ## Istio addons security Settings
 ## If user wants to configure Istio addons securty settings
 ## parameters should be configured through config.yaml
-# istio_addon:
-#   grafana:
-#     username: admin
-#     passphrase: admin
-#   kiali:
-#     username: admin
-#     passphrase: admin
+istio_addon:
+  grafana:
+    username: @@ISTIO_GRAPHANA_USERNAME@@
+    passphrase: @@ISTIO_GRAPHANA_PASSPHRASE@@
+  kiali:
+    username: @@ISTIO_KIALI_USERNAME@@
+    passphrase: @@ISTIO_KIALI_PASSPHRASE@@
 
 ## MongoDB Security Settings
 ## If user wants to configure MongoDB securty settings
