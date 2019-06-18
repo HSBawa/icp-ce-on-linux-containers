@@ -138,15 +138,15 @@ As ICP is installed on LXD VMs, it can be easily installed and removed without a
 
 #### **__Create cluster:__**<br>
 
-     Usage:    ./create_cluster.sh [options]
+     Usage:    sudo ./create_cluster.sh [options]
                   -es or --env-short : Environment name in short. ex: test, dev, demo etc.
                   -f  or --force     : [yY]|[yY][eE][sS] or n. Delete cluster LXD components from past install.
                   -h  or --host      : Provide host type information: pc (default), vsi, fyre, aws or othervm.
                   help               : Print this usage.
 
-      Examples: ./create_cluster.sh --host=fyre
-                ./create_cluster.sh --host=fyre -f
-                ./create_cluster.sh -es=demo --force --host=pc
+      Examples: sudo ./create_cluster.sh --host=fyre
+                sudo ./create_cluster.sh --host=fyre -f
+                sudo ./create_cluster.sh -es=demo --force --host=pc
 
       Important Notes:
          - v1.1.3 version of Terraform Provider for LXD may not work with recently released Terraform 0.12.x.
