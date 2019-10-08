@@ -34,7 +34,7 @@ As ICP is installed on LXD VMs, it can be easily installed and removed without a
  <tr>
     <td align="center">Ubuntu 18.04</td>
     <td align="center">Ubuntu 18.04</td>
-    <td align="center">3.2.0/3.1.2</td>
+    <td align="center">3.2.x/3.1.2</td>
     <td align="center">3.0.3 (apt)</td>  
     <td align="center">8Core 16GB-RAM 300GB-Disk</td>  
     <td align="center">root</td>  
@@ -95,9 +95,9 @@ As ICP is installed on LXD VMs, it can be easily installed and removed without a
 
       Examples:
 
-      # 3.1.2 or 3.2.0
+      # 3.1.2 or 3.2.0 or 3.2.1
       ICP_TAG=3.2.0
-      # config.yaml.312.tmpl for 3.1.2 or config.yaml.320.tmpl for 3.2.0
+      # config.yaml.312.tmpl for 3.1.2 or config.yaml.320.tmpl for 3.2.x
       ICP_CONFIG_YAML_TMPL_FILE=config.yaml.320.tmpl
 
       ## Use y to create separate Proxy, Management Nodes
